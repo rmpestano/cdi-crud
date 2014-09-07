@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      >
+
+    <h:head>
+        <title>Generic CDI Dao</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 12px !important;
+            }
+        </style>
+    </h:head>
+    <h:body style="">
+        <h:form>
+            <p:growl autoUpdate="true"/>
+            <h:panelGroup layout="block">
+                <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
+                             rowKey="#{c.id}" lazy="true"  paginator="true"
+                             paginatorPosition="bottom" selection="#{carBean.car}" selectionMode="single"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                             currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"    
+                             rowsPerPageTemplate="5,10,15,20,30"
+                             >
+                    
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@form" />  
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@form" />
+                    <f:facet name="header">
+                        Car List
+                    </f:facet>
+                    <p:column headerText="ID" sortBy="#{c.id}" filterBy="#{c.id}" >
+                        #{c.id}
+                    </p:column>
+                    <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}"  filterMatchMode="contains">
+                        <f:facet name="filter">
+                            <p:autoComplete value="#{carBean.filter.entity.model}" minQueryLength="3" queryDelay="600" completeMethod="#{carBean.completeModel}" maxResults="10" >
+                                <p:ajax event="blur" process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                            </p:autoComplete>
+                        </f:facet>
+                        #{c.model}
+                    </p:column>
+                    <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}" >
+                        <f:facet name="filter">
+                            <p:spinner value="#{carBean.filter.entity.price}" >
+                                <f:converter converterId="javax.faces.Double" />
+                                <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                            </p:spinner>
+                        </f:facet>
+                        #{c.price}
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+            <p>
+                Find Car by id: <p:inputText value="#{carBean.id}"/> <p:commandButton value="Find" action="#{carBean.findCarById(carBean.id)}" process="@form" update="@form" partialSubmit="true"/>
+            </p>
+
+            <p:fieldset legend="Manage Cars">
+                <h:panelGrid columns="2" id="grid">
+                    <h:outputLabel value="Model:" for="name"/>
+                    <p:inputText id="name" value="#{carBean.car.model}"/>
+                    <h:outputLabel value="Price:" for="age"/>
+                    <p:inputText id="age" value="#{carBean.car.price}"/>
+                    <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])" update="@form"/>
+                    <p:commandButton value="Delete" action="#{carBean.remove}" process="@form" update="@form"/>
+                    <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
+                </h:panelGrid>
+
+            </p:fieldset>
+
+
+        </h:form>
+    </h:body>
+
+</html>
