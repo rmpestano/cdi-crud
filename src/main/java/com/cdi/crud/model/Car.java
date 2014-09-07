@@ -4,22 +4,21 @@
  */
 package com.cdi.crud.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- *
  * @author rmpestano
  */
 @Entity
-public class Car implements BaseEntity{
+@Table(name = "car")
+public class Car implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(name = "model")
     private String model;
+    @Column(name = "price")
     private Double price;
 
     public Car() {
@@ -29,8 +28,7 @@ public class Car implements BaseEntity{
         this.model = model;
         this.price = price;
     }
-    
-    
+
 
     public String getModel() {
         return model;

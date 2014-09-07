@@ -138,7 +138,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud<T> projection(Projection projection) {
+    public Crud projection(Projection projection) {
         getCriteria().setProjection(projection);
         return this;
     }
@@ -172,7 +172,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud ilike(String property, Object value) {
+    public Crud<T> ilike(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ilike(property, value));
         }
@@ -200,7 +200,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud le(String property, Object value) {
+    public Crud<T> le(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.le(property, value));
         }
@@ -444,6 +444,9 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
 
+
+    public void initCriteria() {
+        criteria = getSession().createCriteria(getEntityClass());
+    }
 }

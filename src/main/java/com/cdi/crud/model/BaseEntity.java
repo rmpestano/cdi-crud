@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author rmpestano
  */
 public interface BaseEntity extends Serializable{
-    
+
 
     public <T extends Serializable> T getId();
 

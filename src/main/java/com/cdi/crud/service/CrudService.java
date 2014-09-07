@@ -74,6 +74,7 @@ public abstract class CrudService<T extends BaseEntity> {
 
 
     public List<T> paginate(Filter<T> filter) {
+        crud().initCriteria();
         Criteria criteria = crud().criteria(configPagination(filter)).getCriteria();
         String sortField = filter.getSortField();
         if (sortField != null) {
