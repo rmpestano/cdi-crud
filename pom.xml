@@ -91,6 +91,7 @@
             </activation>
             <properties>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
+                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform</application.platform>
             </properties>
             <dependencies>
@@ -119,6 +120,7 @@
             <id>glassfish</id>
             <properties>
                 <application.jta-data-source>jdbc/__default</application.jta-data-source>
+                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.platform>org.hibernate.service.jta.platform.internal.SunOneJtaPlatform</application.platform>
             </properties>
             <dependencies>
@@ -140,6 +142,37 @@
                 </dependency>
             </dependencies>
         </profile>
+
+        <profile>
+            <id>jboss</id>
+            <properties>
+                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
+                <application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
+                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform</application.platform>
+            </properties>
+            <dependencies>
+                <!-- ORM -->
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                    <version>${hibernate.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                    <version>5.1.1.Final</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                    <version>${hibernate.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
     </profiles>
     <repositories>
         <repository>  

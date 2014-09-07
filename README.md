@@ -20,4 +20,4 @@ Deltaspike
 
 
 
-tested under Wildfly 8.0, Glassfish 3.1.2.2/4.0 and JBossAS 7.2.0.Final
+tested under Wildfly 8.0, Glassfish 4.0 and JBossAS 7.2.0.Final
