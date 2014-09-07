@@ -22,15 +22,10 @@ import java.util.List;
 public abstract class CrudService<T extends BaseEntity> {
 
     @Inject
-    private Instance<Crud<T>> crudInstance;
-
     private Crud<T> crud;
 
 
     public Crud<T> crud() {
-        if(crud == null){
-            crud = crudInstance.get();
-        }
         return crud;
     }
 
