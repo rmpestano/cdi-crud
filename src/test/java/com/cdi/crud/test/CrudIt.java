@@ -141,4 +141,15 @@ public class CrudIt {
         assertEquals(cars.get(0).getModel(), "Porche");
         assertEquals(cars.get(1).getModel(), "Ferrari");
     }
+
+    @Test
+    @UsingDataSet("car.yml")
+    public void shouldGetCarModels(){
+        List<String> models = carService.getModels("po");
+        //porche and Porche274
+        assertNotNull(models);
+        assertEquals(models.size(),2);
+        assertTrue(models.contains("Porche"));
+        assertTrue(models.contains("Porche274"));
+    }
 }
