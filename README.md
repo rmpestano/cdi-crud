@@ -17,6 +17,7 @@ Technologies:
 * Hibernate
 * Primefaces
 * Deltaspike
+* Arquillian
 
 
 
