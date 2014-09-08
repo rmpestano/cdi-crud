@@ -77,4 +77,9 @@ public class Filter<T extends BaseEntity> {
         this.entity = entity;
         return this;
     }
+
+    public Filter addParam(String key, Object value) {
+        getParams().put(key,value);
+        return this;
+    }
 }
