@@ -327,6 +327,82 @@
                 </plugins>
             </build>
         </profile>
+        <!-- tests coverage -->
+        <profile>
+            <id>jacoco</id>
+            <properties>
+                <jacoco.version>0.7.0.201403182114</jacoco.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-jacoco</artifactId>
+                    <version>1.0.0.Alpha6</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.core</artifactId>
+                    <version>${jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/cdi/crud/bean/*.class</exclude>
+                                <exclude>com/cdi/crud/model/*.class</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>coveralls</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eluder.coveralls</groupId>
+                        <artifactId>coveralls-maven-plugin</artifactId>
+                        <version>2.0.1</version>
+                        <configuration>
+                            <repoToken>qNIdoZKsxqS7s1ZlSpg2bAsCMQ4CGyc34</repoToken>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>coveralls-jacoco</id>
+                                <goals>
+                                    <goal>jacoco</goal>
+                                </goals>
+                                <phase>install</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
     </profiles>
     <repositories>
         <repository>  
