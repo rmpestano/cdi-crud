@@ -22,3 +22,9 @@ Technologies:
 
 
 Tested under Wildfly 8.0, Glassfish 4.0 and JBossAS 7.2.0.Final
+
+[Travis-CI](https://travis-ci.org/rmpestano/cdi-crud) build:
+[![Build Status](https://travis-ci.org/rmpestano/cdi-crud.png)](https://travis-ci.org/rmpestano/cdi-crud)
+
+[Coveralls](https://coveralls.io/repos/rmpestano/cdi-crud/) coverage:
+[![Coverage Status](https://coveralls.io/repos/rmpestano/cdi-crud/badge.png)](https://coveralls.io/r/rmpestano/cdi-crud)
