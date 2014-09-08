@@ -70,11 +70,10 @@ public class CarBean implements Serializable{
             carList = new LazyDataModel<Car>() {
                 @Override
                 public List<Car> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-                    filter.setFirst(first);
-                    filter.setPageSize(pageSize);
-                    filter.setSortField(sortField);
-                    filter.setSortOrder(sortOrder);
-                    filter.setParams(filters);
+                    filter.setFirst(first).setPageSize(pageSize)
+                    .setSortField(sortField)
+                    .setSortOrder(sortOrder)
+                    .setParams(filters);
                     List<Car> list = carService.paginate(filter);
                     setRowCount(carService.count(filter));
                     return list;

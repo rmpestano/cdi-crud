@@ -227,6 +227,13 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
+    public Crud between(String property, Double ini, Double end) {
+        if (ini != null && end != null) {
+            getCriteria().add(Restrictions.between(property, ini, end));
+        }
+        return this;
+    }
+
     public Crud in(String property, List<?> list) {
         if (Assert.hasElements(list)) {
             getCriteria().add(Restrictions.in(property, list));
@@ -448,5 +455,15 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     public void initCriteria() {
         criteria = getSession().createCriteria(getEntityClass());
+    }
+
+    public Crud addOrderAsc(String property) {
+        getCriteria().addOrder(Order.asc(property));
+        return this;
+    }
+
+    public Crud addOrderDesc(String property) {
+        getCriteria().addOrder(Order.desc(property));
+        return this;
     }
 }

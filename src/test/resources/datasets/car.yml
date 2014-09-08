@@ -1,0 +1,13 @@
+car:
+  - id: 1
+    model: "Ferrari"
+    price: 2450.8
+  - id: 2
+    model: "Mustang"
+    price: 12999.0
+  - id: 3
+    model: "Porche"
+    price: 1390.3
+  - id: 4
+    model: "Porche274"
+    price: 18990.23

@@ -24,6 +24,10 @@ public class Car implements BaseEntity {
     public Car() {
     }
 
+    public Car(Integer id) {
+        this.id = id;
+    }
+
     public Car(String model, double price) {
         this.model = model;
         this.price = price;

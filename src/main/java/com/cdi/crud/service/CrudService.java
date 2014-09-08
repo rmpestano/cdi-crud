@@ -5,6 +5,7 @@ import com.cdi.crud.model.BaseEntity;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.primefaces.model.SortOrder;
 
@@ -13,6 +14,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public abstract class CrudService<T extends BaseEntity> {
     @Inject
     private Crud<T> crud;
 
-
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Crud<T> crud() {
         return crud;
     }
@@ -54,7 +56,7 @@ public abstract class CrudService<T extends BaseEntity> {
 
     public void update(T entity) {
         if (entity == null) {
-            throw new RuntimeException("Emtity should not be null");
+            throw new RuntimeException("Entity should not be null");
         }
 
         if (entity.getId() == null) {
@@ -68,11 +70,23 @@ public abstract class CrudService<T extends BaseEntity> {
         return crud().listAll();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public T findById(Serializable id)
+    {
+        return crud().get(id);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public T findByExample(T example) {
         return crud().example(example).find();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public T findByExample(T example,MatchMode mode) {
+        return crud().example(example,mode).find();
+    }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<T> paginate(Filter<T> filter) {
         crud().initCriteria();
         Criteria criteria = crud().criteria(configPagination(filter)).getCriteria();
@@ -90,6 +104,7 @@ public abstract class CrudService<T extends BaseEntity> {
         return crud().criteria(criteria).firstResult(filter.getFirst()).maxResult(filter.getPageSize()).list();
     }
 
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public int count(Filter<T> filter) {
         return crud().criteria(configPagination(filter)).count();
     }
@@ -100,6 +115,7 @@ public abstract class CrudService<T extends BaseEntity> {
      * @param filter
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Criteria configPagination(Filter<T> filter) {
         if (filter.getEntity() != null) {
             return crud().criteria().example(filter.getEntity()).getCriteria();
