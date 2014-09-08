@@ -24,7 +24,7 @@
 	<container qualifier="jboss-managed"  default="true" >
 		<configuration>
 			<property name="outputToConsole">true</property>
-            <property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m -Djboss.bind.address=${arquillian.localAddress} -Darquillian.debug=${arquillian.debug}</property>
+            <property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m</property>
 			<property name="allowConnectingToRunningServer">true</property>
 		</configuration>
 	</container>
