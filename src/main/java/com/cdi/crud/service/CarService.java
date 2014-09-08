@@ -39,7 +39,7 @@ public class CarService extends CrudService<Car> {
     @Override
     public Criteria configPagination(Filter<Car> filter) {
         if(filter.getParams().get("id") != null){
-            crud().criteria().eq("id",Integer.parseInt((String)filter.getParams().get("id")));
+            crud().criteria().eq("id",Integer.parseInt(filter.getParam("id").toString()));
         }
 
         //see index.xhtml 'model' column facet name filter

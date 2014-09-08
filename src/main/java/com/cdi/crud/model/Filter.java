@@ -82,4 +82,8 @@ public class Filter<T extends BaseEntity> {
         getParams().put(key,value);
         return this;
     }
+
+    public Object getParam(String key) {
+        return getParams().get(key);
+    }
 }
