@@ -411,6 +411,11 @@
             <url>http://repository.primefaces.org</url>  
             <layout>default</layout>  
         </repository>
+        <repository>
+            <id>arquillian all maven repo</id>
+            <url>http://arquillian-all-repo.googlecode.com/git/</url>
+            <layout>default</layout>
+        </repository>
         
     </repositories>
    
