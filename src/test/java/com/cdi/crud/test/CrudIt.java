@@ -133,6 +133,18 @@ public class CrudIt {
 
     @Test
     @UsingDataSet("car.yml")
+    public void shouldPaginateCarsByPrice(){
+        Car carExample = new Car();
+        carExample.setPrice(12999.0);
+        Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(2).setEntity(carExample);
+        List<Car> cars = carService.paginate(carFilter);
+        assertNotNull(cars);
+        assertEquals(cars.size(), 1);
+        assertTrue(cars.get(0).getModel().equals("Mustang"));
+    }
+
+    @Test
+    @UsingDataSet("car.yml")
     public void shouldListCarsByPrice(){
         List<Car> cars = carService.crud().between("price", (double) 1000, (double) 2450.9).addOrderAsc("price").list();
         //ferrari and porche
