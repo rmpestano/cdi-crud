@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by rmpestano on 9/7/14.
+ * class which holds database pagination metadata
  */
 public class Filter<T extends BaseEntity> {
     private T entity;

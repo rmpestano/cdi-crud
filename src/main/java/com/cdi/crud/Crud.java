@@ -26,6 +26,11 @@ import java.util.logging.Logger;
 
 /**
  * @author rmpestano Helper class to crud an entity
+ *
+ * Make sure you have a transcation before calling Insert/update or remove.
+ * I did not make it transactional to be compatible with JavaEE6
+ * Also cannot be an EJB itself cause EJBs may be shared between clients and entityClass
+ * may be lost.
  */
 public class Crud<T extends BaseEntity> implements Serializable {
 

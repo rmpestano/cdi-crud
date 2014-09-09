@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by rmpestano on 9/7/14.
+ * A CRUD template to all services
  */
 @Dependent
 public abstract class CrudService<T extends BaseEntity> {

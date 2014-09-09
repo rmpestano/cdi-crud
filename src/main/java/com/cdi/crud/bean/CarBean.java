@@ -42,10 +42,10 @@ public class CarBean implements Serializable{
     CarService carService;
 
     /*
-    you can inject crud direcly, sometimes its useful but remember that you dont have transactions there
+    you can inject crud direcly, sometimes its useful but remember that you don't have transactions there
     */
     @Inject
-    Crud<Car> carCrud;//reuse generic dao for basic crud operation in various entities
+    Crud<Car> carCrud;
     
     @Inject
     Crud<Movie> movieCrud;//reuse generic dao for basic crud operation in various entities
