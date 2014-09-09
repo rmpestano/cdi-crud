@@ -1,1 +1,45 @@
-/target/
+# Eclipse
+
+.project
+
+.classpath
+
+.settings/
+
+
+
+# IntelliJ
+
+*.iml
+
+*.ipr
+
+*.iws
+
+.idea
+
+.settings
+
+
+
+# Maven
+
+target/
+
+
+
+#Gradle
+
+.gradle
+
+
+
+# TestNG
+
+test-output/
+
+
+
+# JBoss AS
+
+transaction.log
