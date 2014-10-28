@@ -8,6 +8,7 @@
         <provider>${application.jta-provider}</provider>
         <jta-data-source>${application.jta-data-source}</jta-data-source>
         <properties>
+		    <property name="hibernate.dialect" value="${application.dialect}" />
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.transaction.jta.platform" value="${application.platform}" />
             <property name="hibernate.show_sql" value="true"/>

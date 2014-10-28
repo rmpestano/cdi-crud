@@ -12,7 +12,7 @@
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate.version>4.3.5.Final</hibernate.version>
 	</properties>
 
 	<dependencies>
@@ -231,6 +231,7 @@
 				<application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
 				<application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
 				</application.platform>
+				<application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
 			</properties>
 			<dependencies>
 				<!-- ORM -->
@@ -261,13 +262,14 @@
 				<application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
 				<application.platform>org.hibernate.service.jta.platform.internal.SunOneJtaPlatform
 				</application.platform>
+			    <application.dialect>org.hibernate.dialect.DerbyDialect</application.dialect>
 			</properties>
 			<dependencies>
 				<!-- ORM -->
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
-					<version>4.3.1.Final</version>
+					<version>${hibernate.version}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
@@ -277,7 +279,7 @@
 				<dependency>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
-					<version>4.3.1.Final</version>
+					<version>${hibernate.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -289,6 +291,7 @@
 				<application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
 				<application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
 				</application.platform>
+				<application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
 			</properties>
 		</profile>
 
@@ -306,7 +309,7 @@
 						    <runOrder>reversealphabetical</runOrder>
 							<includes>
 								<include>**/*It.java</include>
-								<include>**/*Bdd.java</include>
+								<!-- <include>**/*Bdd.java</include> see: https://github.com/cukespace/cukespace/issues/37-->
 							</includes>
 						</configuration>
 					</plugin>

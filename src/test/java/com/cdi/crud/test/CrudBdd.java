@@ -3,6 +3,8 @@ package com.cdi.crud.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -44,6 +46,7 @@ public class CrudBdd{
   @UsingDataSet("car.yml")//dataset has car with model = "Ferrari"
   public void given(String model){
     Car carExample = new Car();
+    List<Car> cars = carService.listAll();
     carExample.setModel(model);
     carFound = carService.findByExample(carExample);
     assertNotNull(carFound);//is returning null cause dataset is being ignored
