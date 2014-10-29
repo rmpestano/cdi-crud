@@ -7,7 +7,7 @@ How run it:
 
 1. choose the maven profile(wildfly{default}, glassfish(4) or jboss)
 2. run on your favourite IDE
-3. running tests use maven command: mvn clean test -Ptests -Pwildfly-managed or activate contAiner profile in your IDE and Run CrudIt.java or CrudBdd.java as Junit test
+3. running tests use maven command: mvn clean test -Ptests -Pwildfly-managed or activate container profile in your IDE and Run CrudIt.java or CrudBdd.java as Junit test
 
 
 
