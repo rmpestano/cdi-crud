@@ -32,11 +32,11 @@ public class Deployments {
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces:primefaces:5.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces.themes:all-themes:1.0.10").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-api:1.0.2").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-impl:1.0.2").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-impl:1.0.2").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.0.2").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.0.2").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-api:1.0.3").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-impl:1.0.3").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-impl:1.0.3").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.0.3").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.0.3").withoutTransitivity().asSingleFile());
         //WEB-INF
 
         war.addAsWebInfResource(new File(WEB_INF,"beans.xml"), "beans.xml");

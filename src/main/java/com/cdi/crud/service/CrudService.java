@@ -34,11 +34,11 @@ public abstract class CrudService<T extends BaseEntity> {
 
     public void insert(T entity) {
         if (entity == null) {
-            throw new RuntimeException("Car should not be null");
+            throw new RuntimeException("Entity cannot be null");
         }
 
         if (entity.getId() != null) {
-            throw new RuntimeException("Car should be transient");
+            throw new RuntimeException("Entity must be transient");
         }
 
         crud().save(entity);
@@ -46,22 +46,22 @@ public abstract class CrudService<T extends BaseEntity> {
 
     public void remove(T entity) {
         if (entity == null) {
-            throw new RuntimeException("Car should not be null");
+            throw new RuntimeException("Entity cannot be null");
         }
 
         if (entity.getId() == null) {
-            throw new RuntimeException("Car should not be transient");
+            throw new RuntimeException("Entity cannot be transient");
         }
         crud().delete(entity);
     }
 
     public void update(T entity) {
         if (entity == null) {
-            throw new RuntimeException("Entity should not be null");
+            throw new RuntimeException("Entity cannot be null");
         }
 
         if (entity.getId() == null) {
-            throw new RuntimeException("Entity should not be transient");
+            throw new RuntimeException("Entity cannot be transient");
         }
         crud().update(entity);
     }

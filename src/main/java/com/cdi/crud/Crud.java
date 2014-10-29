@@ -59,7 +59,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
                 this.entityClass = entityClass;
                 log = Logger.getLogger(getClass().getName());
             } catch (Exception e) {
-                throw new IllegalArgumentException("provide entity class at injection point eg: @Inject BaseDao<Car> carDao");
+                throw new IllegalArgumentException("provide entity class at injection point eg: @Inject Crud<Entity> crud");
             }
 
         } else {
@@ -149,28 +149,28 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     //nullsafe restrictions
-    public Crud eq(String property, Object value) {
+    public Crud<T>  eq(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.eq(property, value));
         }
         return this;
     }
 
-    public Crud ne(String property, Object value) {
+    public Crud<T> ne(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ne(property, value));
         }
         return this;
     }
 
-    public Crud not(Criterion criterion) {
+    public Crud<T> not(Criterion criterion) {
         if (criterion != null) {
             getCriteria().add(Restrictions.not(criterion));
         }
         return this;
     }
 
-    public Crud ilike(String property, String value, MatchMode matchMode) {
+    public Crud<T> ilike(String property, String value, MatchMode matchMode) {
         if (value != null) {
             getCriteria().add(Restrictions.ilike(property, value.toString(), matchMode));
         }
@@ -184,21 +184,21 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud like(String property, Object value) {
+    public Crud<T> like(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.like(property, value));
         }
         return this;
     }
 
-    public Crud like(String property, String value, MatchMode matchMode) {
+    public Crud<T> like(String property, String value, MatchMode matchMode) {
         if (value != null) {
             getCriteria().add(Restrictions.like(property, value, matchMode));
         }
         return this;
     }
 
-    public Crud ge(String property, Object value) {
+    public Crud<T> ge(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ge(property, value));
         }
@@ -212,7 +212,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud between(String property, Calendar dtIni, Calendar dtEnd) {
+    public Crud<T> between(String property, Calendar dtIni, Calendar dtEnd) {
         if (dtIni != null && dtEnd != null) {
             dtIni.set(Calendar.HOUR, 0);
             dtIni.set(Calendar.MINUTE, 0);
@@ -225,94 +225,94 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return this;
     }
 
-    public Crud between(String property, Integer ini, Integer end) {
+    public Crud<T> between(String property, Integer ini, Integer end) {
         if (ini != null && end != null) {
             getCriteria().add(Restrictions.between(property, ini, end));
         }
         return this;
     }
 
-    public Crud between(String property, Double ini, Double end) {
+    public Crud<T> between(String property, Double ini, Double end) {
         if (ini != null && end != null) {
             getCriteria().add(Restrictions.between(property, ini, end));
         }
         return this;
     }
 
-    public Crud in(String property, List<?> list) {
+    public Crud<T> in(String property, List<?> list) {
         if (Assert.hasElements(list)) {
             getCriteria().add(Restrictions.in(property, list));
         }
         return this;
     }
 
-    public Crud or(Criterion... criterions) {
+    public Crud<T> or(Criterion... criterions) {
         if (criterions != null) {
             getCriteria().add(Restrictions.or(criterions));
         }
         return this;
     }
 
-    public Crud or(Criterion lhs, Criterion rhs) {
+    public Crud<T> or(Criterion lhs, Criterion rhs) {
         if (lhs != null && rhs != null) {
             getCriteria().add(Restrictions.or(lhs, rhs));
         }
         return this;
     }
 
-    public Crud and(Criterion... criterios) {
+    public Crud<T> and(Criterion... criterios) {
         if (criterios != null) {
             getCriteria().add(Restrictions.and(criterios));
         }
         return this;
     }
 
-    public Crud and(Criterion lhs, Criterion rhs) {
+    public Crud<T> and(Criterion lhs, Criterion rhs) {
         if (lhs != null && rhs != null) {
             getCriteria().add(Restrictions.and(lhs, rhs));
         }
         return this;
     }
 
-    public Crud join(String property, String alias) {
+    public Crud<T> join(String property, String alias) {
         getCriteria().createAlias(property, alias);
         return this;
     }
 
-    public Crud join(String property, String alias, JoinType type) {
+    public Crud<T> join(String property, String alias, JoinType type) {
         getCriteria().createAlias(property, alias, type);
         return this;
     }
 
-    public Crud addCriterion(Criterion criterion) {
+    public Crud<T> addCriterion(Criterion criterion) {
         if (criterion != null) {
             getCriteria().add(criterion);
         }
         return this;
     }
 
-    public Crud isNull(String property) {
+    public Crud<T> isNull(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNull(property));
         }
         return this;
     }
 
-    public Crud isNotNull(String property) {
+    public Crud<T> isNotNull(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNotNull(property));
         }
         return this;
     }
 
-    public Crud isEmpty(String property) {
+    public Crud<T> isEmpty(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isEmpty(property));
         }
         return this;
     }
 
-    public Crud isNotEmpty(String property) {
+    public Crud<T> isNotEmpty(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNotEmpty(property));
         }
@@ -437,14 +437,6 @@ public class Crud<T extends BaseEntity> implements Serializable {
         return criteria;
     }
 
-    public Criteria getCriteria(boolean reset) {
-        Criteria copy = getCriteria();
-        if (reset) {
-            criteria = null;
-        }
-        return copy;
-    }
-
     public List<T> findWithNamedQuery(String namedQueryName) {
         return this.entityManager.createNamedQuery(namedQueryName).getResultList();
     }
@@ -462,12 +454,12 @@ public class Crud<T extends BaseEntity> implements Serializable {
         criteria = getSession().createCriteria(getEntityClass());
     }
 
-    public Crud addOrderAsc(String property) {
+    public Crud<T> addOrderAsc(String property) {
         getCriteria().addOrder(Order.asc(property));
         return this;
     }
 
-    public Crud addOrderDesc(String property) {
+    public Crud<T> addOrderDesc(String property) {
         getCriteria().addOrder(Order.desc(property));
         return this;
     }
