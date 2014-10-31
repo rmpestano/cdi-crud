@@ -309,7 +309,7 @@
                             <runOrder>reversealphabetical</runOrder>
                             <includes>
                                 <include>**/*It.java</include>
-                                <!-- <include>**/*Bdd.java</include> see: https://github.com/cukespace/cukespace/issues/37-->
+                                <include>**/*Bdd.java</include>  
                             </includes>
                         </configuration>
                     </plugin>
