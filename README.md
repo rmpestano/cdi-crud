@@ -24,6 +24,8 @@ Technologies:
 
 Tested under Wildfly 8.0, Glassfish 4.0 and JBossAS 7.2.0.Final
 
+if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin)
+
 [Travis-CI](https://travis-ci.org/rmpestano/cdi-crud) build:
 [![Build Status](https://travis-ci.org/rmpestano/cdi-crud.png)](https://travis-ci.org/rmpestano/cdi-crud)
 

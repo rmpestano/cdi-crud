@@ -149,9 +149,11 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     //nullsafe restrictions
-    public Crud<T>  eq(String property, Object value) {
+    public Crud<T> eq(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.eq(property, value));
+        } else{
+            log.warning("ignoring eq restriction due to null value on property "+property);
         }
         return this;
     }
@@ -159,6 +161,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> ne(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ne(property, value));
+        }else{
+            log.warning("ignoring ne restriction due to null value on property "+property);
         }
         return this;
     }
@@ -173,6 +177,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> ilike(String property, String value, MatchMode matchMode) {
         if (value != null) {
             getCriteria().add(Restrictions.ilike(property, value.toString(), matchMode));
+        }else{
+           log.warning("ignoring ilike restriction due to null value on property "+property);
         }
         return this;
     }
@@ -180,6 +186,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> ilike(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ilike(property, value));
+        } else{
+            log.warning("ignoring ilike restriction due to null value on property "+property);
         }
         return this;
     }
@@ -187,6 +195,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> like(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.like(property, value));
+        } else{
+            log.warning("ignoring like restriction due to null value on property "+property);
         }
         return this;
     }
@@ -194,6 +204,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> like(String property, String value, MatchMode matchMode) {
         if (value != null) {
             getCriteria().add(Restrictions.like(property, value, matchMode));
+        } else{
+            log.warning("ignoring like restriction due to null value on property "+property);
         }
         return this;
     }
@@ -201,6 +213,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> ge(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.ge(property, value));
+        }  else{
+            log.warning("ignoring ge restriction due to null value on property "+property);
         }
         return this;
     }
@@ -208,6 +222,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> le(String property, Object value) {
         if (value != null) {
             getCriteria().add(Restrictions.le(property, value));
+        }else{
+            log.warning("ignoring le restriction due to null value on property "+property);
         }
         return this;
     }
@@ -221,6 +237,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
             dtEnd.set(Calendar.MINUTE, 59);
             dtEnd.set(Calendar.SECOND, 59);
             getCriteria().add(Restrictions.between(property, dtIni, dtEnd));
+        }  else{
+            log.warning("ignoring between restriction due to null value on property "+property);
         }
         return this;
     }
@@ -228,6 +246,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> between(String property, Integer ini, Integer end) {
         if (ini != null && end != null) {
             getCriteria().add(Restrictions.between(property, ini, end));
+        }  else{
+            log.warning("ignoring between restriction due to null value on property "+property);
         }
         return this;
     }
@@ -235,6 +255,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> between(String property, Double ini, Double end) {
         if (ini != null && end != null) {
             getCriteria().add(Restrictions.between(property, ini, end));
+        }  else{
+            log.warning("ignoring between restriction due to null value on property "+property);
         }
         return this;
     }
@@ -242,6 +264,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> in(String property, List<?> list) {
         if (Assert.hasElements(list)) {
             getCriteria().add(Restrictions.in(property, list));
+        }  else{
+            log.warning("ignoring in restriction due to null value on property "+property);
         }
         return this;
     }
@@ -249,6 +273,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> or(Criterion... criterions) {
         if (criterions != null) {
             getCriteria().add(Restrictions.or(criterions));
+        } else{
+            log.warning("ignoring or restriction due to null criterion");
         }
         return this;
     }
@@ -256,6 +282,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> or(Criterion lhs, Criterion rhs) {
         if (lhs != null && rhs != null) {
             getCriteria().add(Restrictions.or(lhs, rhs));
+        } else{
+            log.warning("ignoring or restriction due to null criterion");
         }
         return this;
     }
@@ -263,6 +291,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> and(Criterion... criterios) {
         if (criterios != null) {
             getCriteria().add(Restrictions.and(criterios));
+        }  else{
+            log.warning("ignoring and restriction due to null criterion");
         }
         return this;
     }
@@ -270,6 +300,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> and(Criterion lhs, Criterion rhs) {
         if (lhs != null && rhs != null) {
             getCriteria().add(Restrictions.and(lhs, rhs));
+        }  else{
+            log.warning("ignoring and restriction due to null value on criterion");
         }
         return this;
     }
@@ -287,6 +319,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> addCriterion(Criterion criterion) {
         if (criterion != null) {
             getCriteria().add(criterion);
+        } else{
+            log.warning("ignoring addCriterion due to null criterion");
         }
         return this;
     }
@@ -294,6 +328,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> isNull(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNull(property));
+        }  else{
+            log.warning("ignoring isnull restriction due to null value on property "+property);
         }
         return this;
     }
@@ -301,6 +337,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> isNotNull(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNotNull(property));
+        } else{
+            log.warning("ignoring isNotNull restriction due to null value on property "+property);
         }
         return this;
     }
@@ -308,6 +346,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> isEmpty(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isEmpty(property));
+        } else{
+            log.warning("ignoring isEmpty restriction due to null value on property "+property);
         }
         return this;
     }
@@ -315,6 +355,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> isNotEmpty(String property) {
         if (property != null) {
             getCriteria().add(Restrictions.isNotEmpty(property));
+        } else{
+            log.warning("ignoring isNotEmpty restriction due to null value on property "+property);
         }
         return this;
     }
