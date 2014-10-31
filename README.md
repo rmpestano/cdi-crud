@@ -29,19 +29,37 @@ if you use forge(1.x) you may have a [look at this plugin](https://github.com/rm
 if you want to import Crud utility class into your project, you can use maven dependencies below:
 
 ```xml
-<dependencies>
-   <dependency>
-      <groupId>com.cdi.crud</groupId>
-      <artifactId>cdi-crud</artifactId>
-      <version>1.0.0</version>
-   </dependency>
-</dependencies>
-<repositories>
-  <repository>
-      <id>cdi-crud maven repo</id>
-      <url>http://cdi-crud-repo.googlecode.com/git/</url>
-      <layout>default</layout>
-  </repository>
+   <dependencies>
+	<dependency>
+		<groupId>com.cdi.crud</groupId>
+		<artifactId>cdi-crud</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>4.3.5.Final</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>5.1.1.Final</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<version>4.3.5.Final</version>
+		<scope>provided</scope>
+	</dependency>
+   </dependencies>
+   <repositories>
+     <repository>
+        <id>cdi-crud maven repo</id>
+        <url>http://cdi-crud-repo.googlecode.com/git/</url>
+       <layout>default</layout>
+    </repository>
 </repositories>
 ```
 
