@@ -29,7 +29,7 @@ if you use forge(1.x) you may have a [look at this plugin](https://github.com/rm
 if you want to import Crud utility class into your project, you can use maven dependencies below:
 
 ```xml
-   <dependencies>
+<dependencies>
 	<dependency>
 		<groupId>com.cdi.crud</groupId>
 		<artifactId>cdi-crud</artifactId>
@@ -53,8 +53,9 @@ if you want to import Crud utility class into your project, you can use maven de
 		<version>4.3.5.Final</version>
 		<scope>provided</scope>
 	</dependency>
-   </dependencies>
-   <repositories>
+</dependencies>
+
+<repositories>
      <repository>
         <id>cdi-crud maven repo</id>
         <url>http://cdi-crud-repo.googlecode.com/git/</url>
