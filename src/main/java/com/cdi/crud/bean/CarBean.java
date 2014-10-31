@@ -70,9 +70,15 @@ public class CarBean implements Serializable{
             carList = new LazyDataModel<Car>() {
                 @Override
                 public List<Car> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+                    com.cdi.crud.model.SortOrder order=null;
+                    if(sortOrder != null){
+                        order = sortOrder.equals(SortOrder.ASCENDING) ? com.cdi.crud.model.SortOrder.ASCENDING :
+                                sortOrder.equals(SortOrder.DESCENDING) ? com.cdi.crud.model.SortOrder.ASCENDING :
+                                        com.cdi.crud.model.SortOrder.UNSORTED;
+                    }
                     filter.setFirst(first).setPageSize(pageSize)
                     .setSortField(sortField)
-                    .setSortOrder(sortOrder)
+                    .setSortOrder(order)
                     .setParams(filters);
                     List<Car> list = carService.paginate(filter);
                     setRowCount(carService.count(filter));

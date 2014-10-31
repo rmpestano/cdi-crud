@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mycompany</groupId>
+    <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
 
     <name>cdi-crud</name>
@@ -13,6 +13,8 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>4.3.5.Final</hibernate.version>
+        <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>github</github.global.server>
     </properties>
 
     <dependencies>
@@ -477,6 +479,40 @@
                 </plugins>
 
             </build>
+        </profile>
+        <profile>
+            <id>generate-jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.5</version>
+                        <executions>
+                            <execution>
+                                <id>make-a-jar</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includes>
+                                <include>com/cdi/crud/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>com/cdi/crud/bean/*</exclude>
+                                <exclude>com/cdi/crud/model/*Car.class</exclude>
+                                <exclude>com/cdi/crud/model/*Movie*</exclude>
+                                <exclude>com/cdi/crud/service/Car*</exclude>
+                                <exclude>com/cdi/crud/service/Movie*</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
         </profile>
     </profiles>
     <repositories>

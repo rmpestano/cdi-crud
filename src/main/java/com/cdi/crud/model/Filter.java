@@ -1,6 +1,5 @@
 package com.cdi.crud.model;
 
-import org.primefaces.model.SortOrder;
 
 import java.util.HashMap;
 import java.util.Map;

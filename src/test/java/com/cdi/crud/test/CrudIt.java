@@ -2,6 +2,7 @@ package com.cdi.crud.test;
 
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
+import com.cdi.crud.model.SortOrder;
 import com.cdi.crud.service.CarService;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -10,7 +11,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.primefaces.model.SortOrder;
 
 import javax.inject.Inject;
 import java.util.List;

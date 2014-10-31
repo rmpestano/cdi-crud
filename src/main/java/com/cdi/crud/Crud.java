@@ -11,7 +11,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 import org.hibernate.sql.JoinType;
-import org.primefaces.model.SortOrder;
 
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;

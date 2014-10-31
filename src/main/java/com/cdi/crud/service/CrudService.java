@@ -2,17 +2,15 @@ package com.cdi.crud.service;
 
 import com.cdi.crud.Crud;
 import com.cdi.crud.model.BaseEntity;
-import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
+import com.cdi.crud.model.SortOrder;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.primefaces.model.SortOrder;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
