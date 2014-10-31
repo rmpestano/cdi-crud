@@ -26,7 +26,7 @@ Tested under Wildfly 8.0, Glassfish 4.0 and JBossAS 7.2.0.Final
 
 if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin)
 
-if you want to import Crud utility class in your project, you can use maven dependencies below:
+if you want to import Crud utility class into your project, you can use maven dependencies below:
 
 ```xml
 <dependencies>
