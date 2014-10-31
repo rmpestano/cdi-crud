@@ -26,6 +26,25 @@ Tested under Wildfly 8.0, Glassfish 4.0 and JBossAS 7.2.0.Final
 
 if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin)
 
+if you want to import Crud utility class in your project, you can use maven dependencies below:
+
+```xml
+<dependencies>
+   <dependency>
+      <groupId>com.cdi.crud</groupId>
+      <artifactId>cdi-crud</artifactId>
+      <version>1.0.0</version>
+   </dependency>
+</dependencies>
+<repositories>
+  <repository>
+      <id>cdi-crud maven repo</id>
+      <url>http://cdi-crud-repo.googlecode.com/git/</url>
+      <layout>default</layout>
+  </repository>
+</repositories>
+```
+
 [Travis-CI](https://travis-ci.org/rmpestano/cdi-crud) build:
 [![Build Status](https://travis-ci.org/rmpestano/cdi-crud.png)](https://travis-ci.org/rmpestano/cdi-crud)
 
