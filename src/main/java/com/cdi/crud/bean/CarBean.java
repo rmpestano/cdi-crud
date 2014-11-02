@@ -5,6 +5,7 @@
 package com.cdi.crud.bean;
 
 import com.cdi.crud.Crud;
+import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.Movie;
@@ -118,8 +119,7 @@ public class CarBean implements Serializable{
     
     public void findCarById(Integer id){
         if(id == null){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Provide Car ID to load",""));
-            return;
+            throw new CustomException("Provide Car ID to load");
         }
          car = carCrud.get(id);
     }

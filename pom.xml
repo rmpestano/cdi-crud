@@ -13,6 +13,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hibernate.version>4.3.5.Final</hibernate.version>
+        <deltaspike.version>1.0.3</deltaspike.version>
     </properties>
 
     <dependencies>
@@ -56,27 +57,27 @@
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-impl</artifactId>
-            <version>1.0.3</version>
+            <version>${deltaspike.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-api</artifactId>
-            <version>1.0.3</version>
+            <version>${deltaspike.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jsf-module-api</artifactId>
-            <version>1.0.3</version>
+            <version>${deltaspike.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jsf-module-impl</artifactId>
-            <version>1.0.3</version>
+            <version>${deltaspike.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-security-module-api</artifactId>
-            <version>1.0.3</version>
+            <version>${deltaspike.version}</version>
         </dependency>
 
         <!-- JavaEE -->
@@ -119,6 +120,12 @@
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <scope>test</scope>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -161,6 +168,13 @@
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>1.1.8</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-api</artifactId>
+            <version>${deltaspike.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -310,6 +324,113 @@
                             <includes>
                                 <include>**/*It.java</include>
                                 <include>**/*Bdd.java</include>  
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- deltaspike test control dependencies-->
+            <id>test-control</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss</groupId>
+                    <artifactId>jandex</artifactId>
+                    <version>1.2.2.Final</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.deltaspike.modules</groupId>
+                    <artifactId>deltaspike-test-control-module-impl</artifactId>
+                    <version>${deltaspike.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.apache.deltaspike.cdictrl</groupId>
+                    <artifactId>deltaspike-cdictrl-api</artifactId>
+                    <version>${deltaspike.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.deltaspike.cdictrl</groupId>
+                    <artifactId>deltaspike-cdictrl-owb</artifactId>
+                    <version>${deltaspike.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.openwebbeans</groupId>
+                    <artifactId>openwebbeans-impl</artifactId>
+                    <version>1.2.6</version>
+                </dependency>
+                <!--<dependency>-->
+                    <!--<groupId>com.sun.faces</groupId>-->
+                    <!--<artifactId>jsf-api</artifactId>-->
+                    <!--<version>1.2</version>-->
+                    <!--<scope>test</scope>-->
+                <!--</dependency>-->
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-api</artifactId>
+                    <version>2.2.5</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-impl</artifactId>
+                    <version>2.2.5</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                    <version>2.2.1-b04</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.enterprise</groupId>
+                    <artifactId>cdi-api</artifactId>
+                    <version>1.2</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                    <version>1.1.0.Final</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.ejb</groupId>
+                    <artifactId>javax.ejb-api</artifactId>
+                    <version>3.2</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-impl-test</artifactId>
+                    <version>2.2.3</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.test</groupId>
+                    <artifactId>myfaces-test20</artifactId>
+                    <version>1.0.6</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.16</version>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <runOrder>reversealphabetical</runOrder>
+                            <includes>
+                                <include>**/*Test.java</include>
                             </includes>
                         </configuration>
                     </plugin>

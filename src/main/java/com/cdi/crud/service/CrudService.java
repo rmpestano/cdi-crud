@@ -1,6 +1,7 @@
 package com.cdi.crud.service;
 
 import com.cdi.crud.Crud;
+import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.BaseEntity;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by rmpestano on 9/7/14. A CRUD template to all services
  */
 @Dependent
-public abstract class CrudService<T extends BaseEntity> {
+public abstract class CrudService<T extends BaseEntity> implements Serializable{
 
 	@Inject
 	private Crud<T> crud;
@@ -31,11 +32,11 @@ public abstract class CrudService<T extends BaseEntity> {
 
 	public void insert(T entity) {
 		if (entity == null) {
-			throw new RuntimeException("Entity cannot be null");
+			throw new CustomException("Entity cannot be null");
 		}
 
 		if (entity.getId() != null) {
-			throw new RuntimeException("Entity must be transient");
+			throw new CustomException("Entity must be transient");
 		}
 
 		crud().save(entity);
@@ -43,18 +44,18 @@ public abstract class CrudService<T extends BaseEntity> {
 
 	public void remove(T entity) {
 		if (entity == null) {
-			throw new RuntimeException("Entity cannot be null");
+			throw new CustomException("Entity cannot be null");
 		}
 
 		if (entity.getId() == null) {
-			throw new RuntimeException("Entity cannot be transient");
+			throw new CustomException("Entity cannot be transient");
 		}
 		crud().delete(entity);
 	}
 
 	public void remove(List<T> entities) {
 		if (entities == null) {
-			throw new RuntimeException("Entities cannot be null");
+			throw new CustomException("Entities cannot be null");
 		}
 		for (T t : entities) {
 			this.remove(t);
@@ -63,11 +64,11 @@ public abstract class CrudService<T extends BaseEntity> {
 
 	public void update(T entity) {
 		if (entity == null) {
-			throw new RuntimeException("Entity cannot be null");
+			throw new CustomException("Entity cannot be null");
 		}
 
 		if (entity.getId() == null) {
-			throw new RuntimeException("Entity cannot be transient");
+			throw new CustomException("Entity cannot be transient");
 		}
 		crud().update(entity);
 	}

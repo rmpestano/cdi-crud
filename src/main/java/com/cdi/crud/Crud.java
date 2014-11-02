@@ -405,10 +405,9 @@ public class Crud<T extends BaseEntity> implements Serializable {
      * current @link{ Crud#criteria} and its restrictions
      */
     public int count() {
-        getCriteria().setProjection(Projections.count(getSession()
+        Long result = (Long) getCriteria().setProjection(Projections.count(getSession()
                 .getSessionFactory().getClassMetadata(getEntityClass())
-                .getIdentifierPropertyName()));
-        Long result = (Long) getCriteria().uniqueResult();
+                .getIdentifierPropertyName())).uniqueResult();
         resetCriteria();
         return result.intValue();
     }
@@ -491,8 +490,9 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
 
-    public void initCriteria() {
+    public Crud<T> initCriteria() {
         criteria = getSession().createCriteria(getEntityClass());
+        return this;
     }
 
     public Crud<T> addOrderAsc(String property) {

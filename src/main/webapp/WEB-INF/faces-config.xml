@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
 	version="2.0">
 
-	 
 
+    <factory>
+        <exception-handler-factory>com.cdi.crud.exception.CustomExceptionHandlerFactory</exception-handler-factory>
+    </factory>
 </faces-config>

@@ -26,6 +26,7 @@ public class Deployments {
         WebArchive war = ShrinkWrap.create(WebArchive.class);
         war.addPackages(true, "com.cdi.crud.model");
         war.addPackages(true, "com.cdi.crud.service");
+        war.addPackages(true, "com.cdi.crud.exception");
         war.addPackages(true, "com.cdi.crud.util").
         addClass(Crud.class);
         //LIBS
