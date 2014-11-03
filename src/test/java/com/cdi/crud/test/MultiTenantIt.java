@@ -90,7 +90,7 @@ public class MultiTenantIt {
   }
   
   @Test
-  public void shouldInsertCarAndMovieUsingDifferentTenants(){
+  public void shouldNotListMoviesUsingCar(){
 	  assertThat(errorCrud.listAll()).isEmpty();
   }
 }
