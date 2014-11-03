@@ -6,27 +6,27 @@
       >
 
     <h:head>
-        <title>Generic CDI Dao</title>
+        <title>CDI Crud</title>
         <style type="text/css">
             .ui-widget {
                 font-size: 12px !important;
             }
         </style>
     </h:head>
-    <h:body style="">
+    <h:body >
         <h:form>
             <p:growl autoUpdate="true"/>
             <h:panelGroup layout="block">
-                <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
+                <p:dataTable widgetVar="carsTable" var="c" value="#{crudBean.carList}" rows="5" filteredValue="#{crudBean.filteredValue}"
                              rowKey="#{c.id}" lazy="true"  paginator="true"
-                             paginatorPosition="bottom" selection="#{carBean.car}" selectionMode="single"
+                             paginatorPosition="bottom" selection="#{crudBean.car}" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                              currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"    
                              rowsPerPageTemplate="5,10,15,20,30"
                              >
                     
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@form" />  
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@form" />
+                    <p:ajax event="rowSelect" listener="#{crudBean.onRowSelect}" update="@form" />  
+                    <p:ajax event="rowUnselect" listener="#{crudBean.onRowUnselect}" update="@form" />
                     <f:facet name="header">
                         Car List
                     </f:facet>
@@ -35,7 +35,7 @@
                     </p:column>
                     <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}"  filterMatchMode="contains">
                         <f:facet name="filter">
-                            <p:autoComplete value="#{carBean.filter.entity.model}" minQueryLength="3" queryDelay="600" completeMethod="#{carBean.completeModel}" maxResults="10" >
+                            <p:autoComplete value="#{crudBean.filter.entity.model}" minQueryLength="3" queryDelay="600" completeMethod="#{crudBean.completeModel}" maxResults="10" >
                                 <p:ajax event="blur" process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
                             </p:autoComplete>
                         </f:facet>
@@ -43,7 +43,7 @@
                     </p:column>
                     <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}" >
                         <f:facet name="filter">
-                            <p:spinner value="#{carBean.filter.entity.price}" >
+                            <p:spinner value="#{crudBean.filter.entity.price}" >
                                 <f:converter converterId="javax.faces.Double" />
                                 <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
                             </p:spinner>
@@ -53,23 +53,35 @@
                 </p:dataTable>
             </h:panelGroup>
             <p>
-                Find Car by id: <p:inputText value="#{carBean.id}"/> <p:commandButton value="Find" action="#{carBean.findCarById(carBean.id)}" process="@form" update="@form" partialSubmit="true"/>
+                Find Car by id: <p:inputText value="#{crudBean.id}"/> <p:commandButton value="Find" action="#{crudBean.findCarById(crudBean.id)}" process="@form" update="@form" partialSubmit="true"/>
             </p>
 
             <p:fieldset legend="Manage Cars">
                 <h:panelGrid columns="2" id="grid">
                     <h:outputLabel value="Model:" for="name"/>
-                    <p:inputText id="name" value="#{carBean.car.model}"/>
+                    <p:inputText id="name" value="#{crudBean.car.model}"/>
                     <h:outputLabel value="Price:" for="age"/>
-                    <p:inputText id="age" value="#{carBean.car.price}"/>
-                    <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])" update="@form"/>
-                    <p:commandButton value="Delete" action="#{carBean.remove}" process="@form" update="@form"/>
-                    <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
+                    <p:inputText id="age" value="#{crudBean.car.price}"/>
+                    <p:commandButton value="Save/Update" action="#{crudBean.update}" process="@(table[id$=grid])" update="@form"/>
+                    <p:commandButton value="Delete" action="#{crudBean.remove}" process="@form" update="@form"/>
+                    <p:commandButton value="Clear" action="#{crudBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
                 </h:panelGrid>
 
             </p:fieldset>
 
-
+			<hr/>
+			<p>movie autocomplete(multi tenancy example):</p>
+			<h:panelGrid id="movieGrid" columns="2">
+			<h:outputText value="Select a movie:" />
+			   <p:selectOneMenu value="#{crudBean.selectedMovie}" filter="true" filterMatchMode="contains">
+			   		<f:selectItem itemLabel="" itemValue=""/>
+			   		<f:selectItems value="#{crudBean.movies}" />
+			   		<p:ajax event="change" process="@this" update="@(table[id$=movieGrid])" />
+			   </p:selectOneMenu>  
+                 <h:outputText value="Selected movie:" />
+                 <h:outputText value="#{crudBean.selectedMovie.name}" />
+			</h:panelGrid>
+			
         </h:form>
     </h:body>
 

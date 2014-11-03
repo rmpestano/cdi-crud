@@ -1,26 +1,33 @@
 package com.cdi.crud.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+
 import com.cdi.crud.Crud;
 import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.BaseEntity;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import java.io.Serializable;
-import java.util.List;
+import com.cdi.crud.persistence.TenantType;
+import com.cdi.crud.qualifier.Tenant;
 
 /**
  * Created by rmpestano on 9/7/14. A CRUD template to all services
  */
 @Dependent
-public abstract class CrudService<T extends BaseEntity> implements Serializable{
+public abstract class CrudService<T extends BaseEntity> implements Serializable {
 
 	@Inject
 	private Crud<T> crud;
@@ -29,7 +36,21 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 	public Crud<T> crud() {
 		return crud;
 	}
-
+	
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public Crud<T> crud(TenantType tenantType) {
+		crud.setTenantType(tenantType);
+		return crud;
+	}
+	
+	@PostConstruct
+	public void init(){
+		if(getClass().isAnnotationPresent(Tenant.class)){
+			crud.setTenantType(getClass().getAnnotation(Tenant.class).value());
+		}
+	}
+	
+	
 	public void insert(T entity) {
 		if (entity == null) {
 			throw new CustomException("Entity cannot be null");
@@ -38,8 +59,9 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 		if (entity.getId() != null) {
 			throw new CustomException("Entity must be transient");
 		}
-
+		beforeInsert(entity);
 		crud().save(entity);
+		afterInsert(entity);
 	}
 
 	public void remove(T entity) {
@@ -50,8 +72,11 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 		if (entity.getId() == null) {
 			throw new CustomException("Entity cannot be transient");
 		}
+		beforeRemove(entity);
 		crud().delete(entity);
+		afterRemove(entity);
 	}
+
 
 	public void remove(List<T> entities) {
 		if (entities == null) {
@@ -70,7 +95,9 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 		if (entity.getId() == null) {
 			throw new CustomException("Entity cannot be transient");
 		}
+		beforeUpdate(entity);
 		crud().update(entity);
+		afterUpdate(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -91,6 +118,11 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public T findByExample(T example, MatchMode mode) {
 		return crud().example(example, mode).find();
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public List<T> listByExample(T example, MatchMode mode) {
+		return crud().example(example, mode).list();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
@@ -133,4 +165,32 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable{
 		}
 
 	}
+
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void beforeInsert(T entity) {
+
+	}
+
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void afterInsert(T entity) {
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void beforeUpdate(T entity) {
+
+	}
+
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void afterUpdate(T entity) {
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void beforeRemove(T entity) {
+
+	}
+
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void afterRemove(T entity) {
+	}
+
 }

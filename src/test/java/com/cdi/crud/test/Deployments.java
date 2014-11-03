@@ -27,6 +27,8 @@ public class Deployments {
         war.addPackages(true, "com.cdi.crud.model");
         war.addPackages(true, "com.cdi.crud.service");
         war.addPackages(true, "com.cdi.crud.exception");
+        war.addPackages(true, "com.cdi.crud.persistence");
+        war.addPackages(true, "com.cdi.crud.qualifier");
         war.addPackages(true, "com.cdi.crud.util").
         addClass(Crud.class);
         //LIBS
@@ -38,10 +40,13 @@ public class Deployments {
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-impl:1.0.3").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.0.3").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.0.3").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core:1.7.0").withoutTransitivity().asSingleFile());
+
         //WEB-INF
 
         war.addAsWebInfResource(new File(WEB_INF,"beans.xml"), "beans.xml");
         war.addAsWebInfResource(new File(WEB_INF,"web.xml"), "web.xml");
+        war.addAsWebInfResource(new File(WEB_INF,"jbossas-ds.xml"), "jbossas-ds.xml");
         war.addAsWebInfResource(new File(WEB_INF,"faces-config.xml"), "faces-config.xml");
 
         //resources

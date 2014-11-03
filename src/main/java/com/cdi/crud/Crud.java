@@ -5,17 +5,6 @@
 package com.cdi.crud;
 
 
-import com.cdi.crud.model.BaseEntity;
-import com.cdi.crud.util.Assert;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.*;
-import org.hibernate.sql.JoinType;
-
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -23,22 +12,46 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
+
+import com.cdi.crud.model.BaseEntity;
+import com.cdi.crud.persistence.TenantController;
+import com.cdi.crud.persistence.TenantType;
+import com.cdi.crud.qualifier.Tenant;
+import com.cdi.crud.util.Assert;
+
 /**
  * @author rmpestano Helper class to crud an entity
  *
- * Make sure you have a transcation before calling Insert/update or remove.
+ * Make sure you have a transaction before calling Insert/update or remove.
  * I did not make it transactional to be compatible with JavaEE6
  * Also cannot be an EJB itself cause EJBs may be shared between clients and entityClass
  * may be lost.
  */
 public class Crud<T extends BaseEntity> implements Serializable {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	private static final long serialVersionUID = 1L;
+	private final Logger log = Logger.getLogger(getClass().getName());
+	
+    @Inject
+    private TenantController tenantController;
+    private TenantType tenantType;
     protected Class<T> entityClass;
     private Criteria criteria;
     private Session session;
-    private Logger log;
 
     public Class<T> getEntityClass() {
         if (entityClass == null) {
@@ -52,11 +65,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public void Crud(InjectionPoint ip) {
         if (ip != null && ip.getType() != null) {
             try {
-                ParameterizedType type = (ParameterizedType) ip.getType();
-                Type[] typeArgs = type.getActualTypeArguments();
-                Class<T> entityClass = (Class<T>) typeArgs[0];
-                this.entityClass = entityClass;
-                log = Logger.getLogger(getClass().getName());
+                entityClass = resolveEntity(ip);
+                tenantType = resolveTenant(ip);
             } catch (Exception e) {
                 throw new IllegalArgumentException("provide entity class at injection point eg: @Inject Crud<Entity> crud");
             }
@@ -66,8 +76,38 @@ public class Crud<T extends BaseEntity> implements Serializable {
                     "Provide entity at injection point ex: @Inject Crud<Entity> crud");
         }
     }
+    
+    public void setTenantType(TenantType tenantType) {
+		this.tenantType = tenantType;
+	}
 
-    // buider methods
+	private Class<T> resolveEntity(InjectionPoint ip) {
+		ParameterizedType type = (ParameterizedType) ip.getType();
+		Type[] typeArgs = type.getActualTypeArguments();
+		Class<T> entityClass = (Class<T>) typeArgs[0];
+		return entityClass;
+	}
+
+	/**
+	 * resolve TynantType by looking for @Tenant annotation at injectionPoint
+	 * level  eg: @Inject @Tenant(CAR)
+			  Crud<Car> carCrud;
+	 * 
+	 * @param ip
+	 */
+	private TenantType resolveTenant(InjectionPoint ip) {
+		if(tenantType != null){
+			//already set by service layer
+			return tenantType;
+		}
+		if (ip.getAnnotated().isAnnotationPresent(Tenant.class)) {
+			return ip.getAnnotated().getAnnotation(Tenant.class).value();
+		}
+		
+		return TenantType.CAR;// default tenant is CarPU
+	}
+
+	// buider methods
     public Crud<T> example(T entity) {
         if (entity != null) {
             getCriteria().add(Example.create(entity));
@@ -97,7 +137,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     public Crud<T> example(T entity, MatchMode mode) {
         if (entity != null) {
-            getCriteria().add(Example.create(entity).enableLike(mode));
+            getCriteria().add(Example.create(entity).enableLike(mode).ignoreCase());
         } else {
             log.warning("cannot create example for a null entity.");
             return this;
@@ -108,7 +148,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     public Crud<T> example(T entity, MatchMode mode, List<String> excludeProperties) {
         Example example = null;
         if (entity != null) {
-            example = Example.create(entity).enableLike(mode);
+            example = Example.create(entity).enableLike(mode).ignoreCase();
         } else {
             log.warning("cannot create example for a null entity.");
             return this;
@@ -478,15 +518,11 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public List<T> findWithNamedQuery(String namedQueryName) {
-        return this.entityManager.createNamedQuery(namedQueryName).getResultList();
+        return getEntityManager().createNamedQuery(namedQueryName).getResultList();
     }
 
     public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+        return tenantController.getTenant(tenantType);
     }
 
 

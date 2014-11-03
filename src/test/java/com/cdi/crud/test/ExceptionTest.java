@@ -1,6 +1,6 @@
 package com.cdi.crud.test;
 
-import com.cdi.crud.bean.CarBean;
+import com.cdi.crud.bean.CrudBean;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
 import org.apache.deltaspike.testcontrol.api.TestControl;
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 public class ExceptionTest {
 
     @Inject
-    CarBean carBean;
+    CrudBean carBean;
 
     @Test
     public void shouldAddFacesMessageOnCustomException(){
