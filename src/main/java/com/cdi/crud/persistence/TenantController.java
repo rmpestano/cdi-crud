@@ -25,7 +25,7 @@ public class TenantController {
 			return movieEm;
 			default:{
 				Logger.getLogger(getClass().getCanonicalName()).info("no tenant provided, resolving to CarPU");
-				return carEm;//force error, we dont want to resolve it by "accident"
+				return carEm;//default datasource
 			}
 		}
 	}
