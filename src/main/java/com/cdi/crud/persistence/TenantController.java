@@ -1,10 +1,10 @@
 package com.cdi.crud.persistence;
 
-import java.util.logging.Logger;
-
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.logging.Logger;
 
 
 @RequestScoped
@@ -29,5 +29,16 @@ public class TenantController {
 			}
 		}
 	}
+
+    @PreDestroy
+    public void dispose(){
+        if(carEm.isOpen()){
+            carEm.close();
+        }
+        if(movieEm.isOpen()){
+            movieEm.close();
+        }
+    }
+
 
 }
