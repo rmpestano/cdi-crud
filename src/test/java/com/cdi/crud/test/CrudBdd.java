@@ -2,6 +2,7 @@ package com.cdi.crud.test;
 
 import com.cdi.crud.model.Car;
 import com.cdi.crud.service.CarService;
+import com.cdi.crud.test.util.DBUnitUtils;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -15,7 +16,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,6 +36,8 @@ public class CrudBdd {
 	@Deployment(name = "cdi-crud.war")
 	public static Archive<?> createDeployment() {
 		WebArchive war = Deployments.getBaseDeployment();
+        war.addAsResource("datasets/car.yml","car.yml").//needed by DBUnitUtils
+                addClass(DBUnitUtils.class);
 		System.out.println(war.toString(true));
 		return war;
 	}
@@ -43,29 +45,12 @@ public class CrudBdd {
 
 	@Before
 	public void initDataset() {
-		/** same as car.yml
-		 */
-
-		Car ferrari = new Car("Ferrari",2450.8d);
-		
-		Car mustang = new Car("Mustang",12999.0d);
-		
-		Car porche = new Car("Porche",1390.3d);
-		
-		Car porche274 = new Car("Porche274",18990.23);
-		
-		carService.insert(ferrari);
-		carService.insert(mustang);
-		carService.insert(porche);
-		carService.insert(porche274);
-
+        DBUnitUtils.createDataset("car.yml");
 	}
 
     @After
     public void clear(){
-        if(carService.crud().countAll() > 0){
-            carService.remove(carService.listAll());
-        }
+        DBUnitUtils.deleteDataset("car.yml");
     }
 
 	@Given("^search car with model \"([^\"]*)\"$")
@@ -74,7 +59,6 @@ public class CrudBdd {
 	// https://github.com/cukespace/cukespace/issues/37
 	public void searchCarWithModel(String model) {
 		Car carExample = new Car();
-		List<Car> cars = carService.listAll();
 		carExample.setModel(model);
 		carFound = carService.findByExample(carExample);
 		assertNotNull(carFound); 
