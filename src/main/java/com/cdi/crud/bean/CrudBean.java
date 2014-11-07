@@ -4,6 +4,22 @@
  */
 package com.cdi.crud.bean;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+
 import com.cdi.crud.Crud;
 import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.Car;
@@ -13,23 +29,6 @@ import com.cdi.crud.persistence.TenantType;
 import com.cdi.crud.qualifier.Tenant;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.service.MovieService;
-
-import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
-import org.hibernate.criterion.MatchMode;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
-
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -127,6 +126,9 @@ public class CrudBean implements Serializable {
 			throw new CustomException("Provide Car ID to load");
 		}
 		car = carCrud.get(id);
+		if(car == null){
+		  throw new CustomException("Car not found with id "+id);
+		}
 	}
 
 	public List<Car> getFilteredValue() {

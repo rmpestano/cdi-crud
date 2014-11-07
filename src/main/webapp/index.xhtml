@@ -35,7 +35,7 @@
                     </p:column>
                     <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}"  filterMatchMode="contains">
                         <f:facet name="filter">
-                            <p:autoComplete value="#{crudBean.filter.entity.model}" minQueryLength="3" queryDelay="600" completeMethod="#{crudBean.completeModel}" maxResults="10" >
+                            <p:autoComplete value="#{crudBean.filter.entity.model}" forceSelection="true"  minQueryLength="2" queryDelay="500" completeMethod="#{crudBean.completeModel}" maxResults="10" >
                                 <p:ajax event="blur" process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
                             </p:autoComplete>
                         </f:facet>
@@ -53,7 +53,7 @@
                 </p:dataTable>
             </h:panelGroup>
             <p>
-                Find Car by id: <p:inputText value="#{crudBean.id}"/> <p:commandButton value="Find" action="#{crudBean.findCarById(crudBean.id)}" process="@form" update="@form" partialSubmit="true"/>
+                Find Car by id: <p:inputText id="inptId" value="#{crudBean.id}"/> <p:commandButton value="Find" action="#{crudBean.findCarById(crudBean.id)}" process="@form" update="@form" partialSubmit="true"/>
             </p>
 
             <p:fieldset legend="Manage Cars">

@@ -14,9 +14,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<deltaspike.version>1.0.3</deltaspike.version>
-        <version.selenium>2.43.1</version.selenium>
-        <version.drone>2.0.0.Alpha2</version.drone>
-        <version.graphene>2.1.0.Alpha1</version.graphene>
+		<version.selenium>2.43.1</version.selenium>
+		<version.drone>2.0.0.Alpha2</version.drone>
+		<version.graphene>2.1.0.Alpha1</version.graphene>
 	</properties>
 
 	<dependencies>
@@ -181,15 +181,15 @@
 			<scope>test</scope>
 		</dependency>
 
-        <!-- graphene -->
+		<!-- graphene -->
 
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver</artifactId>
-            <type>pom</type>
-            <scope>test</scope>
-            <version>${version.graphene}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.graphene</groupId>
+			<artifactId>graphene-webdriver</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+			<version>${version.graphene}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.deltaspike.modules</groupId>
@@ -197,12 +197,30 @@
 			<version>${deltaspike.version}</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.3.2</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.3.3.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -214,20 +232,20 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.selenium</groupId>
-                <artifactId>selenium-bom</artifactId>
-                <version>${version.selenium}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${version.drone}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian.selenium</groupId>
+				<artifactId>selenium-bom</artifactId>
+				<version>${version.selenium}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-drone-bom</artifactId>
+				<version>${version.drone}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

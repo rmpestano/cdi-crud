@@ -1,5 +1,7 @@
 package com.cdi.crud.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -18,8 +20,6 @@ import com.cdi.crud.qualifier.Tenant;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.service.MovieService;
 
-import static org.assertj.core.api.Assertions.*;
-
 /**
  * Created by RAFAEL-PESTANO on 03/11/2014.
  *
@@ -32,6 +32,7 @@ public class MultiTenantIt {
 
   @Deployment(name = "cdi-crud.war")
   public static Archive<?> createDeployment() {
+ 
     WebArchive war = Deployments.getBaseDeployment();
     
     System.out.println(war.toString(true));

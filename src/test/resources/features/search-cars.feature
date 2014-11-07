@@ -19,3 +19,11 @@ Examples:
 | 10000.0   | 2      |
 | 13000.0   | 3      |
 
+Scenario Outline: search car by id
+When search car by id <id>
+Then must return car with model <"model">
+Examples:
+| id     | model   |
+| 1      | Ferrari |
+| 2      | Mustang |
+| 3      | Porche  |

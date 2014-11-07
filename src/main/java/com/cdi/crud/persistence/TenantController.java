@@ -1,13 +1,12 @@
 package com.cdi.crud.persistence;
 
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.logging.Logger;
 
+import javax.annotation.PreDestroy;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-@RequestScoped
+
 public class TenantController {
 
 	@PersistenceContext(unitName="CarPU")

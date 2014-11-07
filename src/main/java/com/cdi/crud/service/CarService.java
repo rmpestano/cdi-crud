@@ -4,22 +4,21 @@
  */
 package com.cdi.crud.service;
 
-import com.cdi.crud.Crud;
-import com.cdi.crud.exception.CustomException;
-import com.cdi.crud.model.Car;
-import com.cdi.crud.model.Filter;
-import com.cdi.crud.model.Movie;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+
+import com.cdi.crud.exception.CustomException;
+import com.cdi.crud.model.Car;
+import com.cdi.crud.model.Filter;
+import com.cdi.crud.model.Movie;
 
 /**
  *
