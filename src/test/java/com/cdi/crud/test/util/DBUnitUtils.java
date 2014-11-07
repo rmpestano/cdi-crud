@@ -12,63 +12,59 @@ import java.sql.SQLException;
 
 public class DBUnitUtils {
 
-  private static DataSource         ds;
+    private static DataSource ds;
 
-  private static DatabaseConnection databaseConnection;
+    private static DatabaseConnection databaseConnection;
 
-  public static void createDataset(String dataset) {
+    public static void createDataset(String dataset) {
 
-    if (!dataset.startsWith("/")) {
-      dataset = "/" + dataset;
-    }
-    try {
-      initConn();
-      DatabaseOperation.CLEAN_INSERT.execute(databaseConnection, new YamlDataSet(DBUnitUtils.class.getResourceAsStream(dataset)));
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("nao foi possivel inicializar dataset:" + dataset + " \nmessage: " + e.getMessage());
-    } finally {
-      try {
-        closeConn();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new RuntimeException("nao foi possivel fechar conexao para dataset:" + dataset + " \nmessage: " + e.getMessage());
-      }
-    }
-  }
-
-  public static void deleteDataset(String dataset) {
-    if (!dataset.startsWith("/")) {
-      dataset = "/" + dataset;
-    }
-    try {
-      initConn();
-      DatabaseOperation.DELETE_ALL.execute(databaseConnection, new YamlDataSet(DBUnitUtils.class.getResourceAsStream(dataset)));
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("nao foi possivel deletar dataset:" + dataset + " \nmessage: " + e.getMessage());
-    } finally {
-      try {
-        closeConn();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new RuntimeException("nao foi possivel fechar conexao para dataset:" + dataset + " \nmessage: " + e.getMessage());
-      }
-    }
-  }
-
-  private static void closeConn() throws SQLException {
-    if (databaseConnection != null && !databaseConnection.getConnection().isClosed()) {
-      databaseConnection.getConnection().close();
+        if (!dataset.startsWith("/")) {
+            dataset = "/" + dataset;
+        }
+        try {
+            initConn();
+            DatabaseOperation.CLEAN_INSERT.execute(databaseConnection, new YamlDataSet(DBUnitUtils.class.getResourceAsStream(dataset)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("could not initialize dataset:" + dataset + " \nmessage: " + e.getMessage());
+        } finally {
+            closeConn();
+        }
     }
 
-  }
-
-  private static void initConn() throws SQLException, NamingException, DatabaseUnitException {
-    if (ds == null) {
-      ds = (DataSource) new InitialContext().lookup("java:jboss/datasources/ExampleDS");
+    public static void deleteDataset(String dataset) {
+        if (!dataset.startsWith("/")) {
+            dataset = "/" + dataset;
+        }
+        try {
+            initConn();
+            DatabaseOperation.DELETE_ALL.execute(databaseConnection, new YamlDataSet(DBUnitUtils.class.getResourceAsStream(dataset)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("could not delete dataset dataset:" + dataset + " \nmessage: " + e.getMessage());
+        } finally {
+            closeConn();
+        }
     }
-    databaseConnection = new DatabaseConnection(ds.getConnection());
-  }
+
+    private static void closeConn() {
+        try {
+            if (databaseConnection != null && !databaseConnection.getConnection().isClosed()) {
+                databaseConnection.getConnection().close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("could not close conection \nmessage: " + e.getMessage());
+        }
+
+
+    }
+
+    private static void initConn() throws SQLException, NamingException, DatabaseUnitException {
+        if (ds == null) {
+            ds = (DataSource) new InitialContext().lookup("java:jboss/datasources/ExampleDS");
+        }
+        databaseConnection = new DatabaseConnection(ds.getConnection());
+    }
 
 }
