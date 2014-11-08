@@ -4,18 +4,18 @@ A refactored version of https://github.com/rmpestano/cdi-generic-dao, created th
 This project is also referenced [in this post](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/) and [this one](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/).
 
 
-## How run it:
+### How run it:
 
 1. choose the maven profile(wildfly{default}, glassfish(4) or jboss)
 2. run on your favourite IDE
 
-## Runnig tests:
+### Runnig tests:
 
 * via maven: mvn clean test -Ptests -Pwildfly-managed 
 * or via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudAt as Junit test
 
 
-## Technologies:
+### Technologies:
 
 * CDI
 * JSF
@@ -27,16 +27,16 @@ This project is also referenced [in this post](http://rpestano.wordpress.com/201
 * DBUnit
 
 
-## Application servers
+### Application servers
 Tested under:
 * Wildfly 8.x
 * Glassfish 4.0
 * JBossAS 7.2.0.Final
 
-## Forge plugin
+### Forge plugin
 if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin) which generates Crud in the format you see at this project. 
 
-## Crud helper 
+### Crud helper 
 Also if you want to import Crud utility class directly into your project, you can use maven dependencies below:
 
 ```xml
@@ -74,7 +74,7 @@ Also if you want to import Crud utility class directly into your project, you ca
     </repository>
 </repositories>
 ```
-== Continous integration
+### Continous integration
 [Travis-CI](https://travis-ci.org/rmpestano/cdi-crud) build:
 [![Build Status](https://travis-ci.org/rmpestano/cdi-crud.png)](https://travis-ci.org/rmpestano/cdi-crud)
 
