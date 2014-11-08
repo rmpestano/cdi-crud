@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 @Path("/dbunit")
-@Stateless
 public class DBUnitRest {
 
 
