@@ -53,15 +53,15 @@
                 </p:dataTable>
             </h:panelGroup>
             <p>
-                Find Car by id: <p:inputText id="inptId" value="#{crudBean.id}"/> <p:commandButton value="Find" action="#{crudBean.findCarById(crudBean.id)}" process="@form" update="@form" partialSubmit="true"/>
+                Find Car by id: <p:inputText id="inptId" value="#{crudBean.id}"/> <p:commandButton id="brFind" value="Find" action="#{crudBean.findCarById(crudBean.id)}" process="@form" update="@form" partialSubmit="true"/>
             </p>
 
             <p:fieldset legend="Manage Cars">
                 <h:panelGrid columns="2" id="grid">
-                    <h:outputLabel value="Model:" for="name"/>
-                    <p:inputText id="name" value="#{crudBean.car.model}"/>
-                    <h:outputLabel value="Price:" for="age"/>
-                    <p:inputText id="age" value="#{crudBean.car.price}"/>
+                    <h:outputLabel value="Model:" for="inptModel"/>
+                    <p:inputText id="inptModel" value="#{crudBean.car.model}"/>
+                    <h:outputLabel value="Price:" for="inptPrice"/>
+                    <p:inputText id="inptPrice" value="#{crudBean.car.price}"/>
                     <p:commandButton value="Save/Update" action="#{crudBean.update}" process="@(table[id$=grid])" update="@form"/>
                     <p:commandButton value="Delete" action="#{crudBean.remove}" process="@form" update="@form"/>
                     <p:commandButton value="Clear" action="#{crudBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>

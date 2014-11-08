@@ -19,11 +19,12 @@ Examples:
 | 10000.0   | 2      |
 | 13000.0   | 3      |
 
+@functional
 Scenario Outline: search car by id
 When search car by id <id>
-Then must return car with model <"model">
+Then must find car with model "<model>" and price <price>
 Examples:
-| id     | model   |
-| 1      | Ferrari |
-| 2      | Mustang |
-| 3      | Porche  |
+| id     | model   |  price  |
+| 1      | Ferrari | 2450.8  |
+| 2      | Mustang | 12999.0 |
+| 3      | Porche  | 1390.3  |
