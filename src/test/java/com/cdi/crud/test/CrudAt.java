@@ -34,11 +34,10 @@ import org.openqa.selenium.WebDriver;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(ArquillianCucumber.class)
 @Features("features/search-cars.feature")
-@Tags("@functional")
+@Tags("@blackbox")
 public class CrudAt {
   
   @Deployment(name = "cdi-crud.war", testable=false)
@@ -88,6 +87,5 @@ public class CrudAt {
     assertEquals(model,index.getInputModel().getAttribute("value"));
     assertEquals(price,Double.parseDouble(index.getInputPrice().getAttribute("value")),0);
   }
-
 
 }

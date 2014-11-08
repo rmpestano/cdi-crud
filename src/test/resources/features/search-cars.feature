@@ -1,5 +1,6 @@
-Feature: Search and update car
+Feature: Search cars
 
+@whitebox
 Scenario Outline: simple search and update
 Given search car with model "Ferrari"
 When update model to "Audi"
@@ -9,6 +10,7 @@ Examples:
 | Audi  | 1      |
 | outro | 0      |
 
+@whitebox
 Scenario Outline: search car by price
 When search car with price less than <price>
 Then must return <number> cars
@@ -19,7 +21,7 @@ Examples:
 | 10000.0   | 2      |
 | 13000.0   | 3      |
 
-@functional
+@blackbox
 Scenario Outline: search car by id
 When search car by id <id>
 Then must find car with model "<model>" and price <price>

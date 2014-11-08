@@ -10,6 +10,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
+import cucumber.runtime.arquillian.api.Tags;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -21,70 +22,69 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(ArquillianCucumber.class)
-// @RunWith(CukeSpace.class)
 @Features("features/search-cars.feature")
-// @CucumberOptions(strict = true)
+@Tags("@whitebox")
 public class CrudBdd {
 
-	@Inject
-	CarService carService;
+    @Inject
+    CarService carService;
 
-	Car carFound;
-	
-	int numCarsFound;
+    Car carFound;
 
-	@Deployment(name = "cdi-crud.war")
-	public static Archive<?> createDeployment() {
-		WebArchive war = Deployments.getBaseDeployment();
-        war.addAsResource("datasets/car.yml","car.yml").//needed by DBUnitUtils
+    int numCarsFound;
+
+    @Deployment(name = "cdi-crud.war")
+    public static Archive<?> createDeployment() {
+        WebArchive war = Deployments.getBaseDeployment();
+        war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
                 addClass(DBUnitUtils.class);
-		System.out.println(war.toString(true));
-		return war;
-	}
+        System.out.println(war.toString(true));
+        return war;
+    }
 
 
-	@Before
-	public void initDataset() {
-      DBUnitUtils.createDataset("car.yml");
-	}
+    @Before
+    public void initDataset() {
+        DBUnitUtils.createDataset("car.yml");
+    }
 
-  @After
-  public void clear(){
-      DBUnitUtils.deleteDataset("car.yml");
-   }
+    @After
+    public void clear() {
+        DBUnitUtils.deleteDataset("car.yml");
+    }
 
-	@Given("^search car with model \"([^\"]*)\"$")
-	// @UsingDataSet("car.yml")//dataset has car with model = "Ferrari",
-	// usingDataset commented because of issue:
-	// https://github.com/cukespace/cukespace/issues/37
-	public void searchCarWithModel(String model) {
-		Car carExample = new Car();
-		carExample.setModel(model);
-		carFound = carService.findByExample(carExample);
-		assertNotNull(carFound); 
-	}
+    @Given("^search car with model \"([^\"]*)\"$")
+    // @UsingDataSet("car.yml")//dataset has car with model = "Ferrari",
+    // usingDataset commented because of issue:
+    // https://github.com/cukespace/cukespace/issues/37
+    public void searchCarWithModel(String model) {
+        Car carExample = new Car();
+        carExample.setModel(model);
+        carFound = carService.findByExample(carExample);
+        assertNotNull(carFound);
+    }
 
-	@When("^update model to \"([^\"]*)\"$")
-	public void updateModel(String model) {
-		carFound.setModel(model);
-		carService.update(carFound);
-	}
+    @When("^update model to \"([^\"]*)\"$")
+    public void updateModel(String model) {
+        carFound.setModel(model);
+        carService.update(carFound);
+    }
 
-	@Then("^searching car by model \"([^\"]*)\" must return (\\d+) of records$")
-	public void searchingCarByModel(final String model, final int result) {
-		Car carExample = new Car();
-		carExample.setModel(model);
-		assertEquals(result, carService.crud().example(carExample).count());
-	}
+    @Then("^searching car by model \"([^\"]*)\" must return (\\d+) of records$")
+    public void searchingCarByModel(final String model, final int result) {
+        Car carExample = new Car();
+        carExample.setModel(model);
+        assertEquals(result, carService.crud().example(carExample).count());
+    }
 
-	@When("^search car with price less than (.+)$")
-	public void searchCarWithPrice(final double price){
-		numCarsFound = carService.crud().initCriteria().le("price", price).count();
-	}
-	
-	@Then("^must return (\\d+) cars")
-	public void mustReturnCars(final int result){
-		assertEquals(result,numCarsFound);
-	}
+    @When("^search car with price less than (.+)$")
+    public void searchCarWithPrice(final double price) {
+        numCarsFound = carService.crud().initCriteria().le("price", price).count();
+    }
+
+    @Then("^must return (\\d+) cars")
+    public void mustReturnCars(final int result) {
+        assertEquals(result, numCarsFound);
+    }
 
 }
