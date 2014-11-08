@@ -13,7 +13,7 @@
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>4.3.5.Final</hibernate.version>
-		<deltaspike.version>1.0.3</deltaspike.version>
+		<deltaspike.version>1.1.0</deltaspike.version>
 		<version.selenium>2.43.1</version.selenium>
 		<version.drone>2.0.0.Alpha2</version.drone>
 		<version.graphene>2.1.0.Alpha1</version.graphene>

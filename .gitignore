@@ -40,6 +40,8 @@ test-output/
 
 
 
-# JBoss AS
 
-transaction.log
+*.log
+
+#linux te files
+*~
