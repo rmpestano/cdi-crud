@@ -1,18 +1,34 @@
 package com.cdi.crud.test;
 
-import com.cdi.crud.Crud;
+import java.io.File;
+
+import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.persistence.UsingDataSet;
+import org.jboss.arquillian.persistence.dbunit.dataset.Row;
+import org.jboss.arquillian.persistence.dbunit.dataset.Table;
+import org.jboss.arquillian.persistence.dbunit.dataset.yaml.YamlDataSet;
+import org.jboss.arquillian.persistence.dbunit.dataset.yaml.YamlDataSetProducer;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.Filters;
+import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 
-import java.io.File;
+import com.cdi.crud.Crud;
+import com.cdi.crud.bean.CrudBean;
+import com.cdi.crud.test.dbunit.DBUnitRest;
+import com.cdi.crud.test.dbunit.DBUnitUtils;
 
 /**
  * @author rafael-pestano 20/07/2013 16:49:34
  *         <p/>
  *         Arquillian WebArchive factory
  */
+@ArquillianSuiteDeployment
 public class Deployments {
 
 
@@ -22,6 +38,8 @@ public class Deployments {
     /**
      * @return base WebArchive for all arquillian tests
      */
+    @Deployment(name="it",order=1)
+    @UsingDataSet("car.yml")
     public static WebArchive getBaseDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class);
         war.addPackages(true, "com.cdi.crud.model");
@@ -30,7 +48,10 @@ public class Deployments {
         war.addPackages(true, "com.cdi.crud.persistence");
         war.addPackages(true, "com.cdi.crud.qualifier");
         war.addPackages(true, "com.cdi.crud.util").
-        addClass(Crud.class);
+        addClass(Crud.class).
+        //addClass(Datasource.class).
+        addClass(CrudIt.class).//only needed by SuiteExtension
+        addClass(MultiTenantIt.class);
         //LIBS
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces:primefaces:5.0").withoutTransitivity().asSingleFile());
@@ -41,6 +62,9 @@ public class Deployments {
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.1.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.1.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core:1.7.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.h2database:h2:1.3.169").withoutTransitivity().asSingleFile());
+  
+        
 
         //WEB-INF
 
@@ -54,5 +78,34 @@ public class Deployments {
 
         return war;
     }
+    
+    
+    @Deployment(name = "bdd",order=2)
+    public static Archive<?> createBddDeployment() {
+        WebArchive war = Deployments.getBaseDeployment();
+        war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
+                addClass(DBUnitUtils.class);
+        System.out.println(war.toString(true));
+        return war;
+    }
+    
+    
+    @Deployment(name = "at", testable=false,order=3)
+    public static Archive<?> createAtDeployment() {
+      WebArchive war = Deployments.getBaseDeployment();
+          war.addAsResource("datasets/car.yml","car.yml").//needed by DBUnitUtils
+                  addPackage(DBUnitUtils.class.getPackage()).addClass(CrudBean.class).addClass(YamlDataSet.class).
+                  addClass(YamlDataSetProducer.class).
+                  addClass(Row.class).addClass(Table.class).addClass(DBUnitRest.class);
+          
+          war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory("src/main/webapp").as(GenericArchive.class), "/", Filters.include(".*\\.(xhtml|html|css|js|png|gif)$"));
+          MavenResolverSystem resolver = Maven.resolver();
+          war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
+          war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.yaml:snakeyaml:1.10").withoutTransitivity().asSingleFile());
+      System.out.println(war.toString(true));
+      return war;
+    }
+    
+    
 
 }

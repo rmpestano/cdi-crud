@@ -1,21 +1,22 @@
 package com.cdi.crud.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
 import com.cdi.crud.service.CarService;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.persistence.UsingDataSet;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by rmpestano on 9/7/14.
@@ -26,27 +27,28 @@ public class CrudIt {
     @Inject
     CarService carService;
 
-    @Deployment(name = "cdi-crud.war")
-    public static Archive<?> createDeployment() {
-        WebArchive war = Deployments.getBaseDeployment();
-        System.out.println(war.toString(true));
-        return war;
-    }
+//    @Deployment(name = "cdi-crud.war")
+//    public static Archive<?> createDeployment() {
+//        WebArchive war = Deployments.getBaseDeployment();
+//        System.out.println(war.toString(true));
+//        return war;
+//    }
 
     @Test
+    @OperateOnDeployment("it")
     public void shouldBeInitialized() {
         assertNotNull(carService);
         assertEquals(carService.crud().countAll(), 0);
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldCountCars() {
         assertEquals(carService.crud().countAll(), 4);
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldFindCarById() {
         Car car = carService.findById(1);
         assertNotNull(car);
@@ -54,7 +56,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldFindCarByExample() {
         Car carExample = new Car();
         carExample.setModel("Ferrari");
@@ -64,6 +66,7 @@ public class CrudIt {
     }
 
     @Test
+    @OperateOnDeployment("it")
     public void shouldInsertCar(){
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,0);
@@ -73,7 +76,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldRemoveCar(){
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,4);
@@ -82,7 +85,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldListCarsModel(){
         List<Car> cars = carService.listByModel("porche");
         assertNotNull(cars);
@@ -90,7 +93,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldPaginateCars(){
         Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(1);
         List<Car> cars = carService.paginate(carFilter);
@@ -109,7 +112,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldPaginateAndSortCars(){
         Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(4).setSortField("model").setSortOrder(SortOrder.DESCENDING);
         List<Car> cars = carService.paginate(carFilter);
@@ -120,7 +123,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldPaginateCarsByModel(){
         Car carExample = new Car();
         carExample.setModel("Ferrari");
@@ -132,7 +135,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldPaginateCarsByPrice(){
         Car carExample = new Car();
         carExample.setPrice(12999.0);
@@ -144,7 +147,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldPaginateCarsByIdInParam(){
         Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(2).addParam("id",1);
         List<Car> cars = carService.paginate(carFilter);
@@ -154,7 +157,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldListCarsByPrice(){
         List<Car> cars = carService.crud().between("price", (double) 1000, (double) 2450.9).addOrderAsc("price").list();
         //ferrari and porche
@@ -165,7 +168,7 @@ public class CrudIt {
     }
 
     @Test
-    @UsingDataSet("car.yml")
+    @OperateOnDeployment("it")
     public void shouldGetCarModels(){
         List<String> models = carService.getModels("po");
         //porche and Porche274

@@ -4,6 +4,7 @@ import com.cdi.crud.bean.CrudBean;
 import com.cdi.crud.test.dbunit.DBUnitRest;
 import com.cdi.crud.test.dbunit.DBUnitUtils;
 import com.cdi.crud.test.pages.IndexPage;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
@@ -11,7 +12,9 @@ import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
 import cucumber.runtime.arquillian.api.Tags;
+
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.page.Page;
@@ -40,21 +43,7 @@ import static org.junit.Assert.assertEquals;
 @Tags("@blackbox")
 public class CrudAt {
   
-  @Deployment(name = "cdi-crud.war", testable=false)
-  public static Archive<?> createDeployment() {
-    WebArchive war = Deployments.getBaseDeployment();
-        war.addAsResource("datasets/car.yml","car.yml").//needed by DBUnitUtils
-                addPackage(DBUnitUtils.class.getPackage()).addClass(CrudBean.class).addClass(YamlDataSet.class).
-                addClass(YamlDataSetProducer.class).
-                addClass(Row.class).addClass(Table.class).addClass(DBUnitRest.class);
-        
-        war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory("src/main/webapp").as(GenericArchive.class), "/", Filters.include(".*\\.(xhtml|html|css|js|png|gif)$"));
-        MavenResolverSystem resolver = Maven.resolver();
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.yaml:snakeyaml:1.10").withoutTransitivity().asSingleFile());
-    System.out.println(war.toString(true));
-    return war;
-  }
+  
   
   @ArquillianResource
   URL url;
@@ -77,12 +66,14 @@ public class CrudAt {
    }
   
   @When("^search car by id (\\d+)$")
+  @OperateOnDeployment("at")
   public void searchCarById(int id){
       Graphene.goTo(IndexPage.class);
       index.findById(""+id);
   }
   
   @Then("^must find car with model \"([^\"]*)\" and price (.+)$")
+  @OperateOnDeployment("at")
   public void returnCarsWithModel(String model, final double price){
     assertEquals(model,index.getInputModel().getAttribute("value"));
     assertEquals(price,Double.parseDouble(index.getInputPrice().getAttribute("value")),0);

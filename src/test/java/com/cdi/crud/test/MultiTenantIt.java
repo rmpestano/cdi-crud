@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.inject.Inject;
 
-import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -30,7 +30,7 @@ import com.cdi.crud.service.MovieService;
 @RunWith(Arquillian.class)
 public class MultiTenantIt {
 
-  @Deployment(name = "cdi-crud.war")
+  //@Deployment(name = "cdi-crud.war")
   public static Archive<?> createDeployment() {
  
     WebArchive war = Deployments.getBaseDeployment();
@@ -69,21 +69,25 @@ public class MultiTenantIt {
   }
   
   @Test
+  @OperateOnDeployment("whitebox")
   public void shouldListCarsUsingDefaultTenant(){
 	 assertThat(carService.listAll()).hasSize(10).contains(new Car(1));
   }
   
   @Test
+  @OperateOnDeployment("whitebox")
   public void shouldListMoviesUsingServiceWithTenantAnnotation(){
 	 assertThat(movieService.listAll()).hasSize(10);
   }
   
   @Test
+  @OperateOnDeployment("whitebox")
   public void shouldListCarsUsingTenantAnnotationAtInjectionPoint(){
 	  assertThat(carCrud.listAll()).hasSize(10).contains(new Car(1));
   }
   
   @Test
+  @OperateOnDeployment("whitebox")
   public void shouldFindMovieUsingCarTenant(){
 	  Movie movie = carService.findMovie("moViE2");
 	  assertThat(movie).isNotNull();
@@ -91,6 +95,7 @@ public class MultiTenantIt {
   }
   
   @Test
+  @OperateOnDeployment("whitebox")
   public void shouldNotListMoviesUsingCarDatasource(){
 	  assertThat(errorCrud.listAll()).isEmpty();
   }
