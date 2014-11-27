@@ -62,7 +62,7 @@ public class Deployments {
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.1.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.1.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core:1.7.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.h2database:h2:1.3.169").withoutTransitivity().asSingleFile());
+       // war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.h2database:h2:1.3.169").withoutTransitivity().asSingleFile());
   
         
 
@@ -83,6 +83,7 @@ public class Deployments {
     @Deployment(name = "bdd",order=2)
     public static Archive<?> createBddDeployment() {
         WebArchive war = Deployments.getBaseDeployment();
+        war.delete("/WEB-INF/jbossas-ds.xml");
         war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
                 addClass(DBUnitUtils.class);
         System.out.println(war.toString(true));
@@ -97,7 +98,7 @@ public class Deployments {
                   addPackage(DBUnitUtils.class.getPackage()).addClass(CrudBean.class).addClass(YamlDataSet.class).
                   addClass(YamlDataSetProducer.class).
                   addClass(Row.class).addClass(Table.class).addClass(DBUnitRest.class);
-          
+          war.delete("/WEB-INF/jbossas-ds.xml");
           war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory("src/main/webapp").as(GenericArchive.class), "/", Filters.include(".*\\.(xhtml|html|css|js|png|gif)$"));
           MavenResolverSystem resolver = Maven.resolver();
           war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
