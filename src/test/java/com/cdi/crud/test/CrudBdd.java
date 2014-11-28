@@ -3,7 +3,6 @@ package com.cdi.crud.test;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.test.dbunit.DBUnitUtils;
-
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -12,9 +11,7 @@ import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
 import cucumber.runtime.arquillian.api.Tags;
-
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
@@ -36,14 +33,14 @@ public class CrudBdd {
 
     int numCarsFound;
 
-//    @Deployment(name = "cdi-crud.war")
-//    public static Archive<?> createDeployment() {
-//        WebArchive war = Deployments.getBaseDeployment();
-//        war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
-//                addClass(DBUnitUtils.class);
-//        System.out.println(war.toString(true));
-//        return war;
-//    }
+    @Deployment(name = "cdi-crud.war")
+    public static Archive<?> createDeployment() {
+        WebArchive war = Deployments.getBaseDeployment();
+        war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
+                addClass(DBUnitUtils.class);
+        System.out.println(war.toString(true));
+        return war;
+    }
 
 
     @Before
@@ -60,7 +57,6 @@ public class CrudBdd {
     // @UsingDataSet("car.yml")//dataset has car with model = "Ferrari",
     // usingDataset commented because of issue:
     // https://github.com/cukespace/cukespace/issues/37
-    @OperateOnDeployment("bdd")
     public void searchCarWithModel(String model) {
         Car carExample = new Car();
         carExample.setModel(model);
@@ -69,14 +65,12 @@ public class CrudBdd {
     }
 
     @When("^update model to \"([^\"]*)\"$")
-    @OperateOnDeployment("bdd")
     public void updateModel(String model) {
         carFound.setModel(model);
         carService.update(carFound);
     }
 
     @Then("^searching car by model \"([^\"]*)\" must return (\\d+) of records$")
-    @OperateOnDeployment("bdd")
     public void searchingCarByModel(final String model, final int result) {
         Car carExample = new Car();
         carExample.setModel(model);
@@ -84,13 +78,11 @@ public class CrudBdd {
     }
 
     @When("^search car with price less than (.+)$")
-    @OperateOnDeployment("bdd")
     public void searchCarWithPrice(final double price) {
         numCarsFound = carService.crud().initCriteria().le("price", price).count();
     }
 
     @Then("^must return (\\d+) cars")
-    @OperateOnDeployment("bdd")
     public void mustReturnCars(final int result) {
         assertEquals(result, numCarsFound);
     }

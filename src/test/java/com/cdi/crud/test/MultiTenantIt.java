@@ -1,17 +1,5 @@
 package com.cdi.crud.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import javax.inject.Inject;
-
-import org.jboss.arquillian.container.test.api.OperateOnDeployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import com.cdi.crud.Crud;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Movie;
@@ -19,6 +7,17 @@ import com.cdi.crud.persistence.TenantType;
 import com.cdi.crud.qualifier.Tenant;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.service.MovieService;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by RAFAEL-PESTANO on 03/11/2014.
@@ -30,7 +29,7 @@ import com.cdi.crud.service.MovieService;
 @RunWith(Arquillian.class)
 public class MultiTenantIt {
 
-  //@Deployment(name = "cdi-crud.war")
+  @Deployment(name = "cdi-crud.war")
   public static Archive<?> createDeployment() {
  
     WebArchive war = Deployments.getBaseDeployment();
@@ -69,25 +68,21 @@ public class MultiTenantIt {
   }
   
   @Test
-  @OperateOnDeployment("whitebox")
   public void shouldListCarsUsingDefaultTenant(){
 	 assertThat(carService.listAll()).hasSize(10).contains(new Car(1));
   }
   
   @Test
-  @OperateOnDeployment("whitebox")
   public void shouldListMoviesUsingServiceWithTenantAnnotation(){
 	 assertThat(movieService.listAll()).hasSize(10);
   }
   
   @Test
-  @OperateOnDeployment("whitebox")
   public void shouldListCarsUsingTenantAnnotationAtInjectionPoint(){
 	  assertThat(carCrud.listAll()).hasSize(10).contains(new Car(1));
   }
   
   @Test
-  @OperateOnDeployment("whitebox")
   public void shouldFindMovieUsingCarTenant(){
 	  Movie movie = carService.findMovie("moViE2");
 	  assertThat(movie).isNotNull();
@@ -95,7 +90,6 @@ public class MultiTenantIt {
   }
   
   @Test
-  @OperateOnDeployment("whitebox")
   public void shouldNotListMoviesUsingCarDatasource(){
 	  assertThat(errorCrud.listAll()).isEmpty();
   }
