@@ -48,10 +48,11 @@ public class Deployments {
         war.addPackages(true, "com.cdi.crud.persistence");
         war.addPackages(true, "com.cdi.crud.qualifier");
         war.addPackages(true, "com.cdi.crud.util").
-        addClass(Crud.class).
-        //addClass(Datasource.class).
-        addClass(CrudIt.class).//only needed by SuiteExtension
-        addClass(MultiTenantIt.class);
+        addClass(Crud.class);
+        //war.addClass(Datasource.class).
+        war.addClass(CrudIt.class).//only needed by SuiteExtension
+        addClass(MultiTenantIt.class).
+        addClass(Deployments.class);
         //LIBS
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces:primefaces:5.0").withoutTransitivity().asSingleFile());
@@ -107,6 +108,16 @@ public class Deployments {
       return war;
     }
     
+    /**
+     * @return base WebArchive for all arquillian tests
+     */
+    @Deployment(name="tenant",order=4)//tenant deployment doesnt use dataset
+    //@UsingDataSet("car.yml")
+    public static WebArchive getTenantDeployment() {
+      WebArchive war = Deployments.getBaseDeployment();
+      war.delete("/WEB-INF/jbossas-ds.xml");
+        return war;
+    }
     
 
 }

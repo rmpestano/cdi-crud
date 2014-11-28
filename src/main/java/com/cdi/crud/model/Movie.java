@@ -24,6 +24,15 @@ public class Movie implements BaseEntity{
 	}
     
 
+    
+    public Movie(Long id) {
+      super();
+      this.id = id;
+    }
+
+
+
+
     public Movie(String name) {
 		super();
 		this.name = name;
