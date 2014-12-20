@@ -1,6 +1,11 @@
+sudo: false
 language: java
 jdk: oraclejdk7
 cache:
-directories:
-- '$HOME/.m2/repository'
-script: mvn install -Pwhitebox -Pwildfly-managed -Pjacoco -Pcoveralls
+  directories:
+    - '$HOME/.m2/repository'
+script:
+  - mvn install -Pwhitebox -Pwildfly-managed -Pjacoco -Pcoveralls
+  - mkdir /tmp/cache-trick
+  - mv $HOME/.m2/repository/ch/alv/sysinfos /tmp/cache-trick/
+  - rm $HOME/.m2/repository/ch/alv/components/*/*/resolver-status.properties
