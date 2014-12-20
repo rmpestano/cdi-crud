@@ -32,7 +32,7 @@ public class CarEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") Integer id) {
-        Car entity = carService.findByExample(new Car(id));
+        Car entity = carService.findById(id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -60,7 +60,7 @@ public class CarEndpoint {
     @GET
     @Produces("application/json")
     @Path("list")
-    public List<Car> listAll(@QueryParam("start") Integer startPosition, @QueryParam("max") Integer maxResult) {
+    public List<Car> listAll(@QueryParam("start") @DefaultValue("0") Integer startPosition, @QueryParam("max") @DefaultValue("10") Integer maxResult) {
         Filter<Car> filter = new Filter<>();
         filter.setFirst(startPosition).setPageSize(maxResult);
         final List<Car> results = carService.paginate(filter);
@@ -70,7 +70,7 @@ public class CarEndpoint {
     @PUT
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
-    public Response update(@PathParam("id") Integer id, Car entity) {
+    public Response update(@PathParam("id") Integer id,  Car entity) {
         if (entity == null) {
             return Response.status(Status.BAD_REQUEST).build();
         }
