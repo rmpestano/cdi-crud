@@ -395,6 +395,7 @@
                             <includes>
                                 <include>**/*It.java</include>
                                 <include>**/*Bdd.java</include>
+                                <include>**/*Rest.java</include>
                             </includes>
                         </configuration>
                     </plugin>
