@@ -1,7 +1,6 @@
 package com.cdi.crud.util;
 
 import org.apache.deltaspike.core.impl.config.ConfigurationExtension;
-import org.apache.deltaspike.core.impl.exception.control.extension.ExceptionControlExtension;
 import org.apache.deltaspike.core.impl.jmx.MBeanExtension;
 import org.apache.deltaspike.core.impl.message.MessageBundleExtension;
 import org.apache.deltaspike.core.spi.activation.ClassDeactivator;
@@ -18,7 +17,7 @@ public class DSExtensionDeactivator implements ClassDeactivator {
     @Override
     public Boolean isActivated(Class<? extends Deactivatable> targetClass)
     {
-        if (targetClass.equals(ExceptionControlExtension.class) ||
+        if (
                 targetClass.equals(MessageBundleExtension.class) ||
                 targetClass.equals(ConfigurationExtension.class) ||
                 targetClass.equals(MBeanExtension.class)) {

@@ -31,7 +31,8 @@ public class CarEndpoint {
 
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
-    public Response deleteById(@PathParam("id") Integer id) {
+    @RestSecured
+    public Response deleteById(@HeaderParam("user") String user, @PathParam("id") Integer id) {
         Car entity = carService.findById(id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();

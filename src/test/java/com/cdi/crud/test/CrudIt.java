@@ -3,6 +3,7 @@ package com.cdi.crud.test;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
+import com.cdi.crud.security.CustomAuthorizer;
 import com.cdi.crud.service.CarService;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -25,6 +26,9 @@ public class CrudIt {
 
     @Inject
     CarService carService;
+
+    @Inject
+    CustomAuthorizer authorizer;
 
     @Deployment(name = "cdi-crud.war")
     public static Archive<?> createDeployment() {
@@ -75,6 +79,7 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldRemoveCar(){
+        authorizer.login("admin");
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,4);
         carService.remove(new Car(1));

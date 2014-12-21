@@ -4,21 +4,20 @@
  */
 package com.cdi.crud.service;
 
-import java.util.List;
+import com.cdi.crud.exception.CustomException;
+import com.cdi.crud.model.Car;
+import com.cdi.crud.model.Filter;
+import com.cdi.crud.model.Movie;
+import com.cdi.crud.security.Admin;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-
-import com.cdi.crud.exception.CustomException;
-import com.cdi.crud.model.Car;
-import com.cdi.crud.model.Filter;
-import com.cdi.crud.model.Movie;
+import java.util.List;
 
 /**
  *
@@ -86,4 +85,10 @@ public class CarService extends CrudService<Car> {
 		example.setName(string);
 		return movieService.findByExample(example,MatchMode.ANYWHERE);
 	}
+
+    @Override
+    @Admin
+    public void remove(Car car) {
+        super.remove(car);
+    }
 }

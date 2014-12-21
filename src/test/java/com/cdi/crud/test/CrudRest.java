@@ -1,12 +1,12 @@
 package com.cdi.crud.test;
 
 import com.cdi.crud.bean.CrudBean;
-import com.cdi.crud.rest.CarEndpoint;
 import com.cdi.crud.test.dbunit.DBUnitRest;
 import com.cdi.crud.test.dbunit.DBUnitUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import com.jayway.restassured.http.ContentType;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.dbunit.dataset.Row;
@@ -39,8 +39,6 @@ public class CrudRest {
     @Deployment(name = "cdi-rest.war", testable = false)//run as client
     public static Archive<?> createDeployment() {
         WebArchive war = Deployments.getBaseDeployment();
-        war.addPackages(true, CarEndpoint.class.getPackage());
-
                 //create dbunit dataset remotely
         war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
         addClass(DBUnitUtils.class).addClass(DBUnitRest.class).addClass(CrudBean.class).addClass(YamlDataSet.class).
@@ -141,8 +139,32 @@ public class CrudRest {
     }
 
     @Test
+    public void shouldFailToDeleteCarWithoutAuthentication() {
+        given().
+                contentType(ContentType.JSON).
+                when().
+                delete(basePath + "rest/cars/1").  //dataset has car with id =1
+                then().
+                statusCode(Response.Status.FORBIDDEN.getStatusCode());
+    }
+
+
+    @Test
+    public void shouldFailToDeleteCarWithoutAuthorization() {
+        given().
+                contentType(ContentType.JSON).
+                header("user", "guest").
+                when().
+                delete(basePath + "rest/cars/1").  //dataset has car with id =1
+                then().
+                statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+    }
+
+    @Test
     public void shouldDeleteCar() {
         given().
+                contentType(ContentType.JSON).
+                header("user","admin").
         when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
         then().

@@ -26,6 +26,8 @@ public class Deployments {
         WebArchive war = ShrinkWrap.create(WebArchive.class);
         war.addPackages(true, "com.cdi.crud.model");
         war.addPackages(true, "com.cdi.crud.service");
+        war.addPackages(true, "com.cdi.crud.security");
+        war.addPackages(true, "com.cdi.crud.rest");
         war.addPackages(true, "com.cdi.crud.exception");
         war.addPackages(true, "com.cdi.crud.persistence");
         war.addPackages(true, "com.cdi.crud.qualifier");
@@ -35,11 +37,12 @@ public class Deployments {
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces:primefaces:5.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces.themes:all-themes:1.0.10").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-api:1.1.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-impl:1.1.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-impl:1.1.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.1.0").withoutTransitivity().asSingleFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.1.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-api:1.2.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-jsf-module-impl:1.2.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-impl:1.2.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.core:deltaspike-core-api:1.2.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-api:1.2.0").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.apache.deltaspike.modules:deltaspike-security-module-impl:1.2.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core:1.7.0").withoutTransitivity().asSingleFile());
 
         //WEB-INF
