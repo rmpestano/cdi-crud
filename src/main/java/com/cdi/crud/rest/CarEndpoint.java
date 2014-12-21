@@ -6,7 +6,8 @@ import com.cdi.crud.service.CarService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.NoResultException;
+import javax.persistence.OptimisticLockException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -31,6 +32,8 @@ public class CarEndpoint {
 
     /**
      * @description deletes a car based on its ID
+     * @param user name of the user to log in
+     * @param id car ID
      * @status 401 only authenticated users can access this resource
      * @status 403 only authorized users can access this resource
      * @status 404 car not found
@@ -47,6 +50,12 @@ public class CarEndpoint {
         return Response.noContent().build();
     }
 
+    /**
+     * @description finds a car based on its ID
+     * @responseType com.cdi.crud.model.Car
+     * @param id car ID
+     * @status 404 car not found
+     */
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
@@ -64,16 +73,34 @@ public class CarEndpoint {
         return Response.ok(entity).build();
     }
 
+    /**
+     * @requiredParams startPosition, maxResult, minPrice, maxPrice
+     * @param startPosition initial list position
+     * @param maxResult number of elements to retrieve
+     * @param minPrice minimum car price
+     * @param maxPrice maximum car price
+     */
     @GET
     @Produces("application/json")
     @Path("list")
-    public List<Car> listAll(@QueryParam("start") @DefaultValue("0") Integer startPosition, @QueryParam("max") @DefaultValue("10") Integer maxResult) {
+    public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
+                          @QueryParam("max") @DefaultValue("10") Integer maxResult,
+                          @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
+                          @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
+        filter.addParam("maxPrice",maxPrice);
+        filter.addParam("minPrice",minPrice);
         filter.setFirst(startPosition).setPageSize(maxResult);
         final List<Car> results = carService.paginate(filter);
         return results;
     }
 
+    /**
+    * @status 400 no Car passed to be updated
+    * @status 404 no Car found with the given ID
+    * @status 409 id passed in parameter is different from the Car to update
+    * @status 404 car not found
+    */
     @PUT
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")

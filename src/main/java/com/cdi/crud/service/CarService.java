@@ -39,21 +39,24 @@ import java.util.List;
 
 	@Override
 	public Criteria configPagination(Filter<Car> filter) {
-		if (filter.getParams().get("id") != null) {
-			crud().criteria().eq("id",
+		if (filter.hasParam("id")) {
+			crud().eq("id",
 					Integer.parseInt(filter.getParam("id").toString()));
 		}
 
 		// see index.xhtml 'model' column facet name filter
 		if (filter.getEntity() != null && filter.getEntity().getModel() != null
 				&& !"".equals(filter.getEntity().getModel())) {
-			crud().criteria().eq("model", filter.getEntity().getModel());
+			crud().eq("model", filter.getEntity().getModel());
 		}
 
 		// see index.xhtml 'price' column facet name filter
 		if (filter.getEntity() != null && filter.getEntity().getPrice() != null) {
-			crud().criteria().eq("price", filter.getEntity().getPrice());
+			crud().eq("price", filter.getEntity().getPrice());
 		}
+        if(filter.hasParam("minPrice") && filter.hasParam("maxPrice")){
+             crud().between("price",(Double)filter.getParam("minPrice"),(Double)filter.getParam("maxPrice"));
+        }
 		return crud().getCriteria();
 	}
 

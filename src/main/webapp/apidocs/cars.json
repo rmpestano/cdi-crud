@@ -21,7 +21,7 @@
     "path" : "/cars/list",
     "operations" : [ {
       "method" : "GET",
-      "nickname" : "listAll",
+      "nickname" : "list",
       "type" : "array",
       "items" : {
         "$ref" : "Car"
@@ -29,15 +29,35 @@
       "parameters" : [ {
         "type" : "integer",
         "format" : "int32",
+        "description" : "initial list position",
         "defaultValue" : "0",
         "paramType" : "query",
-        "name" : "start"
+        "name" : "start",
+        "required" : true
       }, {
         "type" : "integer",
         "format" : "int32",
+        "description" : "number of elements to retrieve",
         "defaultValue" : "10",
         "paramType" : "query",
-        "name" : "max"
+        "name" : "max",
+        "required" : true
+      }, {
+        "type" : "number",
+        "format" : "double",
+        "description" : "minimum car price",
+        "defaultValue" : "0",
+        "paramType" : "query",
+        "name" : "minPrice",
+        "required" : true
+      }, {
+        "type" : "number",
+        "format" : "double",
+        "description" : "maximum car price",
+        "defaultValue" : "10000",
+        "paramType" : "query",
+        "name" : "maxPrice",
+        "required" : true
       } ],
       "produces" : [ "application/json" ]
     } ]
@@ -49,11 +69,13 @@
       "type" : "Response",
       "parameters" : [ {
         "type" : "string",
+        "description" : "name of the user to log in",
         "paramType" : "header",
         "name" : "user"
       }, {
         "type" : "integer",
         "format" : "int32",
+        "description" : "car ID",
         "paramType" : "path",
         "name" : "id",
         "required" : true
@@ -72,13 +94,19 @@
     }, {
       "method" : "GET",
       "nickname" : "findById",
-      "type" : "Response",
+      "type" : "Car",
       "parameters" : [ {
         "type" : "integer",
         "format" : "int32",
+        "description" : "car ID",
         "paramType" : "path",
         "name" : "id",
         "required" : true
+      } ],
+      "notes" : "finds a car based on its ID",
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "car not found"
       } ],
       "produces" : [ "application/json" ]
     }, {
@@ -96,6 +124,19 @@
         "paramType" : "body",
         "name" : "entity",
         "required" : true
+      } ],
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "no Car passed to be updated"
+      }, {
+        "code" : 404,
+        "message" : "no Car found with the given ID"
+      }, {
+        "code" : 409,
+        "message" : "id passed in parameter is different from the Car to update"
+      }, {
+        "code" : 404,
+        "message" : "car not found"
       } ],
       "consumes" : [ "application/json" ]
     } ]

@@ -83,6 +83,10 @@ public class Filter<T extends BaseEntity> {
         return this;
     }
 
+    public boolean hasParam(String key){
+        return getParams().containsKey(key) && getParam(key) != null;
+    }
+
     public Object getParam(String key) {
         return getParams().get(key);
     }
