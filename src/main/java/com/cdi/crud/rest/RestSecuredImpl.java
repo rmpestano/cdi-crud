@@ -22,7 +22,7 @@ public class RestSecuredImpl implements Serializable{
     CustomAuthorizer authorizer;
 
     @Inject
-    Instance<HttpServletRequest> request;//produced by app filter
+    Instance<HttpServletRequest> request;
 
 
     @AroundInvoke
