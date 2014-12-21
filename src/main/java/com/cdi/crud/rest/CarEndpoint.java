@@ -99,7 +99,6 @@ public class CarEndpoint {
     * @status 400 no Car passed to be updated
     * @status 404 no Car found with the given ID
     * @status 409 id passed in parameter is different from the Car to update
-    * @status 404 car not found
     */
     @PUT
     @Path("/{id:[0-9][0-9]*}")
