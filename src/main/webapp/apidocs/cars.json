@@ -57,6 +57,17 @@
         "paramType" : "path",
         "name" : "id",
         "required" : true
+      } ],
+      "notes" : "deletes a car based on its ID",
+      "responseMessages" : [ {
+        "code" : 401,
+        "message" : "only authenticated users can access this resource"
+      }, {
+        "code" : 403,
+        "message" : "only authorized users can access this resource"
+      }, {
+        "code" : 404,
+        "message" : "car not found"
       } ]
     }, {
       "method" : "GET",

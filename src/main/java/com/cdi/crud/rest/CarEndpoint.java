@@ -29,6 +29,12 @@ public class CarEndpoint {
         return Response.created(UriBuilder.fromResource(CarEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
     }
 
+    /**
+     * @description deletes a car based on its ID
+     * @status 401 only authenticated users can access this resource
+     * @status 403 only authorized users can access this resource
+     * @status 404 car not found
+     */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     @RestSecured
