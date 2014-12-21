@@ -1,5 +1,6 @@
 package com.cdi.crud.security;
 
+import com.cdi.crud.exception.CustomException;
 import org.apache.deltaspike.security.api.authorization.Secures;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +21,7 @@ public class CustomAuthorizer implements Serializable {
     @Secures
     @Admin
     public boolean doAdminCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
-        return currentUser.containsKey("user") && currentUser.get("user").equals("admin");
+        throw new CustomException("Access denied");
     }
 
     @Secures
