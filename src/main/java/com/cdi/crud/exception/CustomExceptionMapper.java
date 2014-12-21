@@ -13,19 +13,17 @@ import java.util.Map;
 @Provider
 public class CustomExceptionMapper implements ExceptionMapper<CustomException> {
 
-
     @Override
     public Response toResponse(CustomException e) {
         Map map = new HashMap();
-        map.put("message",e.getMessage());
+        map.put("message", e.getMessage());
 
-        if(e.getMessage().equals("Access forbidden")) {//TODO create specific exception and its mapper
+        if (e.getMessage().equals("Access forbidden")) {//TODO create specific exception and its mapper
             return Response.status(Response.Status.FORBIDDEN).type(MediaType.APPLICATION_JSON).entity(map).build();
         }
-        if(e.getMessage().equals("Access denied")) {//TODO create specific exception and its mapper
+        if (e.getMessage().equals("Access denied")) {//TODO create specific exception and its mapper
             return Response.status(Response.Status.UNAUTHORIZED).type(MediaType.APPLICATION_JSON).entity(map).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).type(MediaType.APPLICATION_JSON).entity(map).build();
     }
-
 }

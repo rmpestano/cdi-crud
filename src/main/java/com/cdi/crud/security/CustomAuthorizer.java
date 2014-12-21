@@ -13,23 +13,23 @@ import java.util.Map;
  * Created by rmpestano on 12/20/14.
  */
 @ApplicationScoped
-public class CustomAuthorizer implements Serializable{
+public class CustomAuthorizer implements Serializable {
 
     Map<String, String> currentUser = new HashMap<>();
 
     @Secures
     @Admin
     public boolean doAdminCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
-         return currentUser.containsKey("user") && currentUser.get("user").equals("admin");
+        return currentUser.containsKey("user") && currentUser.get("user").equals("admin");
     }
 
     @Secures
     @Guest
     public boolean doGuestCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
-        return currentUser.containsKey("user") && currentUser.get("user").equals("guest") || doAdminCheck(null,null);
+        return currentUser.containsKey("user") && currentUser.get("user").equals("guest") || doAdminCheck(null, null);
     }
 
-    public void login(String username){
-        currentUser.put("user",username);
+    public void login(String username) {
+        currentUser.put("user", username);
     }
 }

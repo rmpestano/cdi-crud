@@ -153,7 +153,7 @@ public class CrudRest {
     public void shouldFailToDeleteCarWithoutAuthorization() {
         given().
                 contentType(ContentType.JSON).
-                header("user", "guest").
+                header("user", "guest"). //only admin can delete
                 when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
                 then().

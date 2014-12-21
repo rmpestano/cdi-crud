@@ -25,8 +25,8 @@ import java.util.List;
  *
  *         Car Business logic
  */
-@Stateless
-public class CarService extends CrudService<Car> {
+    @Stateless
+    public class CarService extends CrudService<Car> {
 	
 	@Inject
 	MovieService movieService;//just to show dependency between tenants

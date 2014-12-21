@@ -1,0 +1,110 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/cdi-crud/rest",
+  "resourcePath" : "/cars",
+  "apis" : [ {
+    "path" : "/cars",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "create",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "Car",
+        "paramType" : "body",
+        "name" : "entity",
+        "required" : true
+      } ],
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/cars/list",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "listAll",
+      "type" : "array",
+      "items" : {
+        "$ref" : "Car"
+      },
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "defaultValue" : "0",
+        "paramType" : "query",
+        "name" : "start"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "defaultValue" : "10",
+        "paramType" : "query",
+        "name" : "max"
+      } ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/cars/{id:[0-9][0-9]*}",
+    "operations" : [ {
+      "method" : "DELETE",
+      "nickname" : "deleteById",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "header",
+        "name" : "user"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ]
+    }, {
+      "method" : "GET",
+      "nickname" : "findById",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "update",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "Car",
+        "paramType" : "body",
+        "name" : "entity",
+        "required" : true
+      } ],
+      "consumes" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "Car" : {
+      "id" : "Car",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "model" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    }
+  }
+}
