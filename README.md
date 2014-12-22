@@ -1,7 +1,7 @@
 Simple CDI crud and real pagination using generic dao and (micro ;))Service pattern.
 
 A refactored version of https://github.com/rmpestano/cdi-generic-dao, created this new repo cause that one is referenced in the post: http://rpestano.wordpress.com/2013/07/15/cdi-generic-dao/.
-This project is also referenced [in this post](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/) and [this one](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/).
+This project is also referenced [in this post](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/), [this one](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/) and [this one](http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/).
 
 
 ### How run it:
@@ -12,7 +12,7 @@ This project is also referenced [in this post](http://rpestano.wordpress.com/201
 ### Runnig tests:
 
 * via maven: mvn clean test -Ptests -Pwildfly-managed 
-* or via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudAt as Junit test
+* or via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudRest|CrudAt as Junit test
 
 
 ### Technologies:
@@ -25,6 +25,8 @@ This project is also referenced [in this post](http://rpestano.wordpress.com/201
 * Arquillian
 * Cucumber
 * DBUnit
+* JaxRS
+* Swagger
 
 
 ### Application servers
