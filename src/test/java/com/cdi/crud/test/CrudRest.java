@@ -81,7 +81,6 @@ public class CrudRest {
     @Test
     public void shouldListCarsByPrice() {
         given().
-                queryParam("start",0).queryParam("max", 10).
                 queryParam("minPrice",2450f).queryParam("maxPrice",12999).
                 when().
                 get(basePath + "rest/cars/list").
@@ -92,6 +91,21 @@ public class CrudRest {
                 body("model",hasItem("Mustang")).
                 body("price", hasItem(2450.8f)).
                 body("model",not(hasItem("Porche")));
+    }
+
+    @Test
+    public void shouldListCarsByModel() {
+        given().
+                queryParam("model","Porche").
+                when().
+                get(basePath + "rest/cars/list").
+                then().
+                statusCode(Response.Status.OK.getStatusCode()).
+                body("", hasSize(2)).
+                body("model", hasItem("Porche")).
+                body("model",hasItem("Porche274")).
+                body("price", hasItem(18990.23f)).
+                body("model",not(hasItem("Ferrari")));
     }
 
     @Test
@@ -110,6 +124,7 @@ public class CrudRest {
         assertEquals("Ferrari", jsonObject.get("model").getAsString());
         
     }
+
 
     @Test
     public void shouldCreateCar() {

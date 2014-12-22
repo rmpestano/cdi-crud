@@ -74,6 +74,30 @@ public class CarEndpoint {
     }
 
     /**
+     * @description finds a car based on its model
+     * @responseType com.cdi.crud.model.Car
+     * @param model car model
+     * @status 404 car not found
+     */
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    @Produces("application/json")
+    public Response findByModel(@PathParam("model") String model) {
+        Car entity;
+        try {
+            entity = carService.crud().eq("model", model).find();
+        } catch (NoResultException nre) {
+            entity = null;
+        }
+
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok(entity).build();
+    }
+
+
+    /**
      * @requiredParams startPosition, maxResult, minPrice, maxPrice
      * @param startPosition initial list position
      * @param maxResult number of elements to retrieve
@@ -85,9 +109,15 @@ public class CarEndpoint {
     @Path("list")
     public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
+                          @QueryParam("model") String model,
                           @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
                           @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
+        if(model != null){
+            Car car = new Car();
+            car.setModel(model);
+            filter.setEntity(car);
+        }
         filter.addParam("maxPrice",maxPrice);
         filter.addParam("minPrice",minPrice);
         filter.setFirst(startPosition).setPageSize(maxResult);

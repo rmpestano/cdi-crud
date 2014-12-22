@@ -47,7 +47,7 @@ import java.util.List;
 		// see index.xhtml 'model' column facet name filter
 		if (filter.getEntity() != null && filter.getEntity().getModel() != null
 				&& !"".equals(filter.getEntity().getModel())) {
-			crud().eq("model", filter.getEntity().getModel());
+			crud().ilike("model", filter.getEntity().getModel(),MatchMode.ANYWHERE);
 		}
 
 		// see index.xhtml 'price' column facet name filter
