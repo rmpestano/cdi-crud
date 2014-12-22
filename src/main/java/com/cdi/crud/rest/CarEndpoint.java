@@ -42,7 +42,7 @@ public class CarEndpoint {
      * @status 401 only authorized users can access this resource
      * @status 403 only authenticated users can access this resource
      * @status 404 car not found
-     * @status 204 Car updated successfully
+     * @status 204 Car deleted successfully
      */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
