@@ -23,6 +23,11 @@ public class CarEndpoint {
     @Inject
     CarService carService;
 
+    /**
+     * @description creates a new car
+     * @status 400 Car model cannot be empty
+     * @status 201 Car created successfully
+     */
     @POST
     @Consumes("application/json")
     public Response create(Car entity) {
@@ -34,9 +39,10 @@ public class CarEndpoint {
      * @description deletes a car based on its ID
      * @param user name of the user to log in
      * @param id car ID
-     * @status 401 only authenticated users can access this resource
-     * @status 403 only authorized users can access this resource
+     * @status 401 only authorized users can access this resource
+     * @status 403 only authenticated users can access this resource
      * @status 404 car not found
+     * @status 204 Car updated successfully
      */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
@@ -55,6 +61,7 @@ public class CarEndpoint {
      * @responseType com.cdi.crud.model.Car
      * @param id car ID
      * @status 404 car not found
+     * @status 200 car found successfully
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
@@ -81,6 +88,7 @@ public class CarEndpoint {
      * @param maxResult number of elements to retrieve
      * @param minPrice minimum car price
      * @param maxPrice maximum car price
+     * @param model list cars with given model
      */
     @GET
     @Produces("application/json")
@@ -104,9 +112,11 @@ public class CarEndpoint {
     }
 
     /**
-    * @status 400 no Car passed to be updated
-    * @status 404 no Car found with the given ID
+    * @status 400 Car model cannot be empty
+    * @status 400 No Car informed to be updated
+    * @status 404 No Car found with the given ID
     * @status 409 id passed in parameter is different from the Car to update
+    * @status 204 Car updated successfully
     */
     @PUT
     @Path("/{id:[0-9][0-9]*}")

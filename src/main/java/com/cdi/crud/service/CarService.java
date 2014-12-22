@@ -41,13 +41,13 @@ import java.util.List;
 	public Criteria configPagination(Filter<Car> filter) {
 		if (filter.hasParam("id")) {
 			crud().eq("id",
-					Integer.parseInt(filter.getParam("id").toString()));
+                    Integer.parseInt(filter.getParam("id").toString()));
 		}
 
 		// see index.xhtml 'model' column facet name filter
 		if (filter.getEntity() != null && filter.getEntity().getModel() != null
 				&& !"".equals(filter.getEntity().getModel())) {
-			crud().ilike("model", filter.getEntity().getModel(),MatchMode.ANYWHERE);
+			crud().ilike("model", filter.getEntity().getModel(), MatchMode.ANYWHERE);
 		}
 
 		// see index.xhtml 'price' column facet name filter
@@ -72,7 +72,12 @@ import java.util.List;
 		}
 	}
 
-	public void initDatabase() {
+    @Override
+    public void beforeUpdate(Car entity) {
+        this.beforeInsert(entity);
+    }
+
+    public void initDatabase() {
 		if (crud().countAll() == 0) {
 			for (int i = 1; i <= 10; i++) {
 				Car c = new Car("Car" + i, i);

@@ -15,6 +15,14 @@
         "name" : "entity",
         "required" : true
       } ],
+      "notes" : "creates a new car",
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "Car model cannot be empty"
+      }, {
+        "code" : 201,
+        "message" : "Car created successfully"
+      } ],
       "consumes" : [ "application/json" ]
     } ]
   }, {
@@ -43,6 +51,11 @@
         "name" : "max",
         "required" : true
       }, {
+        "type" : "string",
+        "description" : "list cars with given model",
+        "paramType" : "query",
+        "name" : "model"
+      }, {
         "type" : "number",
         "format" : "double",
         "description" : "minimum car price",
@@ -54,7 +67,7 @@
         "type" : "number",
         "format" : "double",
         "description" : "maximum car price",
-        "defaultValue" : "10000",
+        "defaultValue" : "20000",
         "paramType" : "query",
         "name" : "maxPrice",
         "required" : true
@@ -90,6 +103,9 @@
       }, {
         "code" : 404,
         "message" : "car not found"
+      }, {
+        "code" : 204,
+        "message" : "Car updated successfully"
       } ]
     }, {
       "method" : "GET",
@@ -107,6 +123,9 @@
       "responseMessages" : [ {
         "code" : 404,
         "message" : "car not found"
+      }, {
+        "code" : 200,
+        "message" : "car found successfully"
       } ],
       "produces" : [ "application/json" ]
     }, {
@@ -127,16 +146,19 @@
       } ],
       "responseMessages" : [ {
         "code" : 400,
-        "message" : "no Car passed to be updated"
+        "message" : "Car model cannot be empty"
+      }, {
+        "code" : 400,
+        "message" : "No Car informed to be updated"
       }, {
         "code" : 404,
-        "message" : "no Car found with the given ID"
+        "message" : "No Car found with the given ID"
       }, {
         "code" : 409,
         "message" : "id passed in parameter is different from the Car to update"
       }, {
-        "code" : 404,
-        "message" : "car not found"
+        "code" : 204,
+        "message" : "Car updated successfully"
       } ],
       "consumes" : [ "application/json" ]
     } ]
