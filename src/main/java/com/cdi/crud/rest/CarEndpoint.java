@@ -73,28 +73,6 @@ public class CarEndpoint {
         return Response.ok(entity).build();
     }
 
-    /**
-     * @description finds a car based on its model
-     * @responseType com.cdi.crud.model.Car
-     * @param model car model
-     * @status 404 car not found
-     */
-    @GET
-    @Path("/{id:[0-9][0-9]*}")
-    @Produces("application/json")
-    public Response findByModel(@PathParam("model") String model) {
-        Car entity;
-        try {
-            entity = carService.crud().eq("model", model).find();
-        } catch (NoResultException nre) {
-            entity = null;
-        }
-
-        if (entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.ok(entity).build();
-    }
 
 
     /**
