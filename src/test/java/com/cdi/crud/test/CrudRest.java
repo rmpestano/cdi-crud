@@ -131,6 +131,7 @@ public class CrudRest {
         clear();//need to clear db because of dbunit sequence hell
         JsonObject carToCreate = new JsonObject();
         carToCreate.add("model", new JsonPrimitive("new car"));
+        carToCreate.add("name", new JsonPrimitive("new car name"));
         carToCreate.add("price", new JsonPrimitive(1000f));
         String result = given().
                 content(carToCreate.toString()).
@@ -139,8 +140,6 @@ public class CrudRest {
                 post(basePath + "rest/cars").
                 then().
                 statusCode(Response.Status.CREATED.getStatusCode()).extract().asString();
-
-        System.out.println(result);
 
         //new car should be there
         given().
@@ -153,10 +152,43 @@ public class CrudRest {
     }
 
     @Test
+    public void shouldFailToCreateCarWithoutName() {
+        clear();//need to clear db because of dbunit sequence hell
+        JsonObject carToCreate = new JsonObject();
+        carToCreate.add("model", new JsonPrimitive("new car"));
+        carToCreate.add("price", new JsonPrimitive(1000f));
+        given().
+                content(carToCreate.toString()).
+                contentType("application/json").
+                when().
+                post(basePath + "rest/cars").
+                then().
+                statusCode(Response.Status.BAD_REQUEST.getStatusCode()).
+                body("message",equalTo("Car name cannot be empty"));
+    }
+
+    @Test
+    public void shouldFailToCreateCarWithNonUniqueName() {
+        JsonObject carToCreate = new JsonObject();
+        carToCreate.add("model", new JsonPrimitive("new car"));
+        carToCreate.add("name", new JsonPrimitive("ferrari spider"));
+        carToCreate.add("price", new JsonPrimitive(1000f));
+        given().
+                content(carToCreate.toString()).
+                contentType("application/json").
+        when().
+                post(basePath + "rest/cars").
+        then().
+                statusCode(Response.Status.BAD_REQUEST.getStatusCode()).
+                body("message",equalTo("Car name must be unique"));
+    }
+
+    @Test
     public void shouldUpdateCar() {
         JsonObject carToUpdate = new JsonObject();
         carToUpdate.add("id",new JsonPrimitive(1));
         carToUpdate.add("model",new JsonPrimitive("Ferrari updated"));
+        carToUpdate.add("name",new JsonPrimitive("Ferrari spider updated"));
         carToUpdate.add("price",new JsonPrimitive(1000f));
                 given().
                         content(carToUpdate.toString()).

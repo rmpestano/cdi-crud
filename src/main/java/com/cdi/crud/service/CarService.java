@@ -31,6 +31,7 @@ import java.util.List;
 	@Inject
 	MovieService movieService;//just to show dependency between tenants
 
+
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Car> listByModel(String model) {
 		return crud().ilike("model", model, MatchMode.ANYWHERE).list();
@@ -67,9 +68,16 @@ import java.util.List;
 
 	@Override
 	public void beforeInsert(Car car) {
-		if (car.getModel() == null || "".equals(car.getModel().trim())) {
+		if (!car.hasModel()) {
 			throw new CustomException("Car model cannot be empty");
 		}
+        if(!car.hasName()){
+            throw new CustomException("Car name cannot be empty");
+        }
+
+        if(crud().eq("name",car.getName()).ne("id",car.getId()).count() > 0){
+            throw new CustomException("Car name must be unique");
+        }
 	}
 
     @Override
@@ -77,15 +85,6 @@ import java.util.List;
         this.beforeInsert(entity);
     }
 
-    public void initDatabase() {
-		if (crud().countAll() == 0) {
-			for (int i = 1; i <= 10; i++) {
-				Car c = new Car("Car" + i, i);
-				this.insert(c);
-			}
-		}
-		
-	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public Movie findMovie(String string) {

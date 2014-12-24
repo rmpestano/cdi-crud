@@ -1,13 +1,11 @@
 package com.cdi.crud.persistence;
 
-import java.util.logging.Logger;
-
-import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.util.logging.Logger;
 
-
-public class TenantController {
+public class TenantController implements Serializable{
 
 	@PersistenceContext(unitName="CarPU")
 	EntityManager carEm;
@@ -28,16 +26,6 @@ public class TenantController {
 			}
 		}
 	}
-
-    @PreDestroy
-    public void dispose(){
-        if(carEm.isOpen()){
-            carEm.close();
-        }
-        if(movieEm.isOpen()){
-            movieEm.close();
-        }
-    }
 
 
 }

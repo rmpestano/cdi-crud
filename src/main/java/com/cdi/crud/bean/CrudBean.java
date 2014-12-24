@@ -19,7 +19,6 @@ import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -59,13 +58,6 @@ public class CrudBean implements Serializable {
 	@Tenant(TenantType.CAR)
 	Crud<Car> carCrud;
 	
-
-	@PostConstruct
-	public void init() {
-		carService.initDatabase();
-		movieService.initDatabase();
-
-	}
 
 	public LazyDataModel<Car> getCarList() {
 		if (carList == null) {

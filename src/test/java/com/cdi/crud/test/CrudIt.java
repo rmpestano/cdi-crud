@@ -1,5 +1,6 @@
 package com.cdi.crud.test;
 
+import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
@@ -60,20 +61,62 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldFindCarByExample() {
-        Car carExample = new Car();
-        carExample.setModel("Ferrari");
+        Car carExample = new Car().model("Ferrari");
         Car car = carService.findByExample(carExample);
         assertNotNull(car);
         assertEquals(car.getId(),new Integer(1));
     }
 
     @Test
+    public void shouldNotInsertCarWithoutName(){
+        int countBefore = carService.count(new Filter<Car>());
+        assertEquals(countBefore,0);
+        Car newCar = new Car().model("My Car").price(1d);
+        try {
+            carService.insert(newCar);
+        }catch (CustomException e){
+            assertEquals("Car name cannot be empty",e.getMessage());
+        }
+    }
+
+    @Test
+    public void shouldNotInsertCarWithoutModel(){
+        Car newCar = new Car().name("My Car").price(1d);
+        try {
+            carService.insert(newCar);
+        }catch (CustomException e){
+            assertEquals("Car model cannot be empty",e.getMessage());
+        }
+    }
+
+    @Test
+    @UsingDataSet("car.yml")
+    public void shouldNotInsertCarWithDuplicateName(){
+        Car newCar = new Car().model("My Car").name("ferrari spider").price(1d);
+        try {
+            carService.insert(newCar);
+        }catch (CustomException e){
+            assertEquals("Car name must be unique",e.getMessage());
+        }
+    }
+
+    @Test
     public void shouldInsertCar(){
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,0);
-        Car newCar = new Car("My Car", 1);
+        Car newCar = new Car().model("My Car").name("car name").price(1d);
         carService.insert(newCar);
         assertEquals(countBefore + 1, carService.count(new Filter<Car>()));
+    }
+
+    @Test
+    public void shouldNotRemoveCarWithUnauthorizedUser(){
+        authorizer.login("guest");
+        try {
+            carService.remove(new Car(1));
+        }catch (CustomException e){
+           assertEquals("Access denied",e.getMessage());
+        }
     }
 
     @Test
@@ -127,8 +170,7 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldPaginateCarsByModel(){
-        Car carExample = new Car();
-        carExample.setModel("Ferrari");
+        Car carExample = new Car().model("Ferrari");
         Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(4).setEntity(carExample);
         List<Car> cars = carService.paginate(carFilter);
         assertNotNull(cars);
@@ -139,8 +181,7 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldPaginateCarsByPrice(){
-        Car carExample = new Car();
-        carExample.setPrice(12999.0);
+        Car carExample = new Car().price(12999.0);
         Filter<Car> carFilter = new Filter<Car>().setFirst(0).setPageSize(2).setEntity(carExample);
         List<Car> cars = carService.paginate(carFilter);
         assertNotNull(cars);

@@ -19,13 +19,17 @@ import java.util.List;
  */
 @Stateless
 @Path("/cars")
+@Produces("application/json;charset=utf-8")
 public class CarEndpoint {
+
     @Inject
     CarService carService;
 
     /**
      * @description creates a new car
      * @status 400 Car model cannot be empty
+     * @status 400 Car name cannot be empty
+     * @status 400 Car name must be unique
      * @status 201 Car created successfully
      */
     @POST
@@ -65,7 +69,6 @@ public class CarEndpoint {
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
-    @Produces("application/json")
     public Response findById(@PathParam("id") Integer id) {
         Car entity;
         try {
@@ -91,7 +94,6 @@ public class CarEndpoint {
      * @param model list cars with given model
      */
     @GET
-    @Produces("application/json")
     @Path("list")
     public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
@@ -100,8 +102,7 @@ public class CarEndpoint {
                           @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
         if(model != null){
-            Car car = new Car();
-            car.setModel(model);
+            Car car = new Car().model(model);
             filter.setEntity(car);
         }
         filter.addParam("maxPrice",maxPrice);
@@ -113,6 +114,8 @@ public class CarEndpoint {
 
     /**
     * @status 400 Car model cannot be empty
+    * @status 400 Car name cannot be empty
+    * @status 400 Car name must be unique
     * @status 400 No Car informed to be updated
     * @status 404 No Car found with the given ID
     * @status 409 id passed in parameter is different from the Car to update

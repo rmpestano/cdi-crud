@@ -58,22 +58,20 @@ public class CrudBdd {
     // usingDataset commented because of issue:
     // https://github.com/cukespace/cukespace/issues/37
     public void searchCarWithModel(String model) {
-        Car carExample = new Car();
-        carExample.setModel(model);
+        Car carExample = new Car().model(model);
         carFound = carService.findByExample(carExample);
         assertNotNull(carFound);
     }
 
     @When("^update model to \"([^\"]*)\"$")
     public void updateModel(String model) {
-        carFound.setModel(model);
+        carFound.model(model);
         carService.update(carFound);
     }
 
     @Then("^searching car by model \"([^\"]*)\" must return (\\d+) of records$")
     public void searchingCarByModel(final String model, final int result) {
-        Car carExample = new Car();
-        carExample.setModel(model);
+        Car carExample = new Car().model(model);
         assertEquals(result, carService.crud().example(carExample).count());
     }
 

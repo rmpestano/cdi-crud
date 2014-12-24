@@ -15,6 +15,9 @@ public class IndexPage {
     @FindByJQuery("input[id$=inptModel]")
     private GrapheneElement inputModel;
 
+    @FindByJQuery("input[id$=inptName]")
+    private GrapheneElement inputName;
+
     @FindByJQuery("input[id$=inptPrice]")
     private GrapheneElement inputPrice;
 
@@ -29,6 +32,10 @@ public class IndexPage {
 
     public GrapheneElement getInputModel() {
         return inputModel;
+    }
+
+    public GrapheneElement getInputName() {
+        return inputName;
     }
 
     public GrapheneElement getInputPrice() {
