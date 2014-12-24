@@ -51,6 +51,18 @@ public class Car implements BaseEntity {
         return name;
     }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Car model(String model) {
         this.model = model;
         return this;

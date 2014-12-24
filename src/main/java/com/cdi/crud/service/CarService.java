@@ -46,15 +46,19 @@ import java.util.List;
 		}
 
 		// see index.xhtml 'model' column facet name filter
-		if (filter.getEntity() != null && filter.getEntity().getModel() != null
-				&& !"".equals(filter.getEntity().getModel())) {
+		if (filter.getEntity() != null) {
 			crud().ilike("model", filter.getEntity().getModel(), MatchMode.ANYWHERE);
 		}
+
+        if (filter.getEntity() != null) {
+            crud().ilike("name", filter.getEntity().getName(), MatchMode.ANYWHERE);
+        }
 
 		// see index.xhtml 'price' column facet name filter
 		if (filter.getEntity() != null && filter.getEntity().getPrice() != null) {
 			crud().eq("price", filter.getEntity().getPrice());
 		}
+
         if(filter.hasParam("minPrice") && filter.hasParam("maxPrice")){
              crud().between("price",(Double)filter.getParam("minPrice"),(Double)filter.getParam("maxPrice"));
         }

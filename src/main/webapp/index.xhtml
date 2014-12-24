@@ -41,6 +41,9 @@
                         </f:facet>
                         #{c.model}
                     </p:column>
+                    <p:column headerText="Name" filterBy="#{c.name}" sortBy="#{c.name}"  filterMatchMode="contains">
+                           #{c.name}
+                    </p:column>
                     <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}" >
                         <f:facet name="filter">
                             <p:spinner value="#{crudBean.filter.entity.price}" >
@@ -60,6 +63,8 @@
                 <h:panelGrid columns="2" id="grid">
                     <h:outputLabel value="Model:" for="inptModel"/>
                     <p:inputText id="inptModel" value="#{crudBean.car.model}"/>
+                    <h:outputLabel value="Name:" for="inptName"/>
+                    <p:inputText id="inptName" value="#{crudBean.car.name}"/>
                     <h:outputLabel value="Price:" for="inptPrice"/>
                     <p:inputText id="inptPrice" value="#{crudBean.car.price}"/>
                     <p:commandButton value="Save/Update" action="#{crudBean.update}" process="@(table[id$=grid])" update="@form"/>
