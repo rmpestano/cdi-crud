@@ -48,9 +48,6 @@ import java.util.List;
 		// see index.xhtml 'model' column facet name filter
 		if (filter.getEntity() != null) {
 			crud().ilike("model", filter.getEntity().getModel(), MatchMode.ANYWHERE);
-		}
-
-        if (filter.getEntity() != null) {
             crud().ilike("name", filter.getEntity().getName(), MatchMode.ANYWHERE);
         }
 

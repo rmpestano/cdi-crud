@@ -97,15 +97,32 @@ public class CrudRest {
     public void shouldListCarsByModel() {
         given().
                 queryParam("model","Porche").
-                when().
+        when().
                 get(basePath + "rest/cars/list").
-                then().
+        then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(2)).
                 body("model", hasItem("Porche")).
                 body("model",hasItem("Porche274")).
                 body("price", hasItem(18990.23f)).
                 body("model",not(hasItem("Ferrari")));
+    }
+
+    @Test
+    public void shouldListCarsByName() {
+        given().
+                queryParam("name","spider").
+        when().
+                get(basePath + "rest/cars/list").
+        then().
+                statusCode(Response.Status.OK.getStatusCode()).
+                body("", hasSize(2)).
+                body("model", hasItem("Mustang")).
+                body("name",hasItem("mustang spider")).
+                body("price", hasItem(12999.0f)).
+                body("name",hasItem("ferrari spider")).
+                body("price", hasItem(2450.8f)).
+                body("model",not(hasItem("Porche")));
     }
 
     @Test

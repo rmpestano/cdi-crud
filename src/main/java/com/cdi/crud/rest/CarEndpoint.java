@@ -92,18 +92,24 @@ public class CarEndpoint {
      * @param minPrice minimum car price
      * @param maxPrice maximum car price
      * @param model list cars with given model
+     * @param name list cars with given name
      */
     @GET
     @Path("list")
     public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
                           @QueryParam("model") String model,
+                          @QueryParam("name") String name,
                           @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
                           @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
+        Car car = new Car();
+        filter.setEntity(car);
         if(model != null){
-            Car car = new Car().model(model);
-            filter.setEntity(car);
+            filter.getEntity().model(model);
+        }
+        if(name != null){
+            filter.getEntity().name(name);
         }
         filter.addParam("maxPrice",maxPrice);
         filter.addParam("minPrice",minPrice);

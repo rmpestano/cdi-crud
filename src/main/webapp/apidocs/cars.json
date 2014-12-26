@@ -62,6 +62,11 @@
         "paramType" : "query",
         "name" : "model"
       }, {
+        "type" : "string",
+        "description" : "list cars with given name",
+        "paramType" : "query",
+        "name" : "name"
+      }, {
         "type" : "number",
         "format" : "double",
         "description" : "minimum car price",

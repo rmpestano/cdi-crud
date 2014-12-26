@@ -41,7 +41,12 @@
                         </f:facet>
                         #{c.model}
                     </p:column>
-                    <p:column headerText="Name" filterBy="#{c.name}" sortBy="#{c.name}"  filterMatchMode="contains">
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}" >
+                        <f:facet name="filter">
+                            <p:inputText value="#{crudBean.filter.entity.name}" >
+                                <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                            </p:inputText>
+                        </f:facet>
                            #{c.name}
                     </p:column>
                     <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}" >
