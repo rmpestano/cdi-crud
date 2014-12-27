@@ -5,9 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
-    <version>1.0.0</version>
-    <packaging>war</packaging>
+    <version>2.0.0</version>
+    <packaging>pom</packaging>
     <name>cdi-crud</name>
+
+    <modules>
+        <module>car-service</module>
+        <module>commons</module>
+    </modules>
     <properties>
         <hibernate.version>4.3.5.Final</hibernate.version>
         <deltaspike.version>1.2.0</deltaspike.version>
