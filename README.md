@@ -1,8 +1,8 @@
-Simple CDI crud and real pagination using generic dao and (micro ;))Service pattern.
+Simple Java EE CDI crud, real pagination and (micro ;) ) services example.
 
-A refactored version of https://github.com/rmpestano/cdi-generic-dao, created this new repo cause that one is referenced in the post: http://rpestano.wordpress.com/2013/07/15/cdi-generic-dao/.
-This project is also referenced [in this post](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/), [this one](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/) and [this one](http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/).
+This project is also referenced in the following posts:[cdi-crud-multi-tenancy](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/), [arquillian, cucumber and dbunit](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/), [Some words on JavaEE Rest and Swagger](http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/) and [Testing your services with Arquillian and Docker](http://rpestano.wordpress.com/2014/12/28/testing-services-arquillian-docker/).
 
+The two apps are available online at openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person).
 
 ### How run it:
 
@@ -27,6 +27,7 @@ This project is also referenced [in this post](http://rpestano.wordpress.com/201
 * DBUnit
 * JaxRS
 * Swagger
+* Openshift
 
 
 ### Application servers
