@@ -2,7 +2,7 @@ Simple Java EE CDI crud, real pagination and (micro ;) ) services example.
 
 This project is also referenced in the following posts:[cdi-crud-multi-tenancy](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/), [arquillian, cucumber and dbunit](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/), [Some words on JavaEE Rest and Swagger](http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/) and [Testing your services with Arquillian and Docker](http://rpestano.wordpress.com/2014/12/28/testing-services-arquillian-docker/).
 
-The two apps are available online at openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person).
+The two apps are available online at Openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person).
 
 ### How run it:
 

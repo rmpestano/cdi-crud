@@ -62,7 +62,7 @@
                     <h:outputLabel value="Car:" for="inptCar"/>
                     <h:panelGroup layout="block">
                         <p:inputText id="inptCar" value="#{personBean.person.car}" readonly="true"/>
-                        <p:commandButton value="Find cars" action="#{personBean.searchCars}" icon="ui-icon-search" process="@this" update=":carForm:carPanel" oncomplete="PF('carDialog').show()"/>
+                        <p:commandButton value="Find cars" action="#{personBean.searchCars}" icon="ui-icon-search" process="@this" update=":carForm:carPanel, :carPopup" />
                     </h:panelGroup>
                     <p:commandButton value="Save/Update" action="#{personBean.update}" process="@(table[id$=grid])" update="@form"/>
                     <p:commandButton value="Delete" action="#{personBean.remove}" process="@form" update="@form"/>
@@ -71,11 +71,12 @@
 
             </p:fieldset>
 
+
         </h:form>
-        <p:dialog widgetVar="carDialog" header="Find Cars" width="600" modal="true">
+        <p:dialog id="carPopup" widgetVar="carDialog" header="Find Cars" width="600" modal="true" visible="#{personBean.serviceAvailable}">
               <h:form id="carForm">
                   <h:panelGroup id="carPanel" layout="block">
-                      <p:dataTable widgetVar="carTable" var="c" selection="#{personBean.carDto}" selectionMode="single"
+                      <p:dataTable widgetVar="carTable" var="c" selection="#{personBean.carSelection}" selectionMode="single"
                                    value="#{personBean.carList}" rows="5"
                                    rowKey="#{c.model}" lazy="true"  paginator="true"
                                    paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"

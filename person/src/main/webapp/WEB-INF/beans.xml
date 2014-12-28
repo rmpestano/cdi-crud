@@ -4,6 +4,5 @@
 
     <interceptors>
         <class>org.apache.deltaspike.security.impl.extension.SecurityInterceptor</class>
-        <class>com.cdi.crud.commons.rest.RestSecuredImpl</class>
     </interceptors>
 </beans>

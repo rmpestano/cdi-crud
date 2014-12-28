@@ -47,6 +47,7 @@ public class PersonBean implements Serializable {
     private Long id;
     private Person person;
     private Filter<Person> filter = new Filter<Person>(new Person());
+    private CarDto carSelection;
     private CarDto carDto = new CarDto();
     private boolean serviceAvailable;
     private String serviceErrorMessage;
@@ -115,9 +116,25 @@ public class PersonBean implements Serializable {
     }
 
     public void searchCars(){
+        verifyServiceAvailability();
         carDto = new CarDto();
         if(carList == null){
             initCarDatamodel();
+        }
+    }
+
+    private void verifyServiceAvailability() {
+        Response response = getTarget("cars/count").request().get();
+        if(response.getStatus() == 200){
+            serviceAvailable = true;
+        }
+        else if(response.getStatus() == 404){
+            serviceAvailable = false;
+            throw new CustomException("Car service is unavailable, try again later.");
+        }
+        else{
+            serviceAvailable = false;
+            throw new CustomException("Problems trying to fetch cars from service.\n error:"+response.getEntity());
         }
     }
 
@@ -178,6 +195,14 @@ public class PersonBean implements Serializable {
 
     public void setCarDto(CarDto carDto) {
         this.carDto = carDto;
+    }
+
+    public CarDto getCarSelection() {
+        return carSelection;
+    }
+
+    public void setCarSelection(CarDto carSelection) {
+        this.carSelection = carSelection;
     }
 
     public void findPersonById() {
