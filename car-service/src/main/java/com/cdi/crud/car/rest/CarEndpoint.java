@@ -84,8 +84,6 @@ public class CarEndpoint {
         return Response.ok(entity).build();
     }
 
-
-
     /**
      * @requiredParams startPosition, maxResult, minPrice, maxPrice
      * @param startPosition initial list position
@@ -117,6 +115,25 @@ public class CarEndpoint {
         filter.setFirst(startPosition).setPageSize(maxResult);
         final List<Car> results = carService.paginate(filter);
         return results;
+    }
+
+    /**
+     * @description counts number of cars
+     */
+    @GET
+    @Path("count")
+    public Response count(@QueryParam("model") String model,
+                            @QueryParam("name") String name) {
+        Filter<Car> filter = new Filter<>();
+        Car car = new Car();
+        filter.setEntity(car);
+        if(model != null){
+            filter.getEntity().model(model);
+        }
+        if(name != null){
+            filter.getEntity().name(name);
+        }
+        return Response.ok(carService.count(filter)).build();
     }
 
     /**

@@ -11,6 +11,7 @@
 
     <modules>
         <module>car-service</module>
+        <module>person</module>
         <module>commons</module>
     </modules>
     <properties>
@@ -299,34 +300,6 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-service-docs</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <doclet>com.carma.swagger.doclet.ServiceDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>com.carma</groupId>
-                                <artifactId>swagger-doclet</artifactId>
-                                <version>1.0.2</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>-apiVersion 1 -docBasePath /cdi-crud/apidocs
-                                -apiBasePath /cdi-crud/rest
-                                -swaggerUiPath ${project.build.directory}/
-                            </additionalparam>
-                        </configuration>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -338,7 +311,6 @@
             <properties>
                 <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <application.jta-data-source2>java:jboss/datasources/ExampleDS2</application.jta-data-source2>
                 <application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
@@ -369,7 +341,6 @@
             <properties>
                 <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.jta-data-source>jdbc/__default</application.jta-data-source>
-                <application.jta-data-source2>jdbc/__default</application.jta-data-source2>
                 <application.dialect>org.hibernate.dialect.DerbyDialect</application.dialect>
                 <application.platform>org.hibernate.service.jta.platform.internal.SunOneJtaPlatform
                 </application.platform>
@@ -397,7 +368,6 @@
             <properties>
                 <application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <application.jta-data-source2>java:jboss/datasources/ExampleDS2</application.jta-data-source2>
                 <application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
@@ -588,7 +558,6 @@
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
                 <arquillian.container>jboss-managed</arquillian.container>
                 <arquillian.serverHome>${project.build.directory}/wildfly-8.1.0.Final</arquillian.serverHome>
-                <application.jta-data-source2>java:jboss/datasources/ExampleDS2</application.jta-data-source2>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
             </properties>
@@ -608,7 +577,6 @@
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
                 <arquillian.container>wildfly-remote</arquillian.container>
                 <arquillian.serverHome>${project.build.directory}/wildfly-8.1.0.Final</arquillian.serverHome>
-                <application.jta-data-source2>java:jboss/datasources/ExampleDS2</application.jta-data-source2>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
             </properties>
@@ -627,7 +595,6 @@
                 <application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
                 <arquillian.container>jboss-remote</arquillian.container>
-                <application.jta-data-source2>java:jboss/datasources/ExampleDS2</application.jta-data-source2>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
             </properties>

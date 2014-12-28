@@ -9,10 +9,10 @@
         <version>2.0.0</version>
         <relativePath>../../cdi-crud/pom.xml</relativePath>
     </parent>
-    <artifactId>car-service</artifactId>
+    <artifactId>person</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
-    <name>car-service</name>
+    <name>person</name>
 
     <dependencies>
         <dependency>
@@ -20,6 +20,12 @@
             <artifactId>commons</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+
     </dependencies>
     <profiles>
         <profile>
@@ -46,8 +52,8 @@
                         </executions>
                         <configuration>
                             <excludes>
-                                <exclude>com/cdi/crud/car/bean/*.class</exclude>
-                                <exclude>com/cdi/crud/car/model/*.class</exclude>
+                                <exclude>com/cdi/crud/person/bean/*.class</exclude>
+                                <exclude>com/cdi/crud/person/model/*.class</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
@@ -97,36 +103,6 @@
         </profile>
     </profiles>
     <build>
-        <finalName>car-service</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-service-docs</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <doclet>com.carma.swagger.doclet.ServiceDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>com.carma</groupId>
-                                <artifactId>swagger-doclet</artifactId>
-                                <version>1.0.2</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>-apiVersion 1 -docBasePath /cdi-crud/apidocs
-                                -apiBasePath /cdi-crud/rest
-                                -swaggerUiPath ${project.build.directory}/
-                            </additionalparam>
-                        </configuration>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+        <finalName>person</finalName>
     </build>
 </project>

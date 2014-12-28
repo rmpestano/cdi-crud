@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      >
+
+    <h:head>
+        <title>Person Application</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 12px !important;
+            }
+        </style>
+    </h:head>
+    <h:body >
+        <p:growl id="growl" autoUpdate="true"/>
+        <h:form id="personForm">
+            <h:panelGroup layout="block">
+                <p:dataTable widgetVar="personTable" var="p" value="#{personBean.personList}" rows="5" filteredValue="#{personBean.filteredValue}"
+                             rowKey="#{p.id}" lazy="true"  paginator="true"
+                             paginatorPosition="bottom" selection="#{personBean.person}" selectionMode="single"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                             currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"    
+                             rowsPerPageTemplate="5,10,15,20,30"
+                             >
+                    
+                    <p:ajax event="rowSelect" listener="#{personBean.onRowSelect}" update="@form" />
+                    <p:ajax event="rowUnselect" listener="#{personBean.onRowUnselect}" update="@form" />
+                    <f:facet name="header">
+                        Person List
+                    </f:facet>
+                    <p:column headerText="ID" sortBy="#{p.id}" filterBy="#{p.id}" >
+                        #{p.id}
+                    </p:column>
+                    <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}" >
+                        <f:facet name="filter">
+                            <p:inputText value="#{personBean.filter.entity.name}" >
+                                <p:ajax process="@this" update="@none" oncomplete="PF('personTable').filter()"/>
+                            </p:inputText>
+                        </f:facet>
+                           #{p.name}
+                    </p:column>
+                    <p:column headerText="Car" sortBy="#{p.car}" filterBy="#{p.car}" >
+                        <f:facet name="filter">
+                            <p:inputText value="#{personBean.filter.entity.car}" >
+                                <p:ajax process="@this" update="@none" oncomplete="PF('personTable').filter()"/>
+                            </p:inputText>
+                        </f:facet>
+                        #{p.car}
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+            <p>
+                Find Person by id: <p:inputText id="inptId" value="#{personBean.id}"/> <p:commandButton id="brFind" value="Find" action="#{personBean.findPersonById()}" process="@form" update="@form" partialSubmit="true"/>
+            </p>
+
+            <p:fieldset legend="Manage Person">
+                <h:panelGrid columns="2" id="grid">
+                    <h:outputLabel value="Name:" for="inptName"/>
+                    <p:inputText id="inptName" value="#{personBean.person.name}"/>
+                    <h:outputLabel value="Car:" for="inptCar"/>
+                    <h:panelGroup layout="block">
+                        <p:inputText id="inptCar" value="#{personBean.person.car}" readonly="true"/>
+                        <p:commandButton value="Find cars" action="#{personBean.searchCars}" icon="ui-icon-search" process="@this" update=":carForm:carPanel" oncomplete="PF('carDialog').show()"/>
+                    </h:panelGroup>
+                    <p:commandButton value="Save/Update" action="#{personBean.update}" process="@(table[id$=grid])" update="@form"/>
+                    <p:commandButton value="Delete" action="#{personBean.remove}" process="@form" update="@form"/>
+                    <p:commandButton value="Clear" action="#{personBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('personTable').clearFilters()"/>
+                </h:panelGrid>
+
+            </p:fieldset>
+
+        </h:form>
+        <p:dialog widgetVar="carDialog" header="Find Cars" width="500px" modal="true">
+              <h:form id="carForm">
+                  <h:panelGroup id="carPanel" layout="block">
+                      <p:dataTable widgetVar="carTable" var="c" selection="#{personBean.carDto}" selectionMode="single"
+                                   value="#{personBean.carList}" rows="5"
+                                   rowKey="#{c.model}" lazy="true"  paginator="true"
+                                   paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                   currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"
+                                   rowsPerPageTemplate="5,10,15,20,30"
+                                   emptyMessage="#{personBean.serviceAvailable ? 'No cars found': personBean.serviceErrorMessage}"
+                              >
+                          <p:ajax event="rowSelect" listener="#{personBean.onCarSelect}" update=":personForm:inptCar" oncomplete="PF('carDialog').hide()"/>
+                          <f:facet name="header">
+                              Car List
+                          </f:facet>
+                          <p:column headerText="Model" filterBy="#{c.model}" >
+                              <f:facet name="filter">
+                                  <p:inputText value="#{personBean.carDto.model}" >
+                                      <p:ajax process="@this" update="@none" oncomplete="PF('carTable').filter()"/>
+                                  </p:inputText>
+                              </f:facet>
+                              #{c.model}
+                          </p:column>
+                          <p:column headerText="Name" filterBy="#{c.name}" >
+                              <f:facet name="filter">
+                                  <p:inputText value="#{personBean.carDto.name}" >
+                                      <p:ajax process="@this" update="@none" oncomplete="PF('carTable').filter()"/>
+                                  </p:inputText>
+                              </f:facet>
+                              #{c.name}
+                          </p:column>
+                      </p:dataTable>
+                  </h:panelGroup>
+              </h:form>
+
+        </p:dialog>
+    </h:body>
+
+</html>

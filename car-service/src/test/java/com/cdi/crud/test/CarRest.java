@@ -125,6 +125,16 @@ public class CarRest {
     }
 
     @Test
+    public void shouldCountCars() {
+        given().
+                when().
+                get(basePath + "rest/cars/count").
+                then().
+                statusCode(Response.Status.OK.getStatusCode()).
+                body(equalTo("4"));
+    }
+
+    @Test
     public void shouldFindCar() {
         String json = 
         given().

@@ -32,6 +32,23 @@
       "consumes" : [ "application/json" ]
     } ]
   }, {
+    "path" : "/cars/count",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "count",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "model"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "name"
+      } ],
+      "notes" : "counts number of cars"
+    } ]
+  }, {
     "path" : "/cars/list",
     "operations" : [ {
       "method" : "GET",
