@@ -126,12 +126,7 @@ public class PersonBean implements Serializable {
             public List<CarDto> load(int first, int pageSize,
                                      String sortField, SortOrder sortOrder,
                                      Map<String, Object> filters) {
-                com.cdi.crud.commons.model.SortOrder order = null;
-                if (sortOrder != null) {
-                    order = sortOrder.equals(SortOrder.ASCENDING) ? com.cdi.crud.commons.model.SortOrder.ASCENDING
-                            : sortOrder.equals(SortOrder.DESCENDING) ? com.cdi.crud.commons.model.SortOrder.DESCENDING
-                            : com.cdi.crud.commons.model.SortOrder.UNSORTED;
-                }
+
                 Response response = getTarget("cars/list").queryParam("start", first).queryParam("max",pageSize).queryParam("model",carDto.getModel()).
                         queryParam("name",carDto.getName()).request(MediaType.APPLICATION_JSON).get();
                 if(response.getStatus() == 200){
