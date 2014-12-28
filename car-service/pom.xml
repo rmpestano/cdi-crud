@@ -116,8 +116,8 @@
                             </docletArtifact>
                             <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>-apiVersion 1 -docBasePath /cdi-crud/apidocs
-                                -apiBasePath /cdi-crud/rest
+                            <additionalparam>-apiVersion 1 -docBasePath /car-service/apidocs
+                                -apiBasePath /car-service/rest
                                 -swaggerUiPath ${project.build.directory}/
                             </additionalparam>
                         </configuration>
