@@ -115,6 +115,7 @@ public class PersonBean implements Serializable {
     }
 
     public void searchCars(){
+        carDto = new CarDto();
         if(carList == null){
             initCarDatamodel();
         }
@@ -127,13 +128,13 @@ public class PersonBean implements Serializable {
                                      String sortField, SortOrder sortOrder,
                                      Map<String, Object> filters) {
 
-                Response response = getTarget("cars/list").queryParam("start", first).queryParam("max",pageSize).queryParam("model",carDto.getModel()).
-                        queryParam("name",carDto.getName()).request(MediaType.APPLICATION_JSON).get();
+                Response response = getTarget("cars/list").queryParam("start", first).queryParam("max",pageSize).queryParam("model",carDto != null ? carDto.getModel():null).
+                        queryParam("name",carDto != null ? carDto.getName():null).request(MediaType.APPLICATION_JSON).get();
                 if(response.getStatus() == 200){
                     List<CarDto> cars = response.readEntity(new GenericType<List<CarDto>>() {
                     });
-                    setRowCount(Integer.parseInt(getTarget("cars/count").queryParam("model", carDto.getModel()).
-                            queryParam("name", carDto.getName()).request(MediaType.APPLICATION_JSON).get(String.class)));
+                    setRowCount(Integer.parseInt(getTarget("cars/count").queryParam("model", carDto != null ? carDto.getModel():null).
+                            queryParam("name", carDto != null ? carDto.getName():null).request(MediaType.APPLICATION_JSON).get(String.class)));
                     return cars;
                 } else{
                     serviceAvailable = false;
