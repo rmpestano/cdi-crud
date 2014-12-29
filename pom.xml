@@ -16,7 +16,7 @@
     </modules>
     <properties>
         <hibernate.version>4.3.5.Final</hibernate.version>
-        <deltaspike.version>1.2.0</deltaspike.version>
+        <deltaspike.version>1.2.1</deltaspike.version>
         <version.selenium>2.43.1</version.selenium>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <version.graphene>2.1.0.Alpha1</version.graphene>

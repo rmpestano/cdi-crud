@@ -1,6 +1,7 @@
 package com.cdi.crud.commons.rest;
 
 
+import com.cdi.crud.commons.annotation.Config;
 import com.cdi.crud.commons.exception.CustomException;
 import com.cdi.crud.commons.security.CustomAuthorizer;
 
@@ -23,6 +24,7 @@ public class RestSecuredImpl implements Serializable{
     CustomAuthorizer authorizer;
 
     @Inject
+    @Config
     Instance<HttpServletRequest> request;
 
 
