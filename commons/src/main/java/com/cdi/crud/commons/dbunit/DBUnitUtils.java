@@ -1,5 +1,6 @@
 package com.cdi.crud.commons.dbunit;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.operation.DatabaseOperation;
@@ -12,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 
+@Exclude
 public class DBUnitUtils {
 
     private static DataSource ds;
