@@ -17,7 +17,7 @@
     <properties>
         <hibernate.version>4.3.5.Final</hibernate.version>
         <deltaspike.version>1.2.1</deltaspike.version>
-        <version.selenium>2.43.1</version.selenium>
+        <version.selenium>2.44.0</version.selenium>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <version.graphene>2.1.0.Alpha1</version.graphene>
         <version.drone>2.0.0.Alpha2</version.drone>
@@ -541,7 +541,7 @@
                                         <artifactItem>
                                             <groupId>org.wildfly</groupId>
                                             <artifactId>wildfly-dist</artifactId>
-                                            <version>8.1.0.Final</version>
+                                            <version>8.2.0.Final</version>
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -557,7 +557,7 @@
                 <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
                 <arquillian.container>jboss-managed</arquillian.container>
-                <arquillian.serverHome>${project.build.directory}/wildfly-8.1.0.Final</arquillian.serverHome>
+                <arquillian.serverHome>${project.build.directory}/wildfly-8.2.0.Final</arquillian.serverHome>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
             </properties>
@@ -565,7 +565,7 @@
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <version>8.1.0.Final</version>
+                    <version>8.2.0.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -576,7 +576,7 @@
                 <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
                 <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
                 <arquillian.container>wildfly-remote</arquillian.container>
-                <arquillian.serverHome>${project.build.directory}/wildfly-8.1.0.Final</arquillian.serverHome>
+                <arquillian.serverHome>${project.build.directory}/wildfly-8.2.0.Final</arquillian.serverHome>
                 <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
                 </application.platform>
             </properties>
@@ -584,7 +584,7 @@
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <version>8.1.0.Final</version>
+                    <version>8.2.0.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
