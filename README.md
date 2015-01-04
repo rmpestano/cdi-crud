@@ -2,7 +2,7 @@ Simple Java EE CDI crud, real pagination and (micro ;) ) services example.
 
 This project is also referenced in the following posts:[cdi-crud-multi-tenancy](http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/), [arquillian, cucumber and dbunit](http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/), [Some words on JavaEE Rest and Swagger](http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/) and [Testing your services with Arquillian and Docker](http://rpestano.wordpress.com/2014/12/28/testing-services-arquillian-docker/).
 
-Since version 2 of this project there are 3 apps. Car services(almost the same app from version 1), person crud which is an app that crud persons and consumes cars exposes by car service and commons app which gather utility classes used by the two apps. 
+Since version 2 of this project there are 3 apps. Car services(almost the same app from [version 1](https://github.com/rmpestano/cdi-crud/tree/1.0.0) ), person crud which is an app that crud persons and consumes cars exposes by car service and commons app which gather utility classes used by the two apps.
 
 The two apps are available online at Openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person).
 
@@ -10,10 +10,10 @@ Note that [person project](https://github.com/rmpestano/cdi-crud/tree/master/per
 
 ### How run it:
 
-1. choose the maven profile: wildfly{default}, glassfish(4) or jboss(only car service)
-2. OR run on your favourite IDE
+1. chose the maven profile: wildfly{default}, glassfish(4) or jboss(only car service)
+2. OR run on your favorite IDE
 
-### Runnig tests:
+### Running tests:
 
 * via maven: mvn clean test -Ptests -Pwildfly-managed 
 * or via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudRest|CrudAt as Junit test
@@ -82,7 +82,7 @@ If you want to use utility classes from [commons project](https://github.com/rmp
     </repository>
 </repositories>
 ```
-### Continous integration
+### Continuous integration
 [Travis-CI](https://travis-ci.org/rmpestano/cdi-crud) build:
 [![Build Status](https://travis-ci.org/rmpestano/cdi-crud.png)](https://travis-ci.org/rmpestano/cdi-crud)
 
