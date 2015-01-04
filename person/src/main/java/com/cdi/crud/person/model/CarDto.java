@@ -1,6 +1,7 @@
 package com.cdi.crud.person.model;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by rmpestano on 12/27/14.

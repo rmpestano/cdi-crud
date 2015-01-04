@@ -152,6 +152,7 @@ public class PersonBean implements Serializable {
                     });
                     setRowCount(Integer.parseInt(getTarget("cars/count").queryParam("model", carDto != null ? carDto.getModel():null).
                             queryParam("name", carDto != null ? carDto.getName():null).request(MediaType.APPLICATION_JSON).get(String.class)));
+                    response.close();
                     return cars;
                 } else{
                     serviceAvailable = false;
@@ -289,6 +290,9 @@ public class PersonBean implements Serializable {
             return client.target(URI.create(new URL(carServiceUrl + resource).toExternalForm()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        }
+        finally {
+
         }
         return null;
     }
