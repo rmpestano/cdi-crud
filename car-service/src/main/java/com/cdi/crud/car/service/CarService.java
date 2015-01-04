@@ -26,7 +26,7 @@ import java.util.List;
  */
     @Stateless
     public class CarService extends CrudService<Car> {
-	
+
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Car> listByModel(String model) {
@@ -54,7 +54,11 @@ import java.util.List;
 
         if(filter.hasParam("minPrice") && filter.hasParam("maxPrice")){
              crud().between("price",(Double)filter.getParam("minPrice"),(Double)filter.getParam("maxPrice"));
-        }
+        }else if(filter.hasParam("minPrice")){
+          crud().ge("minPrice",(Double)filter.getParam("minPrice"));
+        }else if(filter.hasParam("maxPrice")){
+          crud().ge("maxPrice",(Double)filter.getParam("maxPrice"));
+           }
 		return crud().getCriteria();
 	}
 

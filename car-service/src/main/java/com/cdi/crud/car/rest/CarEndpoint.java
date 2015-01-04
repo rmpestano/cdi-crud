@@ -99,8 +99,8 @@ public class CarEndpoint {
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
                           @QueryParam("model") String model,
                           @QueryParam("name") String name,
-                          @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
-                          @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
+                          @QueryParam("minPrice") Double minPrice,
+                          @QueryParam("maxPrice") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
         Car car = new Car();
         filter.setEntity(car);
@@ -110,11 +110,16 @@ public class CarEndpoint {
         if(name != null){
             filter.getEntity().name(name);
         }
-        filter.addParam("maxPrice",maxPrice);
-        filter.addParam("minPrice",minPrice);
-        filter.setFirst(startPosition).setPageSize(maxResult);
-        final List<Car> results = carService.paginate(filter);
-        return results;
+        if(minPrice != null){
+          filter.addParam("minPrice",minPrice);
+        }
+       if(maxPrice != null){
+         filter.addParam("maxPrice",maxPrice);
+
+       }
+       filter.setFirst(startPosition).setPageSize(maxResult);
+       final List<Car> results = carService.paginate(filter);
+       return results;
     }
 
     /**
