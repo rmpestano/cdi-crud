@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.dbunit.dataset.Row;
@@ -22,12 +23,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.net.URL;
+import java.text.ParseException;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by rmpestano on 12/20/14.
@@ -70,7 +73,7 @@ public class CarRest {
         when().
                 get(basePath + "rest/cars/list").
         then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(4)).//dataset has 4 cars
                 body("model", hasItem("Ferrari")).
                 body("price", hasItem(2450.8f)).
@@ -84,7 +87,7 @@ public class CarRest {
                 when().
                 get(basePath + "rest/cars/list").
                 then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(2)).
                 body("model", hasItem("Ferrari")).
                 body("model",hasItem("Mustang")).
@@ -99,7 +102,7 @@ public class CarRest {
         when().
                 get(basePath + "rest/cars/list").
         then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(2)).
                 body("model", hasItem("Porche")).
                 body("model",hasItem("Porche274")).
@@ -114,7 +117,7 @@ public class CarRest {
         when().
                 get(basePath + "rest/cars/list").
         then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(2)).
                 body("model", hasItem("Mustang")).
                 body("name",hasItem("mustang spider")).
@@ -130,25 +133,49 @@ public class CarRest {
                 when().
                 get(basePath + "rest/cars/count").
                 then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body(equalTo("4"));
     }
 
     @Test
     public void shouldFindCar() {
-        String json = 
+        String json =
         given().
         when().
                 get(basePath + "rest/cars/1").  //dataset has car with id =1
         then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("id", equalTo(1)).
                 body("model",equalTo("Ferrari"))        .
                 body("price",equalTo(2450.8f)).extract().asString();
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
         assertEquals("Ferrari", jsonObject.get("model").getAsString());
-        
+
+    }
+
+    @Test
+    public void shouldFindCarUsingCache() throws InterruptedException, ParseException {
+        Response response =
+        given().
+        when().
+                get(basePath + "rest/cars/1").  //dataset has car with id =1
+        then().
+               statusCode(Status.OK.getStatusCode()).
+               body("id", equalTo(1)).
+               body("model", equalTo("Ferrari"))        .
+               body("price", equalTo(2450.8f)).extract().response();
+
+        String etag = response.getHeader("etag");
+        assertNotNull("etag");
+        given().
+                header("If-None-Match", etag).
+                when().
+                get(basePath + "rest/cars/1").  //dataset has car with id =1
+                then().
+                statusCode(Status.NOT_MODIFIED.getStatusCode());
+
+
     }
 
 
@@ -165,14 +192,14 @@ public class CarRest {
                 when().
                 post(basePath + "rest/cars").
                 then().
-                statusCode(Response.Status.CREATED.getStatusCode()).extract().asString();
+                statusCode(Status.CREATED.getStatusCode()).extract().asString();
 
         //new car should be there
         given().
                 when().
                 get(basePath + "rest/cars/list").
                 then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(1)).
                 body("model", hasItem("new car"));
     }
@@ -189,7 +216,7 @@ public class CarRest {
                 when().
                 post(basePath + "rest/cars").
                 then().
-                statusCode(Response.Status.BAD_REQUEST.getStatusCode()).
+                statusCode(Status.BAD_REQUEST.getStatusCode()).
                 body("message",equalTo("Car name cannot be empty"));
     }
 
@@ -205,7 +232,7 @@ public class CarRest {
         when().
                 post(basePath + "rest/cars").
         then().
-                statusCode(Response.Status.BAD_REQUEST.getStatusCode()).
+                statusCode(Status.BAD_REQUEST.getStatusCode()).
                 body("message",equalTo("Car name must be unique"));
     }
 
@@ -222,7 +249,7 @@ public class CarRest {
                 when().
                         put(basePath + "rest/cars/1").  //dataset has car with id =1
                 then().
-                        statusCode(Response.Status.NO_CONTENT.getStatusCode());
+                        statusCode(Status.NO_CONTENT.getStatusCode());
 
 
     }
@@ -234,7 +261,7 @@ public class CarRest {
                 when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
                 then().
-                statusCode(Response.Status.FORBIDDEN.getStatusCode());
+                statusCode(Status.FORBIDDEN.getStatusCode());
     }
 
 
@@ -246,7 +273,7 @@ public class CarRest {
                 when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
                 then().
-                statusCode(Response.Status.UNAUTHORIZED.getStatusCode());
+                statusCode(Status.UNAUTHORIZED.getStatusCode());
     }
 
     @Test
@@ -257,14 +284,14 @@ public class CarRest {
         when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
         then().
-                statusCode(Response.Status.NO_CONTENT.getStatusCode());
+                statusCode(Status.NO_CONTENT.getStatusCode());
 
         //ferrari should not be in db anymore
         given().
         when().
                 get(basePath + "rest/cars/list").
          then().
-                statusCode(Response.Status.OK.getStatusCode()).
+                statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(3)).
                 body("model", not(hasItem("Ferrari")));
     }

@@ -10,9 +10,8 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 import java.util.List;
 
 /**
@@ -66,11 +65,12 @@ public class CarEndpoint {
      * @responseType com.cdi.crud.car.model.Car
      * @param id car ID
      * @status 404 car not found
+     * @status 304 not modified
      * @status 200 car found successfully
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
-    public Response findById(@PathParam("id") Integer id) {
+    public Response findById(@PathParam("id") Integer id, @Context Request request) {
         Car entity;
         try {
             entity = carService.findById(id);
@@ -81,7 +81,19 @@ public class CarEndpoint {
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        return Response.ok(entity).build();
+
+        CacheControl cc = new CacheControl();
+        cc.setMaxAge(100);
+        EntityTag tag = new EntityTag(Integer.toString(entity.hashCode()));
+        Response.ResponseBuilder builder =  request.evaluatePreconditions(tag);
+        if(builder != null){
+            builder.cacheControl(cc);
+            return builder.build();
+        }
+        builder = Response.ok(entity);
+        builder.cacheControl(cc);
+        builder.tag(tag);
+        return builder.build();
     }
 
     /**
