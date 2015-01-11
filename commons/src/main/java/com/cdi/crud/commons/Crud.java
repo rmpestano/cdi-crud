@@ -44,7 +44,6 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     public Class<T> getEntityClass() {
         if (entityClass == null) {
-            //only works if one extends BaseDao, we will take care of it with CDI
             entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         }
         return entityClass;

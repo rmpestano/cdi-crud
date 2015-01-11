@@ -9,7 +9,6 @@ import com.cdi.crud.commons.model.Filter;
 import com.cdi.crud.person.model.CarDto;
 import com.cdi.crud.person.model.Person;
 import com.cdi.crud.person.service.PersonService;
-import org.apache.deltaspike.core.api.config.ConfigProperty;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -21,16 +20,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -52,9 +42,7 @@ public class PersonBean implements Serializable {
     private boolean serviceAvailable;
     private String serviceErrorMessage;
 
-    @Inject
-    @ConfigProperty(name = "carservice.endpoint.url")//system property
-    private String carServiceUrl;
+
 
     @Inject
     PersonService personService;
@@ -67,12 +55,6 @@ public class PersonBean implements Serializable {
                 Person p = new Person().name("name " + i).car("car " + i);
                 personService.insert(p);
             }
-        }
-        if (carServiceUrl == null || "".equals(carServiceUrl)) {
-            carServiceUrl = "http://localhost:8080/car-service/rest/";
-        }
-        if (!carServiceUrl.endsWith("/")) {
-            carServiceUrl = carServiceUrl + "/";
         }
     }
 
@@ -124,18 +106,20 @@ public class PersonBean implements Serializable {
     }
 
     private void verifyServiceAvailability() {
-        Response response = getTarget("cars/count").request().get();
-        if(response.getStatus() == 200){
+        int status =  personService.getCarServiceStatus();
+
+        if(status == 200){
             serviceAvailable = true;
         }
-        else if(response.getStatus() == 404){
+        else if(status == 404){
             serviceAvailable = false;
             throw new CustomException("Car service is unavailable, try again later.");
         }
         else{
             serviceAvailable = false;
-            throw new CustomException("Problems trying to fetch cars from service.\n error:"+response.getEntity());
+
         }
+
     }
 
     private void initCarDatamodel() {
@@ -145,27 +129,16 @@ public class PersonBean implements Serializable {
                                      String sortField, SortOrder sortOrder,
                                      Map<String, Object> filters) {
 
-                Response response = getTarget("cars/list").queryParam("start", first).queryParam("max",pageSize).queryParam("model",carDto != null ? carDto.getModel():null).
-                        queryParam("name",carDto != null ? carDto.getName():null).request(MediaType.APPLICATION_JSON).get();
-                if(response.getStatus() == 200){
-                    List<CarDto> cars = response.readEntity(new GenericType<List<CarDto>>() {
-                    });
-                    setRowCount(Integer.parseInt(getTarget("cars/count").queryParam("model", carDto != null ? carDto.getModel():null).
-                            queryParam("name", carDto != null ? carDto.getName():null).request(MediaType.APPLICATION_JSON).get(String.class)));
-                    response.close();
-                    return cars;
-                } else{
-                    serviceAvailable = false;
-                    if(response.getStatus() == 404){
-                        serviceErrorMessage = "Car service unavailable, try again later.";
-                        return null;
-                    }
-                    else{
-                        serviceErrorMessage = "Problems trying to fetch cars from service.\n error:"+response.getEntity();
-                        return null;
-                    }
-                }
+                try{
+                    Filter<CarDto> carFilter = new Filter<>(carDto);
+                    carFilter.setFirst(first).setPageSize(pageSize);
+                    setRowCount(personService.countCars(carFilter));
+                    return personService.listCars(carFilter);
 
+                }catch (CustomException c){
+                     serviceErrorMessage = c.getMessage();
+                     return null;
+                }
             }
 
         };
@@ -284,18 +257,7 @@ public class PersonBean implements Serializable {
         return serviceErrorMessage;
     }
 
-    WebTarget getTarget(String resource){
-        Client client = ClientBuilder.newClient();
-        try {
-            return client.target(URI.create(new URL(carServiceUrl + resource).toExternalForm()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        finally {
 
-        }
-        return null;
-    }
 
 
 }

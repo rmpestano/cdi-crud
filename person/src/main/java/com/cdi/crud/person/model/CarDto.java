@@ -1,13 +1,14 @@
 package com.cdi.crud.person.model;
 
 
+import com.cdi.crud.commons.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by rmpestano on 12/27/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CarDto {
+public class CarDto implements BaseEntity{
     private String model;
     private String name;
 
@@ -28,4 +29,8 @@ public class CarDto {
     }
 
 
+    @Override
+    public String getId() {
+        return model;
+    }
 }
