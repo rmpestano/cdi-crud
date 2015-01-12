@@ -26,6 +26,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>1.0.1.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.1.5.Final</version>
@@ -43,13 +50,6 @@
                 <groupId>org.jboss.arquillian.extension</groupId>
                 <artifactId>arquillian-drone-bom</artifactId>
                 <version>${version.drone}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>3.0.2.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -227,12 +227,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>2.3.3.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.3.2</version>
@@ -253,6 +247,7 @@
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+            <version>1.0.1.Final</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -414,7 +409,7 @@
                                 <include>**/*Bdd.java</include>
                                 <include>**/*Rest.java</include>
                             </includes>
-			    <excludes>
+                            <excludes>
                                 <exclude>
                                     **/*PersonIt.java
                                 </exclude>
