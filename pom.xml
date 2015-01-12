@@ -414,6 +414,11 @@
                                 <include>**/*Bdd.java</include>
                                 <include>**/*Rest.java</include>
                             </includes>
+			    <excludes>
+                                <exclude>
+                                    **/*PersonIt.java
+                                </exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
