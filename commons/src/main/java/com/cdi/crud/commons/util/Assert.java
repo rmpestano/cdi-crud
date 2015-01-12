@@ -11,7 +11,6 @@ import java.util.MissingResourceException;
 
 /**
  * Created by rafael-pestano on 10/06/2014.
- * <p/>
  * utility class for assertions
  */
 public class Assert implements Serializable {
@@ -35,8 +34,8 @@ public class Assert implements Serializable {
      * Assert that given expression evaluates to <code>true</code>
      * <pre class="code">Assert.isTrue(true,"message if expression evaluates to false");</pre>
      *
-     * @param expression
-     * @param message    the exception message to use if the assertion fails
+     * @param expression the expression
+     * @param message  the exception message to use if the assertion fails
      * @throws RuntimeException if the given expression is <code>false</code>
      */
     public static void isTrue(boolean expression, String message) {
@@ -52,7 +51,7 @@ public class Assert implements Serializable {
      * Assert that given expression evaluates to <code>false</code>
      * <pre class="code">Assert.notTrue(false,"message if expression evaluates to true");</pre>
      *
-     * @param expression
+     * @param expression boolean expression
      * @param message    the exception message to use if the assertion fails
      * @throws RuntimeException if the given expression is <code>true</code>
      */
@@ -69,8 +68,8 @@ public class Assert implements Serializable {
      * Assert that given objects are equal
      * <pre class="code">Assert.equals(obj1,obj2,"message if objects are NOT equal");</pre>
      *
-     * @param obj1
-     * @param obj2
+     * @param obj1 lhs
+     * @param obj2 rhs
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given objects are not equal
      */
@@ -87,8 +86,8 @@ public class Assert implements Serializable {
      * Assert that given objects are NOT equal
      * <pre class="code">Assert.equals(obj1,obj2,"message if objects ARE equal");</pre>
      *
-     * @param obj1
-     * @param obj2
+     * @param obj1 lhs
+     * @param obj2 rhs
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given objects ARE equal
      */
@@ -109,7 +108,7 @@ public class Assert implements Serializable {
      * Assert that given object is null
      * <pre class="code">Assert.equals(obj1,obj2,"message if object is NOT null");</pre>
      *
-     * @param object
+     * @param object the object
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given object is NOT null
      */
@@ -130,7 +129,7 @@ public class Assert implements Serializable {
      * Assert that given object is NOT null
      * <pre class="code">Assert.equals(obj1,obj2,"message if object IS null");</pre>
      *
-     * @param object
+     * @param object the object
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given object IS null
      */
@@ -152,7 +151,7 @@ public class Assert implements Serializable {
      * Assert that the given text has any character, blank included.
      * <pre class="code">Assert.hasLength(name);</pre>
      *
-     * @param text
+     * @param text the text
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given text has any character or has only blanks.
      */
@@ -170,7 +169,7 @@ public class Assert implements Serializable {
      * Assert that the given text has any character.
      * <pre class="code">Assert.hasText(name);</pre>
      *
-     * @param text
+     * @param text the text
      */
     public static boolean hasText(String text) {
         if (!hasLength(text)) {
@@ -189,7 +188,7 @@ public class Assert implements Serializable {
      * Assert that the given text has any character.
      * <pre class="code">Assert.hasText(name,"message if the given text has no characters");</pre>
      *
-     * @param text
+     * @param text the text
      * @param message the exception message to use if the assertion fails
      * @throws RuntimeException if the given text has no characters.
      */
@@ -302,7 +301,7 @@ public class Assert implements Serializable {
     }
 
     /**
-     * @param array
+     * @param array the array to check
      * @return {@code true} if array has at least one not null element
      */
     public static boolean hasElements(Object[] array) {
@@ -318,7 +317,7 @@ public class Assert implements Serializable {
     }
 
     /**
-     * @param list
+     * @param list the list to check
      * @return {@code true} if list has at least one not null element
      */
     public static boolean hasElements(List<?> list) {

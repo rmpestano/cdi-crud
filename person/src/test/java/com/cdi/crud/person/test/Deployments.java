@@ -1,4 +1,4 @@
-package com.cdi.crud.test;
+package com.cdi.crud.person.test;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -25,7 +25,6 @@ public class Deployments {
         WebArchive war = ShrinkWrap.create(WebArchive.class);
         war.addPackages(true, "com.cdi.crud.person.model");
         war.addPackages(true, "com.cdi.crud.person.service");
-        war.addPackages(true, "com.cdi.crud.person.rest");
         //LIBS
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.cdi.crud:commons:1.0.0").withoutTransitivity().asSingleFile());

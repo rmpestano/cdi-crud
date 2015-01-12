@@ -133,8 +133,8 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable 
     /**
      * usually overriden in concrete service
      *
-     * @param filter
-     * @return
+     * @param filter the filter
+     * @return modified criteria
      */
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Criteria configPagination(Filter<T> filter) {

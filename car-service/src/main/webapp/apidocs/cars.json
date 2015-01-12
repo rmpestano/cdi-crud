@@ -87,7 +87,6 @@
         "type" : "number",
         "format" : "double",
         "description" : "minimum car price",
-        "defaultValue" : "0",
         "paramType" : "query",
         "name" : "minPrice",
         "required" : true
@@ -95,7 +94,6 @@
         "type" : "number",
         "format" : "double",
         "description" : "maximum car price",
-        "defaultValue" : "20000",
         "paramType" : "query",
         "name" : "maxPrice",
         "required" : true
@@ -151,6 +149,9 @@
         "code" : 404,
         "message" : "car not found"
       }, {
+        "code" : 304,
+        "message" : "not modified"
+      }, {
         "code" : 200,
         "message" : "car found successfully"
       } ]
@@ -199,19 +200,19 @@
     "Car" : {
       "id" : "Car",
       "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "model" : {
-          "type" : "string"
-        },
         "price" : {
           "type" : "number",
           "format" : "double"
         },
         "name" : {
           "type" : "string"
+        },
+        "model" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
         }
       }
     }

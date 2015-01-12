@@ -39,7 +39,6 @@ public class PersonService extends CrudService<Person> {
     @Inject
     @ConfigProperty(name = "carservice.endpoint.url")//system property
     private String carServiceUrl;
-    private int carServiceStatus;
 
     @PostConstruct
     public void init(){

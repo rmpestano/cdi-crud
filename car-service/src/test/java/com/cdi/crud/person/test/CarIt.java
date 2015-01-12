@@ -1,4 +1,4 @@
-package com.cdi.crud.test;
+package com.cdi.crud.person.test;
 
 import com.cdi.crud.car.model.Car;
 import com.cdi.crud.car.service.CarService;

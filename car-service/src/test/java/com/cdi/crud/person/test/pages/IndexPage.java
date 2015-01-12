@@ -1,4 +1,4 @@
-package com.cdi.crud.test.pages;
+package com.cdi.crud.person.test.pages;
 
 import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;

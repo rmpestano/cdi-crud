@@ -1,4 +1,4 @@
-package com.cdi.crud.test;
+package com.cdi.crud.person.test;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

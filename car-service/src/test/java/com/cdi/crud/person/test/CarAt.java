@@ -1,8 +1,8 @@
-package com.cdi.crud.test;
+package com.cdi.crud.person.test;
 
 import com.cdi.crud.car.bean.CarBean;
 import com.cdi.crud.commons.dbunit.DBUnitUtils;
-import com.cdi.crud.test.pages.IndexPage;
+import com.cdi.crud.person.test.pages.IndexPage;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;

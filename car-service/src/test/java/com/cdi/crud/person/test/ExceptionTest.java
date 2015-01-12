@@ -1,4 +1,4 @@
-package com.cdi.crud.test;
+package com.cdi.crud.person.test;
 
 import com.cdi.crud.car.bean.CarBean;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
