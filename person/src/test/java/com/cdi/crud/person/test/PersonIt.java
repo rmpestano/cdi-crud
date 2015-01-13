@@ -2,11 +2,14 @@ package com.cdi.crud.person.test;
 
 import com.cdi.crud.person.service.PersonService;
 import org.arquillian.cube.CubeController;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,22 +30,30 @@ public class PersonIt {
     @Inject
     PersonService personService;
 
+    @Deployment
     public static Archive<?> createDeployment() {
         WebArchive war = Deployments.getBaseDeployment();
         System.out.println(war.toString(true));
         return war;
     }
 
-//    @Before
-//    public void tearUp(){
-//        cubeController.start("car_service");
-//        System.setProperty("carservice.endpoint.url","http://localhost:8180/car-service/rest");
-//    }
+    @Before
+    public void tearUp(){
+        cubeController.create("car_service");
+        try{
+            cubeController.start("car_service");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.setProperty("carservice.endpoint.url","http://localhost:8180/car-service/rest");
+    }
 
-//    @Before
-//    public void tearDown(){
-//        cubeController.stop("car_service");
-//    }
+    @After
+    public void tearDown(){
+        cubeController.stop("car_service");
+        cubeController.destroy("car_service");
+
+    }
 
     @Test
     @InSequence(1)

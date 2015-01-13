@@ -12,8 +12,14 @@
     <extension qualifier="docker">
         <property name="serverVersion">1.12</property>
         <property name="serverUri">http://localhost:2375</property>
-        <property name="autoStartContainers">tomcat_default</property>
+        <!--<property name="autoStartContainers">car_service</property>-->
         <property name="dockerContainers">
+            car_service:
+              image: javaee_sample
+              exposedPorts: [8080/tcp, 9990/tcp]
+              await:
+                strategy: polling
+              portBindings: [8180->8080/tcp, 9991->9990/tcp]
             tomcat_default:
               image: tutum/tomcat:7.0
               exposedPorts: [8089/tcp]
@@ -21,12 +27,6 @@
                 strategy: polling
               env: [TOMCAT_PASS=mypass, JAVA_OPTS=-Dcom.sun.management.jmxremote.port=8089 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false]
               portBindings: [8089/tcp, 8081->8080/tcp]
-            car_service:
-              image: javaee_sample
-              exposedPorts: [8080/tcp, 9990/tcp]
-              await:
-                strategy: polling
-              portBindings: [8180->8080/tcp, 9991->9990/tcp]
         </property>
     </extension>
     <container qualifier="jboss-remote">
