@@ -4,7 +4,7 @@ This project is also referenced in the following posts:[cdi-crud-multi-tenancy](
 
 Since version 2 of this project there are 3 apps. Car services(almost the same app from [version 1](https://github.com/rmpestano/cdi-crud/tree/1.0.0) ), person crud which is an app that crud persons and consumes cars exposes by car service and commons app which gather utility classes used by the two apps.
 
-The two apps are available online at Openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person).
+The two apps are available online at Openshift PaaS: [Car Service](http://cdicrud-rpestano.rhcloud.com/car-service) and [Person Crud](http://person-rmpestano.rhcloud.com/person). See also [Car Service API Docs](http://cdicrud-rpestano.rhcloud.com/car-service/apidocs).
 
 Note that [person project](https://github.com/rmpestano/cdi-crud/tree/master/person) only supports JavaEE 7(because it uses JAX-RS 2.0 client api) although [car service](https://github.com/rmpestano/cdi-crud/tree/master/car-service) still compatible with JavaEE 6 servers.
 
