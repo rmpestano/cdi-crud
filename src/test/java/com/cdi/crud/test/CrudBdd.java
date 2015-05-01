@@ -10,7 +10,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
-import cucumber.runtime.arquillian.api.Tags;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(ArquillianCucumber.class)
 @Features("features/search-cars.feature")
-@Tags("@whitebox")
 public class CrudBdd {
 
     @Inject
@@ -31,7 +29,7 @@ public class CrudBdd {
 
     Car carFound;
 
-    int numCarsFound;
+    int carsCount;
 
     @Deployment(name = "cdi-crud.war")
     public static Archive<?> createDeployment() {
@@ -48,11 +46,11 @@ public class CrudBdd {
         DBUnitUtils.createDataset("car.yml");
     }
 
-
     @After
     public void clear() {
         DBUnitUtils.deleteDataset("car.yml");
     }
+
 
     @Given("^search car with model \"([^\"]*)\"$")
     public void searchCarWithModel(String model) {
@@ -70,17 +68,18 @@ public class CrudBdd {
     @Then("^searching car by model \"([^\"]*)\" must return (\\d+) of records$")
     public void searchingCarByModel(final String model, final int result) {
         Car carExample = new Car().model(model);
-        assertEquals(result, carService.crud().example(carExample).count());
+        carsCount = carService.crud().example(carExample).count();
+        assertEquals(result,carsCount);
     }
 
     @When("^search car with price less than (.+)$")
     public void searchCarWithPrice(final double price) {
-        numCarsFound = carService.crud().initCriteria().le("price", price).count();
+        carsCount = carService.crud().initCriteria().le("price", price).count();
     }
 
     @Then("^must return (\\d+) cars")
     public void mustReturnCars(final int result) {
-        assertEquals(result, numCarsFound);
+        assertEquals(result, carsCount);
     }
 
 }
