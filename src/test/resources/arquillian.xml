@@ -42,7 +42,7 @@
 
 	<extension qualifier="persistence">
 		<property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
-		<property name="defaultDataSeedStrategy">NONE</property>
+		<property name="defaultDataSeedStrategy">INSERT</property>
 		<property name="defaultCleanupPhase">NONE</property>
 		<property name="defaultTransactionMode">DISABLED</property>
 

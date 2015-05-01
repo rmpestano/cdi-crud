@@ -8,6 +8,8 @@ import com.cdi.crud.security.CustomAuthorizer;
 import com.cdi.crud.service.CarService;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.TestExecutionPhase;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,6 +25,7 @@ import static org.junit.Assert.*;
  * Created by rmpestano on 9/7/14.
  */
 @RunWith(Arquillian.class)
+@Cleanup(phase = TestExecutionPhase.BEFORE)
 public class CrudIt {
 
     @Inject
