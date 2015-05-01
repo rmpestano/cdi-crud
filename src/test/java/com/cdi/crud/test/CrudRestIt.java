@@ -1,6 +1,5 @@
 package com.cdi.crud.test;
 
-import com.cdi.crud.bean.CrudBean;
 import com.cdi.crud.test.dbunit.DBUnitRest;
 import com.cdi.crud.test.dbunit.DBUnitUtils;
 import com.google.gson.JsonObject;
@@ -34,14 +33,14 @@ import static org.junit.Assert.assertEquals;
  * Created by rmpestano on 12/20/14.
  */
 @RunWith(Arquillian.class)
-public class CrudRest {
+public class CrudRestIt {
 
     @Deployment(name = "cdi-rest.war", testable = false)//run as client
     public static Archive<?> createDeployment() {
         WebArchive war = Deployments.getBaseDeployment();
                 //create dbunit dataset remotely
         war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
-        addClass(DBUnitUtils.class).addClass(DBUnitRest.class).addClass(CrudBean.class).addClass(YamlDataSet.class).
+        addClass(DBUnitUtils.class).addClass(DBUnitRest.class).addClass(YamlDataSet.class).
                 addClass(YamlDataSetProducer.class).
                 addClass(Row.class).addClass(Table.class).addClass(DBUnitRest.class);
         MavenResolverSystem resolver = Maven.resolver();
@@ -69,7 +68,7 @@ public class CrudRest {
         given().
                 queryParam("start",0).queryParam("max", 10).
         when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars").
         then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(4)).//dataset has 4 cars
@@ -83,7 +82,7 @@ public class CrudRest {
         given().
                 queryParam("minPrice",2450f).queryParam("maxPrice",12999).
                 when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars").
                 then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(2)).
@@ -98,7 +97,7 @@ public class CrudRest {
         given().
                 queryParam("model","Porche").
         when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars").
         then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(2)).
@@ -113,7 +112,7 @@ public class CrudRest {
         given().
                 queryParam("name","spider").
         when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars").
         then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(2)).
@@ -161,7 +160,7 @@ public class CrudRest {
         //new car should be there
         given().
                 when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars").
                 then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(1)).
@@ -253,7 +252,7 @@ public class CrudRest {
         //ferrari should not be in db anymore
         given().
         when().
-                get(basePath + "rest/cars/list").
+                get(basePath + "rest/cars/").
          then().
                 statusCode(Response.Status.OK.getStatusCode()).
                 body("", hasSize(3)).

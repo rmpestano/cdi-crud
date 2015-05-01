@@ -95,7 +95,6 @@ public class CarEndpoint {
      * @param name list cars with given name
      */
     @GET
-    @Path("list")
     public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
                           @QueryParam("model") String model,

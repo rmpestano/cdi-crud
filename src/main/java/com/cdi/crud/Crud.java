@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -28,9 +29,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import com.cdi.crud.model.BaseEntity;
-import com.cdi.crud.persistence.TenantController;
-import com.cdi.crud.persistence.TenantType;
-import com.cdi.crud.qualifier.Tenant;
 import com.cdi.crud.util.Assert;
 
 /**
@@ -46,27 +44,18 @@ public class Crud<T extends BaseEntity> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final Logger log = Logger.getLogger(getClass().getName());
 	
-    @Inject
-    private TenantController tenantController;
-    private TenantType tenantType;
     protected Class<T> entityClass;
     private Criteria criteria;
     private Session session;
 
-    public Class<T> getEntityClass() {
-        if (entityClass == null) {
-            //only works if one extends BaseDao, we will take care of it with CDI
-            entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        }
-        return entityClass;
-    }
+    @PersistenceContext
+    protected EntityManager em;
 
     @Inject
     public void Crud(InjectionPoint ip) {
         if (ip != null && ip.getType() != null) {
             try {
                 entityClass = resolveEntity(ip);
-                tenantType = resolveTenant(ip);
             } catch (Exception e) {
                 throw new IllegalArgumentException("provide entity class at injection point eg: @Inject Crud<Entity> crud");
             }
@@ -77,10 +66,6 @@ public class Crud<T extends BaseEntity> implements Serializable {
         }
     }
     
-    public void setTenantType(TenantType tenantType) {
-		this.tenantType = tenantType;
-	}
-
 	private Class<T> resolveEntity(InjectionPoint ip) {
 		ParameterizedType type = (ParameterizedType) ip.getType();
 		Type[] typeArgs = type.getActualTypeArguments();
@@ -88,26 +73,8 @@ public class Crud<T extends BaseEntity> implements Serializable {
 		return entityClass;
 	}
 
-	/**
-	 * resolve TynantType by looking for @Tenant annotation at injectionPoint
-	 * level  eg: @Inject @Tenant(CAR)
-			  Crud<Car> carCrud;
-	 * 
-	 * @param ip
-	 */
-	private TenantType resolveTenant(InjectionPoint ip) {
-		if(tenantType != null){
-			//already set by service layer
-			return tenantType;
-		}
-		if (ip.getAnnotated().isAnnotationPresent(Tenant.class)) {
-			return ip.getAnnotated().getAnnotation(Tenant.class).value();
-		}
-		
-		return TenantType.CAR;// default tenant is CarPU
-	}
 
-	// buider methods
+	// null-safe buider methods
     public Crud<T> example(T entity) {
         if (entity != null) {
             getCriteria().add(Example.create(entity));
@@ -503,6 +470,15 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     //getter & setters
+
+    public Class<T> getEntityClass() {
+        if (entityClass == null) {
+            //only works if one extends Crud
+            entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        }
+        return entityClass;
+    }
+
     public Session getSession() {
         if (session == null || !session.isOpen()) {
             session = getEntityManager().unwrap(Session.class);
@@ -522,7 +498,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public EntityManager getEntityManager() {
-        return tenantController.getTenant(tenantType);
+        return em;
     }
 
 

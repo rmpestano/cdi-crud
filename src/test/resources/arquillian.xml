@@ -49,8 +49,5 @@
 		<property name="report">true</property>
 		<property name="report-directory">target/cucumber-report</property>
 	</extension>
-	<extension qualifier="webdriver">
-		<property name="browser">firefox</property>
-	</extension>
 
 </arquillian>

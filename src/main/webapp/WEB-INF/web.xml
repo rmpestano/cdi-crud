@@ -5,22 +5,8 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-    <!-- Change to "Production" when you are ready to deploy -->
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Production</param-value>
-    </context-param>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.faces</url-pattern>
-    </servlet-mapping>
 </web-app>

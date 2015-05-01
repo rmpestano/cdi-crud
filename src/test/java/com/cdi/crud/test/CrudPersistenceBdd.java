@@ -12,6 +12,9 @@ import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
 import cucumber.runtime.arquillian.api.Tags;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.persistence.UsingDataSet;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
@@ -24,7 +27,8 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(ArquillianCucumber.class)
 @Features("features/search-cars.feature")
 @Tags("@whitebox")
-public class CrudBdd {
+@Transactional(TransactionMode.DISABLED)
+public class CrudPersistenceBdd {
 
     @Inject
     CarService carService;
@@ -45,16 +49,14 @@ public class CrudBdd {
 
     @Before
     public void initDataset() {
-        DBUnitUtils.createDataset("car.yml");
     }
-
 
     @After
     public void clear() {
-        DBUnitUtils.deleteDataset("car.yml");
     }
 
     @Given("^search car with model \"([^\"]*)\"$")
+    @UsingDataSet("car.yml")//dataset has car with model = "Ferrari",
     public void searchCarWithModel(String model) {
         Car carExample = new Car().model(model);
         carFound = carService.findByExample(carExample);

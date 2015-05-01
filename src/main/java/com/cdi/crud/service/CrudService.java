@@ -1,27 +1,20 @@
 package com.cdi.crud.service;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-
 import com.cdi.crud.Crud;
 import com.cdi.crud.exception.CustomException;
 import com.cdi.crud.model.BaseEntity;
 import com.cdi.crud.model.Filter;
 import com.cdi.crud.model.SortOrder;
-import com.cdi.crud.persistence.TenantType;
-import com.cdi.crud.qualifier.Tenant;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by rmpestano on 9/7/14. A CRUD template to all services
@@ -32,25 +25,13 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable 
     @Inject
     private Crud<T> crud;
 
+
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Crud<T> crud() {
         return crud;
     }
 
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Crud<T> crud(TenantType tenantType) {
-        crud.setTenantType(tenantType);
-        return crud;
-    }
-
-    @PostConstruct
-    public void init() {
-        if (getClass().isAnnotationPresent(Tenant.class)) {
-            crud.setTenantType(getClass().getAnnotation(Tenant.class).value());
-        }
-    }
-
-
+    @TransactionAttribute
     public void insert(T entity) {
         if (entity == null) {
             throw new CustomException("Entity cannot be null");
@@ -64,6 +45,7 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable 
         afterInsert(entity);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void remove(T entity) {
         if (entity == null) {
             throw new CustomException("Entity cannot be null");
@@ -77,7 +59,7 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable 
         afterRemove(entity);
     }
 
-
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void remove(List<T> entities) {
         if (entities == null) {
             throw new CustomException("Entities cannot be null");
@@ -86,7 +68,7 @@ public abstract class CrudService<T extends BaseEntity> implements Serializable 
             this.remove(t);
         }
     }
-
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void update(T entity) {
         if (entity == null) {
             throw new CustomException("Entity cannot be null");
