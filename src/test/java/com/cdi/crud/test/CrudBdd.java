@@ -54,6 +54,7 @@ public class CrudBdd {
 
     @Given("^search car with model \"([^\"]*)\"$")
     public void searchCarWithModel(String model) {
+        assertEquals(4,carService.crud().count());
         Car carExample = new Car().model(model);
         carFound = carService.findByExample(carExample);
         assertNotNull(carFound);
@@ -61,6 +62,7 @@ public class CrudBdd {
 
     @When("^update model to \"([^\"]*)\"$")
     public void updateModel(String model) {
+        assertEquals(4,carService.crud().count());
         carFound.model(model);
         carService.update(carFound);
     }

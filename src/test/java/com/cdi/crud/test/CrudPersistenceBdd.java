@@ -47,6 +47,7 @@ public class CrudPersistenceBdd {
     @UsingDataSet("car.yml")//dataset has car with model = "Ferrari",
     @Transactional(TransactionMode.DISABLED)
     public void searchCarWithModel(String model) {
+        //assertEquals(4,carService.crud().count());//database is already clean here
         Car carExample = new Car().model(model);
         carFound = carService.findByExample(carExample);
         assertNotNull(carFound);
@@ -55,6 +56,7 @@ public class CrudPersistenceBdd {
     @When("^update model to \"([^\"]*)\"$")
     @Transactional(TransactionMode.DISABLED)
     public void updateModel(String model) {
+        assertEquals(4,carService.crud().count());
         carFound.model(model);
         carService.update(carFound);
     }
@@ -68,6 +70,7 @@ public class CrudPersistenceBdd {
     }
 
     @When("^search car with price less than (.+)$")
+    @UsingDataSet("car.yml")
     @Transactional(TransactionMode.DISABLED)
     public void searchCarWithPrice(final double price) {
         carsCount = carService.crud().initCriteria().le("price", price).count();
