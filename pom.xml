@@ -494,29 +494,5 @@
                 </dependency>
             </dependencies>
         </profile>
-        <profile>
-            <id>coveralls</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eluder.coveralls</groupId>
-                        <artifactId>coveralls-maven-plugin</artifactId>
-                        <version>2.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>coveralls-jacoco</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>jacoco</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <repoToken>BeY5SbPOlCAGfuhiJos2BbQxkEpFLQrvU</repoToken>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 </project>
