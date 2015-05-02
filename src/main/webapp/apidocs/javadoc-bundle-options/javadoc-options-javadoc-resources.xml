@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javadocOptions>
+  <docletArtifacts>
+    <docletArtifact>
+      <groupId>com.carma</groupId>
+      <artifactId>swagger-doclet</artifactId>
+      <version>1.0.2</version>
+    </docletArtifact>
+  </docletArtifacts>
+  <tagletArtifacts>
+    <tagletArtifact />
+  </tagletArtifacts>
+  <javadocResourcesDirectory>src/main/javadoc</javadocResourcesDirectory>
+</javadocOptions>

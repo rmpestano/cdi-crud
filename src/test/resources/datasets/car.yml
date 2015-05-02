@@ -1,0 +1,17 @@
+car:
+  - id: 1
+    model: "Ferrari"
+    name: "ferrari spider"
+    price: 2450.8
+  - id: 2
+    model: "Mustang"
+    name: "mustang spider"
+    price: 12999.0
+  - id: 3
+    model: "Porche"
+    name: "porche avenger"
+    price: 1390.3
+  - id: 4
+    model: "Porche274"
+    name: "porche rally"
+    price: 18990.23

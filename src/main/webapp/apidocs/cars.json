@@ -1,0 +1,217 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/cdi-crud/rest",
+  "resourcePath" : "/cars",
+  "apis" : [ {
+    "path" : "/cars",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "create",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "Car",
+        "paramType" : "body",
+        "name" : "entity",
+        "required" : true
+      } ],
+      "notes" : "creates a new car",
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "Car model cannot be empty"
+      }, {
+        "code" : 400,
+        "message" : "Car name cannot be empty"
+      }, {
+        "code" : 400,
+        "message" : "Car name must be unique"
+      }, {
+        "code" : 201,
+        "message" : "Car created successfully"
+      } ],
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "list",
+      "type" : "array",
+      "items" : {
+        "$ref" : "Car"
+      },
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "initial list position",
+        "defaultValue" : "0",
+        "paramType" : "query",
+        "name" : "start",
+        "required" : true
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "number of elements to retrieve",
+        "defaultValue" : "10",
+        "paramType" : "query",
+        "name" : "max",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "list cars with given model",
+        "paramType" : "query",
+        "name" : "model"
+      }, {
+        "type" : "string",
+        "description" : "list cars with given name",
+        "paramType" : "query",
+        "name" : "name"
+      }, {
+        "type" : "number",
+        "format" : "double",
+        "description" : "minimum car price",
+        "paramType" : "query",
+        "name" : "minPrice",
+        "required" : true
+      }, {
+        "type" : "number",
+        "format" : "double",
+        "description" : "maximum car price",
+        "paramType" : "query",
+        "name" : "maxPrice",
+        "required" : true
+      } ]
+    } ]
+  }, {
+    "path" : "/cars/count",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "count",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "model"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "name"
+      } ],
+      "notes" : "counts number of cars"
+    } ]
+  }, {
+    "path" : "/cars/{id:[0-9][0-9]*}",
+    "operations" : [ {
+      "method" : "DELETE",
+      "nickname" : "deleteById",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "name of the user to log in",
+        "paramType" : "header",
+        "name" : "user"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "car ID",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ],
+      "notes" : "deletes a car based on its ID",
+      "responseMessages" : [ {
+        "code" : 401,
+        "message" : "only authorized users can access this resource"
+      }, {
+        "code" : 403,
+        "message" : "only authenticated users can access this resource"
+      }, {
+        "code" : 404,
+        "message" : "car not found"
+      }, {
+        "code" : 204,
+        "message" : "Car deleted successfully"
+      } ]
+    }, {
+      "method" : "GET",
+      "nickname" : "findById",
+      "type" : "Car",
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "car ID",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ],
+      "notes" : "finds a car based on its ID",
+      "responseMessages" : [ {
+        "code" : 404,
+        "message" : "car not found"
+      }, {
+        "code" : 304,
+        "message" : "not modified"
+      }, {
+        "code" : 200,
+        "message" : "car found successfully"
+      } ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "update",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "Car",
+        "paramType" : "body",
+        "name" : "entity",
+        "required" : true
+      } ],
+      "responseMessages" : [ {
+        "code" : 400,
+        "message" : "Car model cannot be empty"
+      }, {
+        "code" : 400,
+        "message" : "Car name cannot be empty"
+      }, {
+        "code" : 400,
+        "message" : "Car name must be unique"
+      }, {
+        "code" : 400,
+        "message" : "No Car informed to be updated"
+      }, {
+        "code" : 404,
+        "message" : "No Car found with the given ID"
+      }, {
+        "code" : 409,
+        "message" : "id passed in parameter is different from the Car to update"
+      }, {
+        "code" : 204,
+        "message" : "Car updated successfully"
+      } ],
+      "consumes" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "Car" : {
+      "id" : "Car",
+      "properties" : {
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "model" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}

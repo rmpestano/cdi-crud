@@ -24,11 +24,12 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-impl-base:1.1.5.Final" level="project" />
@@ -45,7 +46,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven-archive:2.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi-maven-archive:2.1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-impl-base:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-impl-base:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-api:1.1.5.Final" level="project" />
@@ -54,13 +54,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-spi:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-api:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0-alpha-5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.github.cukespace:cukespace-core:1.5.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-container:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-core:1.1.5.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-impl-base:1.1.5.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-junit:1.1.8" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-core:1.1.8" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-java:1.1.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-api:2.1.0.Alpha1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-spi:2.1.0.Alpha1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-impl:2.1.0.Alpha1" level="project" />
@@ -101,7 +97,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-api:7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.mail:javax.mail:1.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.activation:activation:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.2" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.3" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-core:4.3.5.Final" level="project" />
@@ -130,11 +126,11 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:1.7.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-impl-base:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-api:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-spi:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-impl-base:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-api:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-spi:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:2.0.0-alpha-7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api:2.1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi:2.1.1" level="project" />
@@ -173,6 +169,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.plexus:plexus-compiler-javac:2.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.plexus:plexus-compiler-api:2.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-persistence-api:1.0.0.Alpha7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.dbunit:dbunit:2.5.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-persistence-dbunit:1.0.0.Alpha7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-persistence-spi:1.0.0.Alpha7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-persistence-core:1.0.0.Alpha7" level="project" />
@@ -180,25 +179,22 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-impl-base:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-spi:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-api:1.0.1.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.dbunit:dbunit:2.5.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-api:1.7.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.yaml:snakeyaml:1.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi:3.2-FINAL" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: log4j:log4j:1.2.13" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-impl-base:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-impl-base:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-api:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-spi:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-impl-base:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-spi:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-api:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-impl-base:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-impl-base:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-api:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-spi:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-test-impl-base:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.test:arquillian-test-spi:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.config:arquillian-config-api:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap:shrinkwrap-impl-base:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap:shrinkwrap-spi:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0-alpha-7" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.github.cukespace:cukespace-core:1.5.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.github.cukespace:cukespace-core:1.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.masterthought:cucumber-reporting:0.0.23" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.velocity:velocity:1.7" level="project" />
@@ -207,16 +203,16 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.googlecode.totallylazy:totallylazy:1077" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jsoup:jsoup:1.7.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-container:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-core:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-impl-base:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-container:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.junit:arquillian-junit-core:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.container:arquillian-container-impl-base:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.shrinkwrap:shrinkwrap-api:1.2.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-junit:1.1.8" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-core:1.1.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-junit:1.2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-core:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-html:0.2.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-jvm-deps:1.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:gherkin:2.12.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-java:1.1.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-java:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-api:2.1.0.Alpha2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-spi:2.1.0.Alpha2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-impl:2.1.0.Alpha2" level="project" />
@@ -284,11 +280,11 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_1.1_spec:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-arquillian-container-managed:8.2.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-arquillian-common:8.2.0.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:1.1.7.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:1.1.8.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-osgi:2.1.0.CR2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-resource:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.testenricher:arquillian-testenricher-resource:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-arquillian-testenricher-msc:8.2.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-server:8.2.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-controller:8.2.0.Final" level="project" />
@@ -333,7 +329,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.osgi:org.osgi.core:5.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-arquillian-protocol-jmx:8.2.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly.security:wildfly-security-manager:1.0.0.Final" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-jmx:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-jmx:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.osgi.metadata:jbosgi-metadata:3.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.xnio:xnio-api:3.3.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.xnio:xnio-nio:3.3.0.Final" level="project" />
@@ -343,7 +339,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.remotingjmx:remoting-jmx:2.0.0.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.sasl:jboss-sasl:1.0.4.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-api:1.1.7.Final" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.core:arquillian-core-api:1.1.8.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.wildfly:wildfly-build-config:8.2.0.Final" level="project" />
   </component>
 </module>
