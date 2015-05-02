@@ -22,7 +22,7 @@
 		</configuration>
 	</container>
 
-	<container qualifier="jboss-managed" default="true">
+	<container qualifier="wildfly-managed" default="true">
 		<configuration>
 			<property name="jbossHome">${arquillian.serverHome}</property>
 			<property name="outputToConsole">true</property>

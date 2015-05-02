@@ -387,6 +387,9 @@
         <!-- container profiles -->
         <profile>
             <id>wildfly-managed</id>
+            <properties>
+                <arquillian.container>wildfly-managed</arquillian.container>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -426,6 +429,9 @@
         </profile>
         <profile>
             <id>wildfly-remote</id>
+            <properties>
+                <arquillian.container>wildfly-managed</arquillian.container>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.wildfly</groupId>
