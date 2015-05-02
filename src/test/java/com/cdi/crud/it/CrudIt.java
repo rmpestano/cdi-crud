@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -62,6 +63,7 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldFindCarByExample() {
+        Logger.getLogger(getClass().getName()).info("shouldFindCarByExample()");
         Car carExample = new Car().model("Ferrari");
         Car car = carService.findByExample(carExample);
         assertNotNull(car);
@@ -103,6 +105,7 @@ public class CrudIt {
 
     @Test
     public void shouldInsertCar(){
+        Logger.getLogger(getClass().getName()).info("shouldInsertCar()");
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,0);
         Car newCar = new Car().model("My Car").name("car name").price(1d);
