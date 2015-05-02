@@ -42,6 +42,7 @@ public class CrudIt {
 
     @Test
     public void shouldBeInitialized() {
+        System.out.println("travisci wakeup");
         assertNotNull(carService);
         assertEquals(carService.crud().countAll(), 0);
     }
@@ -63,7 +64,6 @@ public class CrudIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldFindCarByExample() {
-        Logger.getLogger(getClass().getName()).info("shouldFindCarByExample()");
         Car carExample = new Car().model("Ferrari");
         Car car = carService.findByExample(carExample);
         assertNotNull(car);
@@ -105,7 +105,6 @@ public class CrudIt {
 
     @Test
     public void shouldInsertCar(){
-        Logger.getLogger(getClass().getName()).info("shouldInsertCar()");
         int countBefore = carService.count(new Filter<Car>());
         assertEquals(countBefore,0);
         Car newCar = new Car().model("My Car").name("car name").price(1d);
@@ -115,6 +114,7 @@ public class CrudIt {
 
     @Test
     public void shouldNotRemoveCarWithUnauthorizedUser(){
+        System.out.println("travisci wakeup");
         authorizer.login("guest");
         try {
             carService.remove(new Car(1));
