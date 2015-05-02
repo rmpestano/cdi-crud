@@ -1,0 +1,63 @@
+= Simple Java EE CDI crud example.
+
+== Blog posts
+This project is referenced in the following blog posts:
+
+* http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/[CDI crud multi tenancy];
+* http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/[Arquillian, Cucumber and DBunit];
+* http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/[Some words on JavaEE Rest and Swagger];
+* Its the application deployed in the post https://rpestano.wordpress.com/2015/01/10/a-simple-java-ee-docker-example/[A simple JavaEE Docker Example]
+* Torturing Wildflies with Gatling
+
+== Available at Openshift
+You can access the project online at Openshift PaaS:
+----
+http://cdicrud-rpestano.rhcloud.com/cdi-crud.
+----
+See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI crud REST API]
+
+== How run it:
+
+. Via maven with:
+----
+mvn clean package
+----
+. *OR* run on your favorite IDE
+
+== Running tests:
+
+* Via maven: mvn clean test -Ptests -Pwildfly-managed
+* *Or* via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudRest|CrudAt as Junit test
+
+
+== Technologies:
+
+* CDI
+* JSF
+* Hibernate
+* Primefaces
+* Deltaspike
+* Arquillian
+* Cucumber
+* DBUnit
+* JaxRS
+* Swagger
+* Openshift
+
+
+== Application servers
+
+Tested under:
+
+* Wildfly 8.x
+* with minor efforts(mainly persistence configurarion) should run on other *JavaEE 7* application servers
+
+== Forge plugin
+if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin) which generates Crud in the format you see at this project. 
+
+
+== Continuous integration
+
+image:https://travis-ci.org/rmpestano/cdi-crud.svg[Build Status (Travis CI), link=https://travis-ci.org/rmpestano/cdi-crud]
+image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=https://coveralls.io/r/rmpestano/cdi-crud]
+
