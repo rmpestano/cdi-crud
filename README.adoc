@@ -19,10 +19,10 @@ See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI Crud REST API]
 == How run it:
 
 . Via maven with:
++
 ----
 mvn clean package
 ----
-+
 . *OR* run on your favorite IDE
 
 == Running tests:
