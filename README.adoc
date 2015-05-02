@@ -54,7 +54,7 @@ Tested under:
 * with minor efforts(mainly persistence configurarion) should run on other *JavaEE 7* application servers
 
 == Forge plugin
-if you use forge 1.x (soon on forge 2) you may have a https://github.com/rmpestano/crud-plugin[look at this plugin] which generates Crud in the format you see at this project.
+if you use http://forge.jboss.org/1.x/[JBoss Forge 1.x] (soon on forge 2) you may have a https://github.com/rmpestano/crud-plugin[look at this plugin] which generates Crud in the format you see at this project.
 
 
 == Continuous integration

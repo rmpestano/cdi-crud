@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  * Created by rmpestano on 9/7/14.
  */
 @RunWith(Arquillian.class)
-public class CarIt {
+public class CrudIt {
 
     @Inject
     CarService carService;

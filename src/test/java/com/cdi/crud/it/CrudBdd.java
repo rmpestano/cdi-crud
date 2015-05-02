@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(ArquillianCucumber.class)
 @Features("features/search-cars.feature")
 @Tags("@whitebox")
-public class CarBdd {
+public class CrudBdd {
 
     @Inject
     CarService carService;
