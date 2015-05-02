@@ -110,8 +110,8 @@ public class CarEndpoint {
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
                           @QueryParam("model") String model,
                           @QueryParam("name") String name,
-                          @QueryParam("minPrice") Double minPrice,
-                          @QueryParam("maxPrice") Double maxPrice) {
+                          @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
+                          @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
         Car car = new Car();
         filter.setEntity(car);

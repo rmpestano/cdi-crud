@@ -42,7 +42,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(ArquillianCucumber.class)
 @Features("features/search-cars.feature")
 @Tags("@blackbox")
-public class CarAt {
+public class CrudAt {
   
   @Deployment(name = "cdi-crud.war", testable=false)
   public static Archive<?> createDeployment() {

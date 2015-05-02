@@ -1,5 +1,8 @@
 package com.cdi.crud.util;
 
+import com.cdi.crud.ft.CrudAt;
+import com.cdi.crud.infra.InitAppBean;
+import com.cdi.crud.it.CrudIt;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -24,6 +27,8 @@ public class Deployments {
     public static WebArchive getBaseDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class);
         war.addPackages(true, "com.cdi.crud");
+        war.deleteClass(InitAppBean.class);
+        war.deletePackages(true,CrudIt.class.getPackage()).deletePackages(true,CrudAt.class.getPackage());
         //LIBS
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.primefaces:primefaces").withoutTransitivity().asSingleFile());

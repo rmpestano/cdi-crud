@@ -41,15 +41,6 @@ public class CarBean implements Serializable {
     CarService carService;
 
 
-    @PostConstruct
-    public void init() {
-        if (carService.crud().countAll() == 0) {
-            for (int i = 1; i <= 10; i++) {
-                Car c = new Car().name("name " + i).model("model " + i).price((double) (i * 100));
-                carService.insert(c);
-            }
-        }
-    }
 
     /*
      * you can inject crud direcly, sometimes its useful but remember that you
