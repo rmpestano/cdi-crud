@@ -1,4 +1,4 @@
-= Simple Java EE CDI crud example.
+= Simple Java EE CDI Crud example.
 
 == Blog posts
 This project is referenced in the following blog posts:
@@ -6,7 +6,7 @@ This project is referenced in the following blog posts:
 * http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/[CDI crud multi tenancy];
 * http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/[Arquillian, Cucumber and DBunit];
 * http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/[Some words on JavaEE Rest and Swagger];
-* Its the application deployed in the post https://rpestano.wordpress.com/2015/01/10/a-simple-java-ee-docker-example/[A simple JavaEE Docker Example]
+* Its the application deployed in the post https://rpestano.wordpress.com/2015/01/10/a-simple-java-ee-docker-example/[A simple JavaEE Docker Example];
 * Torturing Wildflies with Gatling
 
 == Available at Openshift
@@ -18,16 +18,20 @@ See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI Crud REST API]
 
 == How run it:
 
-. Via maven with:
+* Via maven with:
 +
 ----
 mvn clean package
 ----
-. *OR* run on your favorite IDE
+* *OR* run on your favorite IDE
 
 == Running tests:
 
-* Via maven: mvn clean test -Ptests -Pwildfly-managed
+* Via maven:
++
+----
+mvn clean test -Ptests -Pwildfly-managed
+----
 * *Or* via IDE: activate container profile in your IDE and Run CrudIt.java|CrudBdd.java|CrudRest|CrudAt as Junit test
 
 
