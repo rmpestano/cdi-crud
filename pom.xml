@@ -6,23 +6,18 @@
     <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
     <version>2.0.0</version>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
     <name>cdi-crud</name>
 
-    <modules>
-        <module>car-service</module>
-        <module>person</module>
-        <module>commons</module>
-    </modules>
     <properties>
         <hibernate.version>4.3.5.Final</hibernate.version>
         <deltaspike.version>1.2.1</deltaspike.version>
         <version.selenium>2.45.0</version.selenium>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <version.graphene>2.1.0.Alpha2</version.graphene>
         <version.drone>2.0.0.Alpha3</version.drone>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -35,7 +30,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.1.7.Final</version>
+                <version>1.1.8.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -55,6 +50,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -65,7 +61,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.0</version>
+            <version>5.2</version>
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -123,7 +119,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
@@ -175,7 +170,13 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-persistence-api</artifactId>
             <version>1.0.0.Alpha7</version>
-            <scope>test</scope>
+            <scope>test</scope> <!--needed by DBUnitUtils -->
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId> <!--needed by DBUnitUtils -->
+            <artifactId>dbunit</artifactId>
+            <version>2.5.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
@@ -186,7 +187,7 @@
         <dependency>
             <groupId>com.github.cukespace</groupId>
             <artifactId>cukespace-core</artifactId>
-            <version>1.5.10</version>
+            <version>1.6.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -198,13 +199,13 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>1.1.8</version>
+            <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>1.1.8</version>
+            <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -295,79 +296,41 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+
+            <!-- rest api:https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-service-docs</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <doclet>com.carma.swagger.doclet.ServiceDoclet</doclet>
+                            <docletArtifact>
+                                <groupId>com.carma</groupId>
+                                <artifactId>swagger-doclet</artifactId>
+                                <version>1.0.2</version>
+                            </docletArtifact>
+                            <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                            <additionalparam>-apiVersion 1 -docBasePath /cdi-crud/apidocs
+                                -apiBasePath /cdi-crud/rest
+                                -swaggerUiPath ${project.build.directory}/
+                            </additionalparam>
+                        </configuration>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
     <profiles>
-        <profile>
-            <id>wildfly</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
-                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
-                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
-                </application.platform>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                    <version>${hibernate.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                    <version>5.1.1.Final</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-entitymanager</artifactId>
-                    <version>${hibernate.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>glassfish</id>
-            <properties>
-                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
-                <application.jta-data-source>jdbc/__default</application.jta-data-source>
-                <application.dialect>org.hibernate.dialect.DerbyDialect</application.dialect>
-                <application.platform>org.hibernate.service.jta.platform.internal.SunOneJtaPlatform
-                </application.platform>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                    <version>${hibernate.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                    <version>5.1.1.Final</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-entitymanager</artifactId>
-                    <version>${hibernate.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jboss</id>
-            <properties>
-                <application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
-                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <application.dialect>org.hibernate.dialect.H2Dialect</application.dialect>
-                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
-                </application.platform>
-            </properties>
-        </profile>
+        <!-- profiles for selecting which tests will run (i.e surefire includes)-->
         <profile>
             <id>tests</id>
             <build>
@@ -384,11 +347,6 @@
                                 <include>**/*At.java</include>
                                 <include>**/*Rest.java</include>
                             </includes>
-                            <excludes>
-                                <exclude>
-                                    **/*PersonIt.java
-                                </exclude>
-                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -409,11 +367,6 @@
                                 <include>**/*Bdd.java</include>
                                 <include>**/*Rest.java</include>
                             </includes>
-                            <excludes>
-                                <exclude>
-                                    **/*PersonIt.java
-                                </exclude>
-                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -437,99 +390,13 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>test-control</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.16</version>
-                        <configuration>
-                            <skipTests>false</skipTests>
-                            <runOrder>reversealphabetical</runOrder>
-                            <includes>
-                                <include>**/*Test.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.apache.deltaspike.modules</groupId>
-                    <artifactId>deltaspike-test-control-module-impl</artifactId>
-                    <version>${deltaspike.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.deltaspike.cdictrl</groupId>
-                    <artifactId>deltaspike-cdictrl-api</artifactId>
-                    <version>${deltaspike.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.deltaspike.cdictrl</groupId>
-                    <artifactId>deltaspike-cdictrl-owb</artifactId>
-                    <version>${deltaspike.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.openwebbeans</groupId>
-                    <artifactId>openwebbeans-impl</artifactId>
-                    <version>1.2.6</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.myfaces.core</groupId>
-                    <artifactId>myfaces-api</artifactId>
-                    <version>2.1.12</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.myfaces.core</groupId>
-                    <artifactId>myfaces-impl</artifactId>
-                    <version>2.1.12</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.el</groupId>
-                    <artifactId>el-api</artifactId>
-                    <version>2.2</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.enterprise</groupId>
-                    <artifactId>cdi-api</artifactId>
-                    <version>1.1</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.validation</groupId>
-                    <artifactId>validation-api</artifactId>
-                    <version>1.1.0.Final</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.ejb</groupId>
-                    <artifactId>javax.ejb-api</artifactId>
-                    <version>3.2</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.myfaces.core</groupId>
-                    <artifactId>myfaces-impl-test</artifactId>
-                    <version>2.2.3</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.myfaces.test</groupId>
-                    <artifactId>myfaces-test20</artifactId>
-                    <version>1.0.6</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
+
+        <!-- container profiles -->
         <profile>
             <id>wildfly-managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -595,22 +462,77 @@
             </dependencies>
         </profile>
         <profile>
-            <id>jboss-remote</id>
+            <id>jacoco</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/cdi/crud/car/bean/*.class</exclude>
+                                <exclude>com/cdi/crud/car/model/*.class</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
             <properties>
-                <application.jta-provider>org.hibernate.ejb.HibernatePersistence</application.jta-provider>
-                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <arquillian.container>jboss-remote</arquillian.container>
-                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
-                </application.platform>
+                <jacoco.version>0.7.4.201502262128</jacoco.version>
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>7.2.0.Final</version>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-jacoco</artifactId>
+                    <version>1.0.0.Alpha7</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.core</artifactId>
+                    <version>${jacoco.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>coveralls</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eluder.coveralls</groupId>
+                        <artifactId>coveralls-maven-plugin</artifactId>
+                        <version>2.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>coveralls-jacoco</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>jacoco</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repoToken>BeY5SbPOlCAGfuhiJos2BbQxkEpFLQrvU</repoToken>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
