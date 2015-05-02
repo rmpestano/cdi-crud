@@ -11,10 +11,10 @@ This project is referenced in the following blog posts:
 
 == Available at Openshift
 You can access the project online at Openshift PaaS:
-----
+
 http://cdicrud-rpestano.rhcloud.com/cdi-crud.
-----
-See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI crud REST API]
+
+See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI Crud REST API].
 
 == How run it:
 
@@ -22,6 +22,7 @@ See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI crud REST API]
 ----
 mvn clean package
 ----
++
 . *OR* run on your favorite IDE
 
 == Running tests:
@@ -53,7 +54,7 @@ Tested under:
 * with minor efforts(mainly persistence configurarion) should run on other *JavaEE 7* application servers
 
 == Forge plugin
-if you use forge(1.x) you may have a [look at this plugin](https://github.com/rmpestano/crud-plugin) which generates Crud in the format you see at this project. 
+if you use forge 1.x (soon on forge 2) you may have a https://github.com/rmpestano/crud-plugin[look at this plugin] which generates Crud in the format you see at this project.
 
 
 == Continuous integration
