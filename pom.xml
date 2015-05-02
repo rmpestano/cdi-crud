@@ -21,13 +21,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>1.0.1.Final</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.1.8.Final</version>
@@ -364,8 +357,6 @@
                             <runOrder>reversealphabetical</runOrder>
                             <includes>
                                 <include>**/*It.java</include>
-                                <include>**/*Bdd.java</include>
-                                <include>**/*Rest.java</include>
                             </includes>
                         </configuration>
                     </plugin>
@@ -422,14 +413,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
-                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <arquillian.container>jboss-managed</arquillian.container>
-                <arquillian.serverHome>${project.build.directory}/wildfly-8.2.0.Final</arquillian.serverHome>
-                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
-                </application.platform>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.wildfly</groupId>
@@ -441,14 +424,6 @@
         </profile>
         <profile>
             <id>wildfly-remote</id>
-            <properties>
-                <application.jta-provider>org.hibernate.jpa.HibernatePersistenceProvider</application.jta-provider>
-                <application.jta-data-source>java:jboss/datasources/ExampleDS</application.jta-data-source>
-                <arquillian.container>wildfly-remote</arquillian.container>
-                <arquillian.serverHome>${project.build.directory}/wildfly-8.2.0.Final</arquillian.serverHome>
-                <application.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform
-                </application.platform>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.wildfly</groupId>
@@ -460,6 +435,9 @@
         </profile>
         <profile>
             <id>jacoco</id>
+            <properties>
+                <jacoco.version>0.7.4.201502262128</jacoco.version>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -482,21 +460,18 @@
                         </executions>
                         <configuration>
                             <excludes>
-                                <exclude>com/cdi/crud/car/bean/*.class</exclude>
-                                <exclude>com/cdi/crud/car/model/*.class</exclude>
+                                <exclude>com/cdi/crud/bean/*.class</exclude>
+                                <exclude>com/cdi/crud/model/*.class</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <jacoco.version>0.7.4.201502262128</jacoco.version>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-jacoco</artifactId>
-                    <version>1.0.0.Alpha7</version>
+                    <version>1.0.0.Alpha6</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>

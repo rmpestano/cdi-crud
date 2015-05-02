@@ -42,7 +42,6 @@ public class CrudIt {
 
     @Test
     public void shouldBeInitialized() {
-        System.out.println("travisci wakeup");
         assertNotNull(carService);
         assertEquals(carService.crud().countAll(), 0);
     }
@@ -114,7 +113,6 @@ public class CrudIt {
 
     @Test
     public void shouldNotRemoveCarWithUnauthorizedUser(){
-        System.out.println("travisci wakeup");
         authorizer.login("guest");
         try {
             carService.remove(new Car(1));
