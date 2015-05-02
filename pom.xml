@@ -355,7 +355,6 @@
                         <version>2.16</version>
                         <configuration>
                             <skipTests>false</skipTests>
-                            <runOrder>reversealphabetical</runOrder>
                             <includes>
                                 <include>**/*It.java</include>
                                 <include>**/*Bdd.java</include>
