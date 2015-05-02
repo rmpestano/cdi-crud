@@ -10,8 +10,9 @@
     <name>cdi-crud</name>
 
     <properties>
-        <hibernate.version>4.3.5.Final</hibernate.version>
-        <deltaspike.version>1.2.1</deltaspike.version>
+        <version.hibernate>4.3.5.Final</version.hibernate>
+        <version.deltaspike>1.2.1</version.deltaspike>
+        <version.wildfly>8.2.0.Final</version.wildfly>
         <version.selenium>2.45.0</version.selenium>
         <version.graphene>2.1.0.Alpha2</version.graphene>
         <version.drone>2.0.0.Alpha3</version.drone>
@@ -64,7 +65,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
+            <version>${version.hibernate}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -76,39 +77,39 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
+            <version>${version.hibernate}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-impl</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-api</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jsf-module-api</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jsf-module-impl</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-security-module-api</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-security-module-impl</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -211,7 +212,7 @@
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-test-control-module-api</artifactId>
-            <version>${deltaspike.version}</version>
+            <version>${version.deltaspike}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -389,6 +390,7 @@
             <id>wildfly-managed</id>
             <properties>
                 <arquillian.container>wildfly-managed</arquillian.container>
+                <arquillian.serverHome>${project.build.directory}/wildfly-${version.wildfly}</arquillian.serverHome>
             </properties>
             <build>
                 <plugins>
@@ -406,7 +408,7 @@
                                         <artifactItem>
                                             <groupId>org.wildfly</groupId>
                                             <artifactId>wildfly-dist</artifactId>
-                                            <version>8.2.0.Final</version>
+                                            <version>${version.wildfly}</version>
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
