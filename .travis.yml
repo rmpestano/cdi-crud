@@ -5,4 +5,4 @@ cache:
   directories:
     - '$HOME/.m2/repository'
 script:
-  - mvn install -Pwhitebox -Pwildfly-managed
+  - mvn install -Pwhitebox -Pwildfly-managed -Pjacoco -Pcoveralls
