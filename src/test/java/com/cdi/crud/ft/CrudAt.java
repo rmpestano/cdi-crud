@@ -1,12 +1,14 @@
 package com.cdi.crud.ft;
 
 import com.cdi.crud.bean.CarBean;
-import com.cdi.crud.ft.pages.LogonPanel;
+import com.cdi.crud.ft.pages.LogonDialog;
 import com.cdi.crud.util.DBUnitUtils;
 import com.cdi.crud.ft.pages.IndexPage;
 import com.cdi.crud.util.Deployments;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
@@ -15,6 +17,7 @@ import cucumber.runtime.arquillian.api.Tags;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.persistence.dbunit.dataset.Row;
@@ -35,6 +38,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -68,11 +72,20 @@ public class CrudAt {
     @Drone
     WebDriver webDriver;
 
+    @FindByJQuery("div.ui-growl-message")
+    private GrapheneElement growl;
+
+    @FindByJQuery("a[id=openLogin]")
+    private GrapheneElement anchorLogin;
+
+    @FindByJQuery("div[id$=login]")
+    private GrapheneElement divLogin;
+
     @Page
     IndexPage index;
 
     @FindByJQuery("div[id$=logonPanel]")
-    LogonPanel logonPanel;
+    LogonDialog logonPanel;
 
 
     @Before
@@ -95,6 +108,25 @@ public class CrudAt {
     public void returnCarsWithModel(String model, final double price) {
         assertEquals(model, index.getInputModel().getAttribute("value"));
         assertEquals(price, Double.parseDouble(index.getInputPrice().getAttribute("value")), 0);
+    }
+
+    @Given("^user is logged in as \"([^\"]*)\"$")
+    public void user_is_logged_in_as(String user) throws Throwable {
+        Graphene.goTo(IndexPage.class);
+        anchorLogin.click();
+        Graphene.waitGui();
+        logonPanel.doLogon(user);
+        assertThat(divLogin.getText()).isEqualTo("logged in as: " + user);
+    }
+
+    @And("^click on remove button$")
+    public void click_on_remove_button() throws Throwable {
+        index.remove();
+    }
+
+    @Then("^message \"([^\"]*)\" should be displayed$")
+    public void message_should_be_displayed(String msg) throws Throwable {
+        assertThat(growl.getText()).isEqualTo(msg);
     }
 
 }

@@ -15,11 +15,12 @@ Feature: Remove cars
     Then error message must be "Access denied"
 
   @blackbox
-  Scenario Outline: search car by id
-    When search car by id <id>
-    Then must find car with model "<model>" and price <price>
+  Scenario Outline: Remove cars by id
+    When user is logged in as "<user>"
+    And search car by id 1
+    And click on remove button
+    Then message "<message>" should be displayed
     Examples:
-      | id | model   | price   |
-      | 1  | Ferrari | 2450.8  |
-      | 2  | Mustang | 12999.0 |
-      | 3  | Porche  | 1390.3  |
+     | user   | message                          |
+     | admin  | Car Ferrari removed successfully |
+     | guest  | Access denied                    |

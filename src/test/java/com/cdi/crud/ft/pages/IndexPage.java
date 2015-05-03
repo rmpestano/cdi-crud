@@ -24,6 +24,10 @@ public class IndexPage {
     @FindByJQuery("button[id$=brFind]")
     private GrapheneElement btFind;
 
+    @FindByJQuery("button[id$=btRemove]")
+    private GrapheneElement btRemove;
+
+
 
     public void findById(String carId){
         inputId.sendKeys(carId);
@@ -40,5 +44,9 @@ public class IndexPage {
 
     public GrapheneElement getInputPrice() {
         return inputPrice;
+    }
+
+    public void remove() {
+        guardAjax(btRemove).click();
     }
 }

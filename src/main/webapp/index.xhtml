@@ -15,8 +15,8 @@
     </h:head>
     <h:body >
         <div align="right">
-        <p:outputPanel id="login" ><small>logged in as: #{authorizer.currentUser.user}</small></p:outputPanel>
-        <a  href="#" onclick="PF('logon').show();return false"><small>logon</small></a>
+            <p:outputPanel id="login" ><small>logged in as: #{authorizer.currentUser.user}</small></p:outputPanel>
+            <p:commandLink id="openLogin" value="logon" process="@this" partialSubmit="true" update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()" />
         </div>
         <h:form>
             <p:growl autoUpdate="true" escape="false"/>
@@ -68,6 +68,7 @@
                 Find Car by id: <p:inputText id="inptId" value="#{carBean.id}"/> <p:commandButton id="brFind" value="Find" action="#{carBean.findCarById(carBean.id)}" process="@form" update="@form" partialSubmit="true"/>
             </p>
 
+
             <p:fieldset legend="Manage Cars">
                 <h:panelGrid columns="2" id="grid">
                     <h:outputLabel value="Model:" for="inptModel"/>
@@ -77,7 +78,7 @@
                     <h:outputLabel value="Price:" for="inptPrice"/>
                     <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
                     <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])" update="@form"/>
-                    <p:commandButton value="Delete" action="#{carBean.remove}" process="@(table[id$=grid])" update="@form"/>
+                    <p:commandButton id="btRemove" value="Delete" action="#{carBean.remove}" process="@(table[id$=grid])" update="@form"/>
                     <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
                 </h:panelGrid>
 
@@ -85,14 +86,15 @@
 
         </h:form>
 
-        <p:dialog id="logonPanel" header="Logon panel" widgetVar="logon" height="250" width="400" modal="true">
+        <p:dialog id="logonPanel" header="Logon panel" widgetVar="logon" height="100" width="350" modal="true">
 
             <h:form>
-                <h:panelGrid columns="2" id="logonPanel">
+                <h:panelGroup layout="block" id="logonPanel" style="margin: 10px;padding: 10px">
                     <p:outputLabel for="user" value="User"/>
-                    <p:inputText required="true" id="user" value="#{authorizer.currentUser.user}"/>
-                </h:panelGrid>
-                <center><p:commandButton value="login" action="#{authorizer.login(authorizer.currentUser.user)}" oncomplete="PF('logon').hide()" update="@(div[id$=login])"/> </center>
+                    <p:inputText required="true" requiredMessage="username is required" id="user" value="#{authorizer.currentUser.user}"/>
+                    <p:commandButton id="btLogin" value="login" action="#{authorizer.login(authorizer.currentUser.user)}" oncomplete="if(!args.validationFailed){PF('logon').hide()}" update="@(div[id$=login], input[id$=user])"/>
+                </h:panelGroup>
+
             </h:form>
         </p:dialog>
     </h:body>
