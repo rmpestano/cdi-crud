@@ -114,7 +114,7 @@ public class CrudAt {
     public void user_is_logged_in_as(String user) throws Throwable {
         Graphene.goTo(IndexPage.class);
         anchorLogin.click();
-        Graphene.waitGui();
+        Graphene.waitModel().until().element(logonPanel.getUser()).is().present();
         logonPanel.doLogon(user);
         assertThat(divLogin.getText()).isEqualTo("logged in as: " + user);
     }

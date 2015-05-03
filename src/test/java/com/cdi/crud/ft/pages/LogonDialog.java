@@ -18,6 +18,9 @@ public class LogonDialog {
     private GrapheneElement btLogin;
 
 
+    public GrapheneElement getUser(){
+        return user;
+    } 
 
     public void doLogon(String user){
         this.user.clear();
