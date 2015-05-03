@@ -5,6 +5,9 @@ import org.apache.deltaspike.security.api.authorization.Secures;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.Map;
  * Created by rmpestano on 12/20/14.
  */
 @ApplicationScoped
+@Named("authorizer")
 public class CustomAuthorizer implements Serializable {
 
     Map<String, String> currentUser = new HashMap<>();
@@ -40,5 +44,12 @@ public class CustomAuthorizer implements Serializable {
 
     public void login(String username) {
         currentUser.put("user", username);
+        if(FacesContext.getCurrentInstance() != null){
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Logged in sucessfully as <b>"+username+"</b>"));
+        }
+    }
+
+    public Map<String, String> getCurrentUser() {
+        return currentUser;
     }
 }

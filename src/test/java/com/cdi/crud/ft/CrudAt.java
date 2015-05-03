@@ -1,6 +1,7 @@
 package com.cdi.crud.ft;
 
 import com.cdi.crud.bean.CarBean;
+import com.cdi.crud.ft.pages.LogonPanel;
 import com.cdi.crud.util.DBUnitUtils;
 import com.cdi.crud.ft.pages.IndexPage;
 import com.cdi.crud.util.Deployments;
@@ -14,6 +15,7 @@ import cucumber.runtime.arquillian.api.Tags;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.persistence.dbunit.dataset.Row;
 import org.jboss.arquillian.persistence.dbunit.dataset.Table;
@@ -40,14 +42,14 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(ArquillianCucumber.class)
-@Features("features/search-cars.feature")
+@Features({"features/search-cars.feature", "features/remove-cars.feature"})
 @Tags("@blackbox")
 public class CrudAt {
-  
-  @Deployment(name = "cdi-crud.war", testable=false)
-  public static Archive<?> createDeployment() {
-    WebArchive war = Deployments.getBaseDeployment();
-        war.addAsResource("datasets/car.yml","car.yml").//needed by DBUnitUtils
+
+    @Deployment(name = "cdi-crud.war", testable = false)
+    public static Archive<?> createDeployment() {
+        WebArchive war = Deployments.getBaseDeployment();
+        war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
                 addClass(CarBean.class).addClass(YamlDataSet.class).
                 addClass(YamlDataSetProducer.class).
                 addClass(Row.class).addClass(Table.class);
@@ -56,40 +58,43 @@ public class CrudAt {
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.yaml:snakeyaml:1.10").withoutTransitivity().asSingleFile());
-    System.out.println(war.toString(true));
-    return war;
-  }
-  
-  @ArquillianResource
-  URL url;
-  
-  @Drone
-  WebDriver webDriver;
+        System.out.println(war.toString(true));
+        return war;
+    }
 
-  @Page
-  IndexPage index;
+    @ArquillianResource
+    URL url;
+
+    @Drone
+    WebDriver webDriver;
+
+    @Page
+    IndexPage index;
+
+    @FindByJQuery("div[id$=logonPanel]")
+    LogonPanel logonPanel;
 
 
-  @Before
-  public void initDataset() {
-      DBUnitUtils.createRemoteDataset(url, "car.yml");
-  }
+    @Before
+    public void initDataset() {
+        DBUnitUtils.createRemoteDataset(url, "car.yml");
+    }
 
-  @After
-  public void clear(){
-      DBUnitUtils.deleteRemoteDataset(url,"car.yml");
-   }
-  
-  @When("^search car by id (\\d+)$")
-  public void searchCarById(int id){
-      Graphene.goTo(IndexPage.class);
-      index.findById(""+id);
-  }
-  
-  @Then("^must find car with model \"([^\"]*)\" and price (.+)$")
-  public void returnCarsWithModel(String model, final double price){
-    assertEquals(model,index.getInputModel().getAttribute("value"));
-    assertEquals(price,Double.parseDouble(index.getInputPrice().getAttribute("value")),0);
-  }
+    @After
+    public void clear() {
+        DBUnitUtils.deleteRemoteDataset(url, "car.yml");
+    }
+
+    @When("^search car by id (\\d+)$")
+    public void searchCarById(int id) {
+        Graphene.goTo(IndexPage.class);
+        index.findById("" + id);
+    }
+
+    @Then("^must find car with model \"([^\"]*)\" and price (.+)$")
+    public void returnCarsWithModel(String model, final double price) {
+        assertEquals(model, index.getInputModel().getAttribute("value"));
+        assertEquals(price, Double.parseDouble(index.getInputPrice().getAttribute("value")), 0);
+    }
 
 }

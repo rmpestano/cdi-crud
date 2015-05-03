@@ -14,8 +14,12 @@
         </style>
     </h:head>
     <h:body >
+        <div align="right">
+        <p:outputPanel id="login" ><small>logged in as: #{authorizer.currentUser.user}</small></p:outputPanel>
+        <a  href="#" onclick="PF('logon').show();return false"><small>logon</small></a>
+        </div>
         <h:form>
-            <p:growl autoUpdate="true"/>
+            <p:growl autoUpdate="true" escape="false"/>
             <h:panelGroup layout="block">
                 <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
                              rowKey="#{c.id}" lazy="true"  paginator="true"
@@ -24,9 +28,9 @@
                              currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"    
                              rowsPerPageTemplate="5,10,15,20,30"
                              >
-                    
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@form" />
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@form" />
+
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}"   update="@form" />
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}"  update="@form" />
                     <f:facet name="header">
                         Car List
                     </f:facet>
@@ -73,13 +77,24 @@
                     <h:outputLabel value="Price:" for="inptPrice"/>
                     <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
                     <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])" update="@form"/>
-                    <p:commandButton value="Delete" action="#{carBean.remove}" process="@form" update="@form"/>
+                    <p:commandButton value="Delete" action="#{carBean.remove}" process="@(table[id$=grid])" update="@form"/>
                     <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
                 </h:panelGrid>
 
             </p:fieldset>
 
         </h:form>
+
+        <p:dialog id="logonPanel" header="Logon panel" widgetVar="logon" height="250" width="400" modal="true">
+
+            <h:form>
+                <h:panelGrid columns="2" id="logonPanel">
+                    <p:outputLabel for="user" value="User"/>
+                    <p:inputText required="true" id="user" value="#{authorizer.currentUser.user}"/>
+                </h:panelGrid>
+                <center><p:commandButton value="login" action="#{authorizer.login(authorizer.currentUser.user)}" oncomplete="PF('logon').hide()" update="@(div[id$=login])"/> </center>
+            </h:form>
+        </p:dialog>
     </h:body>
 
 </html>
