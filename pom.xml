@@ -447,7 +447,7 @@
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <version>8.2.0.Final</version>
+                    <version>${version.wildfly}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
