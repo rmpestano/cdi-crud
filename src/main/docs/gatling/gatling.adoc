@@ -123,7 +123,7 @@ class CdiCrudSimulation extends Simulation {
 <2> Stores this request in a local variable;
 <3> Request assertion;
 <4> Add 5 users at the same time (each on its on thread). They will fire one request (wait its response) each one.
-<5> scale from 1 to 10 users during 20 seconds (on the last second the 10 users will fire requests simultaneously)
+<5> scale from 1 to 10 users during 20 seconds (one user is added on each 2 seconds. On the last second the 10 users will fire requests simultaneously)
 <6> 2 users per second during 15 seconds (i fell quite dummy explaining this because the DSL is really *self explanatory*)
 <7> this section makes assertions on all or a group of requests
 
