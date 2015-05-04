@@ -164,7 +164,7 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-persistence-api</artifactId>
             <version>1.0.0.Alpha7</version>
-            <scope>test</scope> <!--needed by DBUnitUtils -->
+            <scope>test</scope> 
         </dependency>
         <dependency>
             <groupId>org.dbunit</groupId> <!--needed by DBUnitUtils -->
@@ -220,13 +220,7 @@
                     <artifactId>netty</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-test-control-module-api</artifactId>
-            <version>${version.deltaspike}</version>
-            <scope>test</scope>
-        </dependency>
+        </dependency> 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
