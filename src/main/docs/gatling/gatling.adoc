@@ -13,14 +13,13 @@ This document will describe how to perform *performance* and *load* tests using 
 * Execute performance tests after some system's improvements;
 * Torturing wildfly application server through load/stress testing.
 
-== A note on performance x load
-Before reading this post it has to be clear the difference between both kind of tests:
+== A note on Performance x Stress testing
+For the purpose of this article I will use the definitions below to differentiate these two kinds of test:
 
-* *Performance test*: This kind of test aims to constantly check/monitor the system's performance.
-The test must fail when the system performance is not considered good or is below expectations (eg: response time or throughput got worse when compared to a predefined limit).
-Also note that this kind of the is *not* destructive and should be able to run more frequently than a load/stress test.
-* *Load test*: is meant to test the system by constantly and steadily increasing the load on the system until it reaches a threshold limit.
-The goal of load testing is to expose defects (eg: memory leaks) and/or observe resources consumption in abnormal circunstances like very high traffic.
+* *Performance test*: This kind of test aims to constantly check if the system's performance meets some pre defined expectations like eg: response time must not be greater then 1 second.
+Note that this kind of test is *not* destructive and should be able to run more frequently than a load/stress test. It is not interest in finding defects.
+* *Stress test*: is meant to test the system by constantly and steadily increasing the load on the system until it reaches a threshold limit.
+The goal of load testing is to expose defects (eg: memory leaks) and/or observe resources consumption in real or even abnormal circumstances like very high traffic.
 
 
 == Why Gatling?
