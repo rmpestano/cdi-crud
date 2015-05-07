@@ -210,11 +210,11 @@ IMPORTANT: I will run the simulation and the application (the one deployed on Wi
 
 As described earlier, this kind of test must be able to be executed frequently so it can catch changes in our code that _possible_ degrades the system performance.
 
-It must not be destructive and IMO should execute on every significative change, for example it could be part of a http://search.maven.org/[continuous delivery pipeline].
+It must not be destructive and IMO should execute on every significative change, for example it could be part of a http://martinfowler.com/bliki/DeploymentPipeline.html[continuous delivery pipeline].
 
 NOTE: Jenkins has a https://wiki.jenkins-ci.org/display/JENKINS/Gatling+Plugin[Gatling plugin]).
 
-In following sub-sections we are going to make changes to our code and infrastructure (Wildfly) and run the simulation to see if the change was good or not. 
+In following sub-sections we are going to make changes to our code and infrastructure (Wildfly) and run the simulation to see if the change was good or not in terms of performance - mainly response time and throughput.
 
 ==== First execution
 
@@ -234,10 +234,21 @@ TODO link reports online (eg flickr)
 
 Now that we have improved the application, its time to see how it behaves on very high traffic and see how much of load it supports.
 
-For load/scalability tests we will take another approach. We will perform the simulation over a longer period (eg:30 min) and will increase users/requests slowly. At the same time we will attach a profiler and analyze resource consumption like memory, garbage collection, CPU usage, threads etc...
-
+For load/scalability tests we will take another approach. We will perform the simulation over a longer period (eg:30 min) and will increase users/requests slowly. At the same time we will attach a profiler (visualvm) and analyze resource consumption like memory, garbage collection, CPU usage, threads etc...
 
 
 
 == References
 . http://pt.slideshare.net/swapnilvkotwal/gatling
+. https://mestachs.wordpress.com/2014/05/26/gatling-load-testing-like-a-king/
+. https://developer.gooddata.com/how-we-do/performance-testing
+. http://www.drdobbs.com/tools/continuous-integration-and-performance-t/206105978
+. https://theholyjava.wordpress.com/wiki/development/testing/performance-testing-for-webapps-notes/
+. http://devblog.orgsync.com/2013/05/03/rest-api-integration-testing-with-gatling/
+. https://gist.github.com/groovybayo/4691670
+. https://github.com/gatling/gatling/blob/master/gatling-http/src/test/scala/io/gatling/http/HttpCompileTest.scala
+. http://www.mastertheboss.com/jboss-server/wildfly-8/monitoring-wildfly-using-visualvm
+. http://undertow.io/blog/2015/03/26/HTTP2-In-Wildfly.html
+. https://docs.jboss.org/author/display/WFLY9/WildFly+9+Cluster+Howto
+. https://www.youtube.com/watch?v=xa_gtRDpwyQ
+. https://docs.jboss.org/author/display/WFLY9/Admin+Guide
