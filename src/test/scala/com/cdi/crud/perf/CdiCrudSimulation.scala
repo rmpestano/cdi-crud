@@ -1,5 +1,8 @@
 package com.cdi.crud.perf
 
+import java.util.UUID
+
+import com.google.gson.{JsonPrimitive, JsonObject}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
@@ -7,35 +10,91 @@ import scala.concurrent.duration._
 class CdiCrudSimulation extends Simulation {
 
 
+  var totalUsersPerScenario = 10
+  var initialUsersPerScenario = 1
+  var scenarioDurationInSeconds = 30
+  var expectedMaxResponseTime = 300
+  var expectedMeanResponseTime = 50
+  var expectedRequestPerSecond = 500
+
+
+  if (System.getProperty("torture") != null) {
+    println("torture mode on!")
+    totalUsersPerScenario = 50
+    initialUsersPerScenario = 1
+    scenarioDurationInSeconds = 300
+    expectedMaxResponseTime = 500 //because of too high concurrency some requests take longer
+    expectedMeanResponseTime = 15 //mean is lower because of caches(JPA, rest, etc...)
+    expectedRequestPerSecond = 50000
+  }
 
 
   val httpProtocol = http
     .baseURL("http://localhost:8080/cdi-crud/")
     .acceptHeader("application/json;charset=utf-8")
+    /*.connection( """keep-alive""")*/
     .contentTypeHeader("application/json; charset=UTF-8")
+
+
+  val carIds = csv("car-ids.csv").circular
 
   val listCarsRequest = http("list cars") //<1> //stores the request in a local variable
     .get("rest/cars/")
     .check(status.is(200)) //<2> request assertion
 
-  val listCarsScenario = scenario("List cars") //<3> a scenario is a group of one or more requests
-    .exec(listCarsRequest)
 
-  setUp( //<4> scenario setup
-    listCarsScenario.inject(
-      //atOnceUsers(10), //<4>
-      //rampUsersPerSec(1) to (10) during(20 seconds), //<5>
-      constantUsersPerSec(10) during (10 minutes))
-     )
-    .throttle(
-      reachRps(100) in (60 seconds),
-      holdFor(10 minute)
+  val findCarRequest = http("find car") //TODO use etag
+    .get("rest/cars/${id}")
+    .check(status.is(200))
+
+
+  val addCarRequest = http("add car")
+    .post("rest/cars/")
+    .body(ELFileBody("users.json")).asJSON
+    .check(status.is(201))
+
+  val listCarsScenario = scenario("List cars scenario")
+    .exec(listCarsRequest)
+    .pause(50 milliseconds)
+
+  val findCarsScenario = scenario("Find cars scenario")
+    .feed(carIds)
+    .exec(findCarRequest)
+    .pause(50 milliseconds)
+
+  val addCarsScenario = scenario("Add cars scenario")
+    .exec(session => {
+    session.set("userName",UUID.randomUUID().toString)
+    session
+    })
+    .exec(addCarRequest)
+    .pause(50 milliseconds)
+
+  setUp(  
+    /*listCarsScenario.inject(
+      atOnceUsers(20), 
+      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
+      //constantUsersPerSec(500) during (1 minutes))
+     ),
+    findCarsScenario.inject(
+      atOnceUsers(20),
+      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
+      //constantUsersPerSec(500) during (1 minutes))
+    ),*/
+    addCarsScenario.inject(
+      atOnceUsers(20),
+      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
+      //constantUsersPerSec(500) during (1 minutes))
     )
-    .protocols(httpProtocol) //<6> request template
-    .assertions(//<7>overall assertions
-      global.successfulRequests.percent.greaterThan(95), //<8>for all requests
-      details("list cars").responseTime.mean.lessThan(50), //<9>for specific group of requests
-      details("list cars").responseTime.max.lessThan(300)
+
+  )
+    .protocols(httpProtocol)
+    .assertions(
+      global.successfulRequests.percent.greaterThan(90),
+      global.responseTime.max.lessThan(expectedMaxResponseTime),
+      global.responseTime.mean.lessThan(expectedMeanResponseTime),
+      global.requestsPerSec.greaterThan(expectedRequestPerSecond)
+
     )
 
 }

@@ -67,6 +67,7 @@
         "type" : "number",
         "format" : "double",
         "description" : "minimum car price",
+        "defaultValue" : "0",
         "paramType" : "query",
         "name" : "minPrice",
         "required" : true
@@ -74,6 +75,7 @@
         "type" : "number",
         "format" : "double",
         "description" : "maximum car price",
+        "defaultValue" : "20000",
         "paramType" : "query",
         "name" : "maxPrice",
         "required" : true
