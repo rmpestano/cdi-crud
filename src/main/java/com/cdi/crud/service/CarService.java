@@ -79,7 +79,7 @@ public class CarService extends CrudService<Car> {
             throw new CustomException("Car name cannot be empty");
         }
 
-        if (car.getId() != null && crud().eq("name", car.getName()).ne("id", car.getId()).count() > 0) {
+        if (crud().eq("name", car.getName()).ne("id", car.getId()).count() > 0) {
             throw new CustomException("Car name must be unique");
         }
     }
