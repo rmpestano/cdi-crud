@@ -13,19 +13,19 @@ class CdiCrudSimulation extends Simulation {
   var totalUsersPerScenario = 10
   var initialUsersPerScenario = 1
   var scenarioDurationInSeconds = 30
-  var expectedMaxResponseTime = 300
+  var expectedMaxResponseTime = 450
   var expectedMeanResponseTime = 50
-  var expectedRequestPerSecond = 500
+  var expectedRequestPerSecond = 18
 
 
   if (System.getProperty("torture") != null) {
     println("torture mode on!")
-    totalUsersPerScenario = 50
+    totalUsersPerScenario = 100
     initialUsersPerScenario = 1
-    scenarioDurationInSeconds = 300
-    expectedMaxResponseTime = 500 //because of too high concurrency some requests take longer
+    scenarioDurationInSeconds = 600
+    expectedMaxResponseTime = 600 //because of too high concurrency some requests take longer
     expectedMeanResponseTime = 15 //mean is lower because of caches(JPA, rest, etc...)
-    expectedRequestPerSecond = 50000
+    expectedRequestPerSecond = 120 // 6000 req per minute
   }
 
 
@@ -55,23 +55,22 @@ class CdiCrudSimulation extends Simulation {
 
   val listCarsScenario = scenario("List cars scenario")
     .exec(listCarsRequest)
-    .pause(50 milliseconds)
+    .pause(10 milliseconds)// users don't click buttons at the same time
 
   val findCarsScenario = scenario("Find cars scenario")
     .feed(carIds)
     .exec(findCarRequest)
-    .pause(50 milliseconds)
+    .pause(10 milliseconds)
 
   val addCarsScenario = scenario("Add cars scenario")
-    .exec(session => {
+    .exec(session =>
     session.set("userName",UUID.randomUUID().toString)
-    session
-    })
+    )
     .exec(addCarRequest)
-    .pause(50 milliseconds)
+    .pause(10 milliseconds)
 
   setUp(  
-    /*listCarsScenario.inject(
+    listCarsScenario.inject(
       atOnceUsers(20), 
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
       //constantUsersPerSec(500) during (1 minutes))
@@ -79,18 +78,16 @@ class CdiCrudSimulation extends Simulation {
     findCarsScenario.inject(
       atOnceUsers(20),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
-      //constantUsersPerSec(500) during (1 minutes))
-    ),*/
+    ),
     addCarsScenario.inject(
       atOnceUsers(20),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
-      //constantUsersPerSec(500) during (1 minutes))
     )
 
   )
     .protocols(httpProtocol)
     .assertions(
-      global.successfulRequests.percent.greaterThan(90),
+      global.successfulRequests.percent.greaterThan(95),
       global.responseTime.max.lessThan(expectedMaxResponseTime),
       global.responseTime.mean.lessThan(expectedMeanResponseTime),
       global.requestsPerSec.greaterThan(expectedRequestPerSecond)
