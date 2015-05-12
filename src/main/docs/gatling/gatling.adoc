@@ -246,6 +246,8 @@ TODO link reports online (eg flickr)
 
 ==== HTTP2 enabled on wildfly
 
+==== Using real database (eg postgress)
+
 ==== Wildfly Swarm
 Here we are going to compare the *performance* of our application deployed on Wildfly (as we did till now) versus a fat-jar version of the same application orchestrated by Widlfly Swarm.
 
@@ -283,8 +285,6 @@ Global: mean requests per second is greater than 100 : true
 Now that we have improved the application, its time to see how it behaves on very high traffic and see how much of load it supports.
 
 For load/scalability tests we will take another approach. We will perform the simulation over a longer period (eg:30 min) and will increase users/requests slowly. At the same time we will attach a profiler (visualvm) and analyze resource consumption like memory, garbage collection, CPU usage, threads etc...
-
-
 
 
 == References

@@ -42,8 +42,12 @@ public class CarService extends CrudService<Car> {
 
         // see index.xhtml 'model' column facet name filter
         if (filter.getEntity() != null) {
-            crud().ilike("model", filter.getEntity().getModel(), MatchMode.ANYWHERE);
-            crud().ilike("name", filter.getEntity().getName(), MatchMode.ANYWHERE);
+            if(filter.getEntity().getModel() != null){
+                crud().ilike("model", filter.getEntity().getModel(), MatchMode.ANYWHERE);
+            }
+            if(filter.getEntity().getName() != null){
+                crud().ilike("name", filter.getEntity().getName(), MatchMode.ANYWHERE);
+            }
         }
 
         // see index.xhtml 'price' column facet name filter

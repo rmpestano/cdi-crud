@@ -20,11 +20,11 @@ class CdiCrudSimulation extends Simulation {
 
   if (System.getProperty("torture") != null) {
     println("torture mode on!")
-    totalUsersPerScenario = 100
+    totalUsersPerScenario = 80 //x3 scenario = 210 simultaneous users
     initialUsersPerScenario = 1
-    scenarioDurationInSeconds = 600
+    scenarioDurationInSeconds = 400
     expectedMaxResponseTime = 600 //because of too high concurrency some requests take longer
-    expectedMeanResponseTime = 15 //mean is lower because of caches(JPA, rest, etc...)
+    expectedMeanResponseTime = 25 //mean is lower because of caches(JPA, rest, etc...)
     expectedRequestPerSecond = 120 // 6000 req per minute
   }
 
@@ -40,6 +40,7 @@ class CdiCrudSimulation extends Simulation {
 
   val listCarsRequest = http("list cars") //<1> //stores the request in a local variable
     .get("rest/cars/")
+    .queryParam("start",0).queryParam("max",10)
     .check(status.is(200)) //<2> request assertion
 
 
