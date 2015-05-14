@@ -1,98 +1,88 @@
 package com.cdi.crud.perf
 
-import java.util.UUID
 
-import com.google.gson.{JsonPrimitive, JsonObject}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
+import io.gatling.core.session.Expression
 
 class CdiCrudSimulation extends Simulation {
 
 
-  var totalUsersPerScenario = 10
-  var initialUsersPerScenario = 1
-  var scenarioDurationInSeconds = 30
-  var expectedMaxResponseTime = 450
-  var expectedMeanResponseTime = 50
-  var expectedRequestPerSecond = 18
-
-
-  if (System.getProperty("torture") != null) {
-    println("torture mode on!")
-    totalUsersPerScenario = 80 //x3 scenario = 210 simultaneous users
-    initialUsersPerScenario = 1
-    scenarioDurationInSeconds = 400
-    expectedMaxResponseTime = 600 //because of too high concurrency some requests take longer
-    expectedMeanResponseTime = 25 //mean is lower because of caches(JPA, rest, etc...)
-    expectedRequestPerSecond = 120 // 6000 req per minute
-  }
-
-
   val httpProtocol = http
-    .baseURL("http://localhost:8080/cdi-crud/")
-    .acceptHeader("application/json;charset=utf-8")
-    /*.connection( """keep-alive""")*/
-    .contentTypeHeader("application/json; charset=UTF-8")
+    .baseURL("http://localhost:8080/cdi-crud")
+    .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,application/json;charset=utf-8")
+    .acceptEncodingHeader("gzip, deflate")
+    .inferHtmlResources()
+    .connection( """keep-alive""")
+    /*.contentTypeHeader("application/json; charset=UTF-8")*/
+    .contentTypeHeader("*/*")
+    .acceptLanguageHeader("pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3")
+    .userAgentHeader("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0")
 
 
-  val carIds = csv("car-ids.csv").circular
 
-  val listCarsRequest = http("list cars") //<1> //stores the request in a local variable
-    .get("rest/cars/")
-    .queryParam("start",0).queryParam("max",10)
-    .check(status.is(200)) //<2> request assertion
+  //JSF requests and scenarios
 
+  val jsf_headers = Map(
+    "Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Pragma" -> "no-cache",
+    "X-Requested-With" -> "XMLHttpRequest")
 
-  val findCarRequest = http("find car") //TODO use etag
-    .get("rest/cars/${id}")
+  val jsfViewStateCheck = regex( """="javax.faces.ViewState" value="([^"]*)"""")
+    .saveAs("viewState")
+
+  def jsfGet(name: String, url: Expression[String]) =
+    http(name)
+      .get(url)
+      .check(jsfViewStateCheck)
+
+  def jsfPost(name: String, url: Expression[String]) = http(name)
+    .post(url)
+    .formParam("javax.faces.ViewState", "${viewState}")
+    .check(jsfViewStateCheck)
+
+  def openDialogRequest = jsfPost("request_open_dialog","/index.faces?dswid=4728")
+    .header("Faces-Request", "partial/ajax")
+    .formParam("javax.faces.partial.ajax", "true")
+    .formParam("javax.faces.source", "openLogin")
+    .formParam("javax.faces.partial.execute", "openLogin")
+    .formParam("javax.faces.partial.render", "logonForm:logonPanel")
+    .formParam("openLogin", "openLogin")
+    .formParam("javax.faces.ClientWindow", "4728")
     .check(status.is(200))
 
+  def doLogonRequest =
+    jsfPost("request_logon","/index.faces?dswid=4728")
+      .header("Faces-Request", "partial/ajax")
+      .formParam("javax.faces.partial.ajax", "true")
+      .formParam("javax.faces.source", "logonForm:btLogin")
+      .formParam("javax.faces.partial.execute", "@all")
+      .formParam("logonForm:btLogin", "logonForm:btLogin")
+      .formParam("logonForm", "logonForm")
+      .formParam("logonForm:user", "admin")//input text
+      .formParam("javax.faces.ClientWindow", "4728")
+      .check(status.is(200))
 
-  val addCarRequest = http("add car")
-    .post("rest/cars/")
-    .body(ELFileBody("users.json")).asJSON
-    .check(status.is(201))
 
-  val listCarsScenario = scenario("List cars scenario")
-    .exec(listCarsRequest)
-    .pause(10 milliseconds)// users don't click buttons at the same time
-
-  val findCarsScenario = scenario("Find cars scenario")
-    .feed(carIds)
-    .exec(findCarRequest)
-    .pause(10 milliseconds)
-
-  val addCarsScenario = scenario("Add cars scenario")
-    .exec(session =>
-    session.set("userName",UUID.randomUUID().toString)
+  val loginScenario = scenario("login")
+    .exec(
+      jsfGet("saveState","/index.faces")
+      .resources(http("request_resources").get( "/"))
+     .check(status.is(200))
     )
-    .exec(addCarRequest)
-    .pause(10 milliseconds)
+    /*.exec(openDialogRequest)
+    .pause(2)
+    .exec(doLogonRequest)
+    .pause(1)*/
 
-  setUp(  
-    listCarsScenario.inject(
-      atOnceUsers(20), 
-      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
-      //constantUsersPerSec(500) during (1 minutes))
-     ),
-    findCarsScenario.inject(
-      atOnceUsers(20),
-      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
-    ),
-    addCarsScenario.inject(
-      atOnceUsers(20),
-      rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
-    )
-
+  setUp(
+    loginScenario.inject( atOnceUsers(1) )
   )
-    .protocols(httpProtocol)
+  .protocols(httpProtocol)
     .assertions(
-      global.successfulRequests.percent.greaterThan(95),
-      global.responseTime.max.lessThan(expectedMaxResponseTime),
-      global.responseTime.mean.lessThan(expectedMeanResponseTime),
-      global.requestsPerSec.greaterThan(expectedRequestPerSecond)
-
+      global.successfulRequests.percent.greaterThan(95)
     )
+
 
 }

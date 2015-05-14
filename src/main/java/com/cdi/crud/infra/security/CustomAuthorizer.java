@@ -12,6 +12,7 @@ import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by rmpestano on 12/20/14.
@@ -47,6 +48,7 @@ public class CustomAuthorizer implements Serializable {
         if(FacesContext.getCurrentInstance() != null){
             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Logged in sucessfully as <b>"+username+"</b>"));
         }
+        Logger.getLogger(getClass().getSimpleName()).info("Logged in with user: "+username);
     }
 
     public Map<String, String> getCurrentUser() {

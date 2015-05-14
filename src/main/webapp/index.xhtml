@@ -18,10 +18,10 @@
             <p:outputPanel id="login" ><small>logged in as: #{authorizer.currentUser.user}</small></p:outputPanel>
             <p:commandLink id="openLogin" value="logon" process="@this" partialSubmit="true" update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()" />
         </div>
-        <h:form>
+        <h:form id="carForm">
             <p:growl autoUpdate="true" escape="false"/>
             <h:panelGroup layout="block">
-                <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
+                <p:dataTable id="crudList" widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
                              rowKey="#{c.id}" lazy="true"  paginator="true"
                              paginatorPosition="bottom" selection="#{carBean.car}" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
@@ -86,9 +86,9 @@
 
         </h:form>
 
-        <p:dialog id="logonPanel" header="Logon panel" widgetVar="logon" height="100" width="350" modal="true">
+        <p:dialog id="logonDialog" header="Logon panel" widgetVar="logon" height="100" width="350" modal="true">
 
-            <h:form>
+            <h:form id="logonForm">
                 <h:panelGroup layout="block" id="logonPanel" style="margin: 10px;padding: 10px">
                     <p:outputLabel for="user" value="User"/>
                     <p:inputText required="true" requiredMessage="username is required" id="user" value="#{authorizer.currentUser.user}"/>

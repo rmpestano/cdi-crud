@@ -22,12 +22,27 @@
 <li><a href="#a_note_on_performance_x_load">3. A note on performance x load</a></li>
 <li><a href="#why_gatling">4. Why Gatling?</a></li>
 <li><a href="#setup_gatling_in_our_project">5. Setup Gatling in our project</a></li>
-<li><a href="#creating_the_simulation">6. Creating the simulation</a>
+<li><a href="#anatomy_of_a_gatling_test">6. Anatomy of a gatling test</a>
 <ul class="sectlevel2">
 <li><a href="#a_simple_example">6.1. A simple example</a></li>
 </ul>
 </li>
-<li><a href="#references">7. References</a></li>
+<li><a href="#torturing_wildflies">7. Torturing Wildflies</a>
+<ul class="sectlevel2">
+<li><a href="#software_and_harware">7.1. Software and harware</a></li>
+<li><a href="#performance_tests">7.2. Performance tests</a>
+<ul class="sectlevel3">
+<li><a href="#first_execution">7.2.1. First execution</a></li>
+<li><a href="#adding_server_cache_to_rest_endpoints">7.2.2. Adding server cache to REST endpoints</a></li>
+<li><a href="#asynchronous_rest_responses">7.2.3. Asynchronous REST Responses</a></li>
+<li><a href="#wildfly_on_mode_domain">7.2.4. Wildfly on mode domain</a></li>
+<li><a href="#http2_enabled_on_wildfly">7.2.5. HTTP2 enabled on wildfly</a></li>
+</ul>
+</li>
+<li><a href="#load_tests">7.3. Load tests</a></li>
+</ul>
+</li>
+<li><a href="#references">8. References</a></li>
 </ul>
 </div>
 </div>
@@ -36,7 +51,7 @@
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This document will describe how to perform <strong>performance</strong> and <strong>load</strong> tests using <a href="http://gatling.io" target="_blank"><strong>Gatling</strong></a> stress tool.</p>
+<p>This document will describe how to perform <strong>performance</strong> and <strong>load</strong> tests using <a href="http://gatling.io" target="_blank"><strong>Gatling</strong></a> stress tool .</p>
 </div>
 </div>
 </div>
@@ -46,26 +61,26 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Setup Gatling in our <a href="https://github.com/rmpestano/cdi-crud" target="_blank">CDI Crud application</a>;</p>
-</li>
-<li>
-<p>Creating the simulation;</p>
+<p>Introduce gatling tool</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Stressing the REST API;</p>
-</li>
-<li>
-<p>Stressing the web application;</p>
+<p>Setup Gatling in our <a href="https://github.com/rmpestano/cdi-crud" target="_blank">CDI Crud application</a>;</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Continuous performance testing</p>
+<p>Show the difference between performance and load testing</p>
 </li>
 <li>
-<p>Torturing wildfly application server through load test</p>
+<p>Example on how to create the simulation;</p>
+</li>
+<li>
+<p>Execute performance tests after some system&#8217;s improvements   ;</p>
+</li>
+<li>
+<p>Torturing wildfly application server through load/stress testing.</p>
 </li>
 </ul>
 </div>
@@ -81,11 +96,12 @@
 <ul>
 <li>
 <p><strong>Performance test</strong>: This kind of test aims to constantly check/monitor the system&#8217;s performance.
-The test must fail when the system performance (under normal peak) is not considered good or is below expectations (eg: response time or throughput got worse when compared to a predefined limit).</p>
+The test must fail when the system performance (under normal peak) is not considered good or is below expectations (eg: response time or throughput got worse when compared to a predefined limit).
+Also note that this kind of the is <strong>not</strong> destructive and should be able to run more frequently than a load/stress test.</p>
 </li>
 <li>
 <p><strong>Load test</strong>: is meant to test the system by constantly and steadily increasing the load on the system until it reaches a threshold limit.
-The goal of load testing is to expose defects (eg: memory leaks) when application is under abnormal situation.</p>
+The goal of load testing is to expose defects (eg: memory leaks) and/or observe resources consumption when application is under abnormal situation like very high traffic.</p>
 </li>
 </ul>
 </div>
@@ -95,11 +111,11 @@ The goal of load testing is to expose defects (eg: memory leaks) when applicatio
 <h2 id="why_gatling"><a class="anchor" href="#why_gatling"></a>4. Why Gatling?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The main advantage of <strong>Gatling</strong>, in my opinion, is that it is intuitive. When you write performance tests with gatling API you&#8217;re really describing user steps
+<p>The main advantage of <strong>Gatling</strong>, in my opinion, is that it is intuitive. When you write performance tests with the gatling API you&#8217;re really describing user steps
 so it is easy to <strong>understand</strong>, <strong>write</strong> and <strong>maintain</strong> the test.</p>
 </div>
 <div class="paragraph">
-<p>For example, when using JMeter you hardly will write a simulation without the help of its GUI to record the test.</p>
+<p>For example, when using JMeter you hardly will write a simulation without the help of its GUI to record the test. Also when a change is done in the simulation it is hard to know what was changed because its all XML.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -108,7 +124,7 @@ so it is easy to <strong>understand</strong>, <strong>write</strong> and <strong
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-XML is not a programming language ;)
+XML is not a programming language.
 </td>
 </tr>
 </table>
@@ -119,10 +135,10 @@ XML is not a programming language ;)
 <div class="ulist">
 <ul>
 <li>
-<p>it is asynchronous</p>
+<p>it is asynchronous - based on netty async client</p>
 </li>
 <li>
-<p>non blocking I/O</p>
+<p>non blocking I/O - no need to wait for responses</p>
 </li>
 <li>
 <p>each user runs on its thread</p>
@@ -149,7 +165,7 @@ XML is not a programming language ;)
 <h2 id="setup_gatling_in_our_project"><a class="anchor" href="#setup_gatling_in_our_project"></a>5. Setup Gatling in our project</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To configure the tool on our project we basically will use the gatling maven plugin as follows:</p>
+<p>To configure the tool on our sample project we basically will use the gatling maven plugin as follows:</p>
 </div>
 <div class="listingblock">
 <div class="title">pom.xml</div>
@@ -189,14 +205,29 @@ XML is not a programming language ;)
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating_the_simulation"><a class="anchor" href="#creating_the_simulation"></a>6. Creating the simulation</h2>
+<h2 id="anatomy_of_a_gatling_test"><a class="anchor" href="#anatomy_of_a_gatling_test"></a>6. Anatomy of a gatling test</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p><em>Simulation</em> is the name (usually) given to performance tests because this kind of test try to simulate the application&#8217;s
-usage under real circumstances or even abnormal (in case of load tests) situations like e.g putting/simulating a lot of users using the app at the same time.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Simulation</strong> <span class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</span>: Is the load/scalability/stress/performance test itself. It is made of multiple <em>scenarios</em>;</p>
+</li>
+<li>
+<p><strong>Scenario</strong>: is the path a user takes to complete an action, a typical user behaviour. It is basically composed by http (it supports other protocols like websockets) requests;</p>
+</li>
+<li>
+<p><strong>Setup</strong>: it is the configuration of our simulation. It will tell how much users or throughput each scenario will have. A setup is composed by a set of steps which will configure how users/throughput will be <em>injected</em>.</p>
+</li>
+<li>
+<p><strong>Assertions</strong>: It is the expectations of our simulation, assertions will define if our test was successful or not. They can be declared at request level or globally.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>A Gatling simulation is basically a scala file using an specific DSL which will performe calls (usually http) to application under test.</p>
+<p>Technically saying, a Gatling simulation is basically a scala file using an specific DSL which will perform calls (usually http) to application under test.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see an example that shows a Gatling simulation.</p>
 </div>
 <div class="sect2">
 <h3 id="a_simple_example"><a class="anchor" href="#a_simple_example"></a>6.1. A simple example</h3>
@@ -209,7 +240,7 @@ usage under real circumstances or even abnormal (in case of load tests) situatio
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
-class CdiCrudSimulation extends Simulation {
+class CdiCrudSimulation extends Simulation{
 
 
   val httpProtocol = http <i class="conum" data-value="1"></i><b>(1)</b>
@@ -226,12 +257,12 @@ class CdiCrudSimulation extends Simulation {
 
   setUp( //&lt;4&gt; scenario setup
       listCarsScenario.inject(
-        atOnceUsers(10),  <i class="conum" data-value="4"></i><b>(4)</b>
-        rampUsersPerSec(1) to (10) during(20 seconds),  <i class="conum" data-value="5"></i><b>(5)</b>
+        atOnceUsers(10),  <i class="conum" data-value="5"></i><b>(5)</b>
+        rampUsersPerSec(1) to (10) during(20 seconds),  <i class="conum" data-value="6"></i><b>(6)</b>
         constantUsersPerSec(2) during (15 seconds))
        )
-      .protocols(httpProtocol)  <i class="conum" data-value="6"></i><b>(6)</b>
-      .assertions( <i class="conum" data-value="7"></i><b>(7)</b>
+      .protocols(httpProtocol)  <i class="conum" data-value="7"></i><b>(7)</b>
+      .assertions( <i class="conum" data-value="8"></i><b>(8)</b>
         global.successfulRequests.percent.greaterThan(95), // for all requests
         details(&quot;list cars&quot;).responseTime.mean.lessThan(50), // for specific group of requests
         details(&quot;list cars&quot;).responseTime.max.lessThan(300)
@@ -256,18 +287,22 @@ class CdiCrudSimulation extends Simulation {
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Add 5 users at the same time (each on its on thread). They will fire one request (wait its response) each one.</td>
+<td>Scenarios configuration</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>scale from 1 to 10 users during 20 seconds (on the last second the 10 users will fire requests simultaneously)</td>
+<td>Add 5 users at the same time (each on its on thread). They will fire one request (wait its response) each one.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>2 users per second during 15 seconds (i fell quite dummy explaining this because the DSL is really <strong>self explanatory</strong>)</td>
+<td>scale from 1 to 10 users during 20 seconds (one user is added on each 2 seconds. On the last second the 10 users will fire requests simultaneously)</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>2 users per second during 15 seconds (i fell quite dummy explaining this because the DSL is really <strong>self explanatory</strong>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
 <td>this section makes assertions on all or a group of requests</td>
 </tr>
 </table>
@@ -279,13 +314,13 @@ class CdiCrudSimulation extends Simulation {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-I&#8217;ve already talked about this <a href="https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/" target="_blank">REST API here</a>
+I&#8217;ve already talked about the <a href="https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/" target="_blank">REST API under test here</a>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>This simulation fires a total of 150 request, here is the output in the console:</p>
+<p>This simulation fires a total of 150 request in 34 seconds, here is the console output:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -314,7 +349,7 @@ list cars: max of response time is less than 300 : true</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And here are some graphical report:</p>
+<p>And here are some graphical reports generated by Gatling:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -344,7 +379,119 @@ list cars: max of response time is less than 300 : true</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="references"><a class="anchor" href="#references"></a>7. References</h2>
+<h2 id="torturing_wildflies"><a class="anchor" href="#torturing_wildflies"></a>7. Torturing Wildflies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now the section that entitles this post, <strong>Wildflies</strong> is meant to be the plural of <a href="http://wildfly.org">WildflyAS</a> which will be the target of our simulation.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The simulation was enhanced with more http calls to the rest API and also requests to the web application (which has only one page). It can be <a href="https://github.com/rmpestano/cdi-crud/blob/master/src/test/scala/com/cdi/crud/perf/CdiCrudSimulation.scala">found here</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+I will run the simulation and the application (the one deployed on Wildfly) on the same machine. This is <strong>NOT ideal</strong> cause both will compete for resources (CPU and memory) but is what I have at the moment and also simpler to show the concepts.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="software_and_harware"><a class="anchor" href="#software_and_harware"></a>7.1. Software and harware</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Ubuntu 14.04/amd64;</p>
+</li>
+<li>
+<p>Java 8u40;</p>
+</li>
+<li>
+<p>Wildfly 9.0.0CR1;</p>
+</li>
+<li>
+<p>The application under test uses JavaEE7 stack, more <a href="https://github.com/rmpestano/cdi-crud">details here</a>;</p>
+</li>
+<li>
+<p>CPU i7-2670QM</p>
+</li>
+<li>
+<p>8GB RAM</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="performance_tests"><a class="anchor" href="#performance_tests"></a>7.2. Performance tests</h3>
+<div class="paragraph">
+<p>As described earlier, this kind of test must be able to be executed frequently so it can catch changes in our code that <em>possible</em> degradates the system performance.</p>
+</div>
+<div class="paragraph">
+<p>It must not be destructive and IMO should execute on every signicative change, for example it could be part of a <a href="http://search.maven.org/">continous delevery pipeline</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Jenkins has a <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gatling+Plugin">Gatling plugin</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In following sub-sections we are going to make changes to our code and infrastructure (Wildfly) and run the simulation to see if the change was good or not.</p>
+</div>
+<div class="sect3">
+<h4 id="first_execution"><a class="anchor" href="#first_execution"></a>7.2.1. First execution</h4>
+<div class="paragraph">
+<p>Here is the result of a execution without changes to the code:</p>
+</div>
+<div class="paragraph">
+<p>TODO link reports online (eg flickr)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="adding_server_cache_to_rest_endpoints"><a class="anchor" href="#adding_server_cache_to_rest_endpoints"></a>7.2.2. Adding server cache to REST endpoints</h4>
+
+</div>
+<div class="sect3">
+<h4 id="asynchronous_rest_responses"><a class="anchor" href="#asynchronous_rest_responses"></a>7.2.3. Asynchronous REST Responses</h4>
+
+</div>
+<div class="sect3">
+<h4 id="wildfly_on_mode_domain"><a class="anchor" href="#wildfly_on_mode_domain"></a>7.2.4. Wildfly on mode domain</h4>
+
+</div>
+<div class="sect3">
+<h4 id="http2_enabled_on_wildfly"><a class="anchor" href="#http2_enabled_on_wildfly"></a>7.2.5. HTTP2 enabled on wildfly</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="load_tests"><a class="anchor" href="#load_tests"></a>7.3. Load tests</h3>
+<div class="paragraph">
+<p>For load/scalability tests we will take another approach. We will perform the simulation over a longer period (eg:30 min) and will increasy users/requests slowly. At the same time we will attach a profiler and analyze resource comsuption like memory, garbage collection, CPU usage, threads etc&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="references"><a class="anchor" href="#references"></a>8. References</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -356,9 +503,15 @@ list cars: max of response time is less than 300 : true</pre>
 </div>
 </div>
 </div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. <em>Simulation</em> is the name which is usually given to performance tests because they try to simulate the application&#8217;s usage under real or even abnormal circumstances like e.g putting/simulating a lot of users using the app at the same time.
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-05-04 00:35:31 BRT
+Last updated 2015-05-05 14:57:29 BRT
 </div>
 </div>
 </body>
