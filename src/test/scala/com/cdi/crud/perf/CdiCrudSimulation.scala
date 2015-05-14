@@ -29,7 +29,7 @@ class CdiCrudSimulation extends Simulation {
     "Pragma" -> "no-cache",
     "X-Requested-With" -> "XMLHttpRequest")
 
-  val jsfViewStateCheck = regex( """="javax.faces.ViewState" value="([^"]*)"""")
+  val jsfViewStateCheck = css("input[name='javax.faces.ViewState']")
     .saveAs("viewState")
 
   def jsfGet(name: String, url: Expression[String]) =
@@ -40,7 +40,7 @@ class CdiCrudSimulation extends Simulation {
   def jsfPost(name: String, url: Expression[String]) = http(name)
     .post(url)
     .formParam("javax.faces.ViewState", "${viewState}")
-    .check(jsfViewStateCheck)
+    //.check(jsfViewStateCheck)
 
   def openDialogRequest = jsfPost("request_open_dialog","/index.faces?dswid=4728")
     .header("Faces-Request", "partial/ajax")
@@ -71,10 +71,10 @@ class CdiCrudSimulation extends Simulation {
       .resources(http("request_resources").get( "/"))
      .check(status.is(200))
     )
-    /*.exec(openDialogRequest)
+    .exec(openDialogRequest)
     .pause(2)
     .exec(doLogonRequest)
-    .pause(1)*/
+    .pause(1)
 
   setUp(
     loginScenario.inject( atOnceUsers(1) )
