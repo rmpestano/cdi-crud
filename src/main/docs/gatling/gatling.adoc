@@ -10,6 +10,8 @@ This document will describe how to perform *performance* and *load* tests using 
 * Setup Gatling in our https://github.com/rmpestano/cdi-crud[CDI Crud application^];
 * Show the difference between performance and load testing
 * Example on how to create a simulation;
+** example of rest api calls
+** example of JSF web application calls
 * Execute performance tests after some system's improvements;
 * Torturing wildfly application server through load/stress testing.
 
