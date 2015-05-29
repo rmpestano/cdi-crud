@@ -51,7 +51,8 @@
 		<property name="report-directory">target/cucumber-report</property>
 	</extension>
 	<extension qualifier="webdriver">
-		<property name="browser">firefox</property>
+		<property name="browser">${arquillian.browser}</property>
+                <property name="chromeDriverBinary">${arquillian.chromeDriver}</property>
 	</extension>
 
 </arquillian>
