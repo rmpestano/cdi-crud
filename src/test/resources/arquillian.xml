@@ -26,8 +26,9 @@
 		<configuration>
 			<property name="jbossHome">${arquillian.serverHome}</property>
 			<property name="outputToConsole">true</property>
-			<property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m</property>
+			<property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=100</property>
 			<property name="allowConnectingToRunningServer">true</property>
+                        <property name="managementPort">10090</property>
 		</configuration>
 	</container>
 
