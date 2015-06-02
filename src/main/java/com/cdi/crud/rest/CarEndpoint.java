@@ -5,7 +5,7 @@ import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.model.Filter;
 import com.cdi.crud.infra.rest.RestSecured;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
@@ -13,13 +13,16 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  */
-@Stateless
+@Singleton
 @Path("/cars")
 @Produces("application/json;charset=utf-8")
+@ConcurrencyManagement
+@Lock(LockType.READ)
 public class CarEndpoint {
 
     @Inject
@@ -51,6 +54,8 @@ public class CarEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     @RestSecured
+    @Lock(LockType.WRITE)
+    @AccessTimeout(value = 2,unit = TimeUnit.SECONDS)
     public Response deleteById(@HeaderParam("user") String user, @PathParam("id") Integer id) {
         Car entity = carService.findById(id);
         if (entity == null) {

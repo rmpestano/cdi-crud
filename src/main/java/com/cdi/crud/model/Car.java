@@ -30,6 +30,9 @@ public class Car implements BaseEntity {
     @Column(name = "price")
     private Double price;
 
+    @Version
+    private Integer version;
+
     public Car() {
     }
 
@@ -63,6 +66,14 @@ public class Car implements BaseEntity {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public Car model(String model) {
