@@ -16,7 +16,7 @@
         <version.selenium>2.45.0</version.selenium>
         <version.graphene>2.1.0.Alpha2</version.graphene>
         <version.drone>2.0.0.Alpha3</version.drone>
-	<arquillian.browser>firefox</arquillian.browser>
+	    <arquillian.browser>firefox</arquillian.browser>
         <arquillian.chromeDriver>/home/pestano/chromedriver</arquillian.chromeDriver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -451,7 +451,7 @@
         <profile>
             <id>wildfly-remote</id>
             <properties>
-                <arquillian.container>wildfly-managed</arquillian.container>
+                <arquillian.container>wildfly-remote</arquillian.container>
             </properties>
             <dependencies>
                 <dependency>
