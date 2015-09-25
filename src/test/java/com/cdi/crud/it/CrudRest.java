@@ -241,6 +241,7 @@ public class CrudRest {
     public void shouldUpdateCar() {
         JsonObject carToUpdate = new JsonObject();
         carToUpdate.add("id",new JsonPrimitive(1));
+        carToUpdate.add("version",new JsonPrimitive(0));
         carToUpdate.add("model",new JsonPrimitive("Ferrari updated"));
         carToUpdate.add("name",new JsonPrimitive("Ferrari spider updated"));
         carToUpdate.add("price",new JsonPrimitive(1000f));

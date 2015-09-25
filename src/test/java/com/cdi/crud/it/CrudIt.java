@@ -10,6 +10,8 @@ import com.cdi.crud.util.Deployments;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -123,12 +125,13 @@ public class CrudIt {
 
     @Test
     @UsingDataSet("car.yml")
+    @Transactional(TransactionMode.DISABLED)
     public void shouldRemoveCar(){
         authorizer.login("admin");
-        int countBefore = carService.count(new Filter<Car>());
-        assertEquals(countBefore,4);
-        carService.remove(new Car(1));
-        assertEquals(countBefore-1, carService.count(new Filter<Car>()));
+        Car car = carService.findById(1);
+        assertNotNull(car);
+        carService.remove(car);
+        assertNull(carService.findById(1));
     }
 
     @Test

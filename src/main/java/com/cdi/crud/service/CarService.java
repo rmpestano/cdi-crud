@@ -70,6 +70,7 @@ public class CarService extends CrudService<Car> {
                 .projection(Projections.property("model")).list();
     }
 
+
     @Override
     public void beforeInsert(Car car) {
         if (!car.hasModel()) {

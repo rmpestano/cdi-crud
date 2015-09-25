@@ -1,5 +1,8 @@
 = Simple Java EE CDI Crud example.
 
+image:https://travis-ci.org/rmpestano/cdi-crud.svg[Build Status (Travis CI), link=https://travis-ci.org/rmpestano/cdi-crud]
+image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=https://coveralls.io/r/rmpestano/cdi-crud]
+
 == Blog posts
 This project is referenced in the following blog posts:
 
@@ -61,8 +64,4 @@ Tested under:
 if you use http://forge.jboss.org/1.x/[JBoss Forge 1.x] (soon on forge 2) you may have a https://github.com/rmpestano/crud-plugin[look at this plugin] which generates Crud in the format you see at this project.
 
 
-== Continuous integration
-
-image:https://travis-ci.org/rmpestano/cdi-crud.svg[Build Status (Travis CI), link=https://travis-ci.org/rmpestano/cdi-crud]
-image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=https://coveralls.io/r/rmpestano/cdi-crud]
 
