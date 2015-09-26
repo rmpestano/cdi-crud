@@ -9,6 +9,12 @@
 
 	<defaultProtocol type="Servlet 3.0" />
 
+	<container qualifier="chameleon" default="true">
+		<configuration>
+			<property name="chameleonTarget">${arquillian.container}</property>
+		</configuration>
+	</container>
+
 	<container qualifier="jboss-remote">
 		<configuration>
 			<property name="managementAddress">127.0.0.1</property>
@@ -22,7 +28,7 @@
 		</configuration>
 	</container>
 
-	<container qualifier="wildfly-managed" default="true">
+	<container qualifier="wildfly-managed" >
 		<configuration>
 			<property name="jbossHome">${arquillian.serverHome}</property>
 			<property name="outputToConsole">true</property>

@@ -13,10 +13,8 @@
         <version.hibernate>4.3.5.Final</version.hibernate>
         <version.deltaspike>1.2.1</version.deltaspike>
         <version.wildfly>8.2.0.Final</version.wildfly>
-        <version.selenium>2.45.0</version.selenium>
-        <version.graphene>2.1.0.Alpha2</version.graphene>
-        <version.drone>2.0.0.Alpha3</version.drone>
-	    <arquillian.browser>firefox</arquillian.browser>
+        <arquillian.container>wildfly:9.0.0.Final:managed</arquillian.container>
+        <arquillian.browser>firefox</arquillian.browser>
         <arquillian.chromeDriver>/home/pestano/chromedriver</arquillian.chromeDriver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -24,25 +22,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.1.8.Final</version>
-                <type>pom</type>
+                <groupId>org.arquillian</groupId>
+                <artifactId>arquillian-universe</artifactId>
+                <version>1.0.0.Alpha1-SNAPSHOT</version>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.selenium</groupId>
-                <artifactId>selenium-bom</artifactId>
-                <version>${version.selenium}</version>
                 <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${version.drone}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -69,6 +53,12 @@
             <artifactId>hibernate-core</artifactId>
             <version>${version.hibernate}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -146,70 +136,22 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-junit</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-cukes</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-persistence-api</artifactId>
-            <version>1.0.0.Alpha7</version>
-            <scope>test</scope> 
-        </dependency>
-        <dependency>
-            <groupId>org.dbunit</groupId> <!--needed by DBUnitUtils -->
-            <artifactId>dbunit</artifactId>
-            <version>2.5.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-persistence-dbunit</artifactId>
-            <version>1.0.0.Alpha7</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.cukespace</groupId>
-            <artifactId>cukespace-core</artifactId>
-            <version>1.6.0</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.2.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>1.2.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver</artifactId>
-            <version>${version.graphene}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-graphene</artifactId>
             <scope>test</scope>
+            <type>pom</type>
             <exclusions>
                 <exclusion>
                     <!-- conflict with jacoco -->
@@ -222,7 +164,26 @@
                     <artifactId>netty</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency> 
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-persistence</artifactId>
+            <scope>test</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.universe</groupId>
+            <artifactId>arquillian-chameleon</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <!--needed by DBUnitUtils -->
+            <artifactId>dbunit</artifactId>
+            <version>2.5.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
@@ -241,6 +202,7 @@
             <version>1.4.01</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -342,7 +304,6 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <!-- profiles for selecting which tests will run (i.e surefire includes)-->
         <profile>
@@ -404,64 +365,21 @@
             </build>
         </profile>
 
-        <!-- container profiles -->
+        <!-- chameleon containers -->
         <profile>
             <id>wildfly-managed</id>
             <properties>
-                <arquillian.container>wildfly-managed</arquillian.container>
-                <arquillian.serverHome>${project.build.directory}/wildfly-${version.wildfly}</arquillian.serverHome>
+                <arquillian.container>wildfly:9.0.0.Final:managed</arquillian.container>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wildfly</groupId>
-                                            <artifactId>wildfly-dist</artifactId>
-                                            <version>${version.wildfly}</version>
-                                            <type>zip</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <version>${version.wildfly}</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>wildfly-remote</id>
             <properties>
-                <arquillian.container>wildfly-remote</arquillian.container>
+                <arquillian.container>wildfly:9.0.0.Final:remote</arquillian.container>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <version>8.2.0.Final</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
         </profile>
+
+        <!-- TODO add more containers -->
 
         <profile>
             <id>perf</id>
@@ -526,7 +444,7 @@
                                         <toc>right</toc>
                                         <tocLevels>3</tocLevels>
                                         <icons>font</icons>
-                                        <idprefix />
+                                        <idprefix/>
                                         <sectanchors>true</sectanchors>
                                     </attributes>
                                 </configuration>
@@ -541,9 +459,9 @@
                                     <backend>pdf</backend>
                                     <sourceHighlighter>coderay</sourceHighlighter>
                                     <attributes>
-                                        <pagenums />
-                                        <toc />
-                                        <idprefix />
+                                        <pagenums/>
+                                        <toc/>
+                                        <idprefix/>
                                         <idseparator>-</idseparator>
                                     </attributes>
                                 </configuration>
@@ -553,7 +471,7 @@
                             <dependency>
                                 <groupId>org.asciidoctor</groupId>
                                 <artifactId>asciidoctorj-pdf</artifactId>
-                                <version>1.5.0-alpha.6</version>
+                                <version>1.5.0-alpha.8</version>
                             </dependency>
                         </dependencies>
                     </plugin>
