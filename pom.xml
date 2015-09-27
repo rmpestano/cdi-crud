@@ -13,7 +13,7 @@
         <version.hibernate>4.3.5.Final</version.hibernate>
         <version.deltaspike>1.2.1</version.deltaspike>
         <version.wildfly>8.2.0.Final</version.wildfly>
-        <arquillian.container>wildfly:9.0.0.Final:managed</arquillian.container>
+        <arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
         <arquillian.browser>firefox</arquillian.browser>
         <arquillian.chromeDriver>/home/pestano/chromedriver</arquillian.chromeDriver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
