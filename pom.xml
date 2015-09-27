@@ -169,6 +169,12 @@
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-chameleon</artifactId>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.dbunit</groupId>
@@ -194,6 +200,12 @@
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
             <version>1.4.01</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
             <scope>test</scope>
         </dependency>
 
