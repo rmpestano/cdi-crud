@@ -9,43 +9,18 @@
 
 	<defaultProtocol type="Servlet 3.0" />
 
-	<container qualifier="chameleon" default="true">
-		<configuration>
-			<property name="chameleonTarget">${arquillian.container}</property>
-		</configuration>
-	</container>
 
-	<container qualifier="jboss-remote">
-		<configuration>
-			<property name="managementAddress">127.0.0.1</property>
-			<property name="managementPort">9999</property>
-		</configuration>
-	</container>
-	<container qualifier="wildfly-remote">
-		<configuration>
-			<property name="managementAddress">127.0.0.1</property>
-			<property name="managementPort">9990</property>
-		</configuration>
-	</container>
+    <container qualifier="chameleon" default="true">
+        <configuration>
+            <property name="chameleonTarget">${arquillian.container}</property>
+        </configuration>
+    </container>
+<!-- 	<container qualifier="chameleon" default="true"> -->
+<!-- 		<configuration> -->
+<!-- 			<property name="chameleonTarget">${arquillian.container}</property> -->
+<!-- 		</configuration> -->
+<!-- 	</container> -->
 
-	<container qualifier="wildfly-managed" >
-		<configuration>
-			<property name="jbossHome">${arquillian.serverHome}</property>
-			<property name="outputToConsole">true</property>
-			<property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=100</property>
-			<property name="allowConnectingToRunningServer">true</property>
-                        <property name="managementPort">10090</property>
-		</configuration>
-	</container>
-
-	<container qualifier="glassfish-managed">
-		<configuration>
-			<property name="glassFishHome">${arquillian.serverHome}</property>
-			<property name="outputToConsole">true</property>
-			<property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=256m -Djboss.bind.address=${arquillian.localAddress} -Darquillian.debug=${arquillian.debug}</property>
-			<property name="allowConnectingToRunningServer">true</property>
-		</configuration>
-	</container>
 
 	<extension qualifier="persistence">
 		<property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
@@ -58,7 +33,7 @@
 	</extension>
 	<extension qualifier="webdriver">
 		<property name="browser">${arquillian.browser}</property>
-                <property name="chromeDriverBinary">${arquillian.chromeDriver}</property>
+        <property name="chromeDriverBinary">${arquillian.chromeDriver}</property>
 	</extension>
 
 </arquillian>
