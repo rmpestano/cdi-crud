@@ -100,24 +100,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.spec.javax.annotation</groupId>
-			<artifactId>jboss-annotations-api_1.1_spec</artifactId>
-			<version>1.0.1.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<version>1.0.2.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.interceptor</groupId>
-			<artifactId>jboss-interceptors-api_1.1_spec</artifactId>
-			<version>1.0.1.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
@@ -380,13 +362,13 @@
 		<profile>
 			<id>wildfly-managed</id>
 			<properties>
-				<arquillian.container>wildfly:9.0.0.Final:managed</arquillian.container>
+				<arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
 			</properties>
 		</profile>
 		<profile>
 			<id>wildfly-remote</id>
 			<properties>
-				<arquillian.container>wildfly:9.0.0.Final:remote</arquillian.container>
+				<arquillian.container>wildfly:8.2.0.Final:remote</arquillian.container>
 			</properties>
 		</profile>
 

@@ -206,6 +206,7 @@ public class CrudIt {
 
     @Test
     @UsingDataSet("car.yml")
+    @Transactional(value=TransactionMode.DISABLED)
     public void shouldListCarsByPrice(){
         List<Car> cars = carService.crud().between("price", (double) 1000, (double) 2450.9).addOrderAsc("price").list();
         //ferrari and porche

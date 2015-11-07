@@ -62,10 +62,11 @@
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:1.0.4.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:1.0.3.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:2.0.2.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces:primefaces:5.3" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.3" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-core:4.3.5.Final" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.logging:jboss-logging:3.1.3.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.logging:jboss-logging-annotations:1.2.0.Beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: dom4j:dom4j:1.6.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate.common:hibernate-commons-annotations:4.0.4.Final" level="project" />
@@ -73,7 +74,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: antlr:antlr:2.7.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss:jandex:1.1.0.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-validator:5.1.1.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.logging:jboss-logging:3.1.3.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.fasterxml:classmate:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hibernate:hibernate-entitymanager:4.3.5.Final" level="project" />
     <orderEntry type="library" name="Maven: org.apache.deltaspike.core:deltaspike-core-impl:1.2.1" level="project" />
@@ -87,7 +87,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.1_spec:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:1.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:2.2.0" level="project" />
@@ -149,13 +149,12 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.velocity:velocity:1.7" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: commons-lang:commons-lang:2.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: velocity-tools:velocity-tools:1.4" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.guava:guava:r09" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.googlecode.totallylazy:totallylazy:1.20" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.jsoup:jsoup:1.7.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.github.cukedoctor:cukedoctor-converter:0.4.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.maven.shared:maven-shared-utils:0.7" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.code.findbugs:jsr305:2.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.code.findbugs:jsr305:2.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.core:jackson-core:2.5.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: joda-time:joda-time:2.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.asciidoctor:asciidoctorj:1.5.2" level="project" />
@@ -163,15 +162,10 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.35" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.8" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.shrinkwrap:shrinkwrap-api:1.2.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-api:2.0.0.Alpha5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-spi:2.0.0.Alpha5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-configuration:2.0.0.Alpha5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-impl:2.0.0.Alpha5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-webdriver:2.0.0.Alpha5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-api:2.47.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-support:2.47.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-java:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:2.47.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:2.47.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-exec:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.sourceforge.htmlunit:htmlunit:2.17" level="project" />
@@ -187,11 +181,19 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty:jetty-io:9.2.11.v20150529" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.11.v20150529" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.2.11.v20150529" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna:4.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna-platform:4.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:2.47.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.webbitserver:webbit:0.4.14" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-leg-rc:2.47.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-support:2.47.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:2.47.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-api:2.0.0.Alpha5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-spi:2.0.0.Alpha5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-configuration:2.0.0.Alpha5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-impl:2.0.0.Alpha5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.opera:operadriver:1.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.opera:operalaunchers:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.google.protobuf:protobuf-java:2.4.1" level="project" />
@@ -199,13 +201,13 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.ini4j:ini4j:0.5.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-phantom-driver:1.1.4.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.codeborne:phantomjsdriver:1.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-drone-webdriver:2.0.0.Alpha5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-api:2.1.0.Alpha2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-spi:2.1.0.Alpha2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-impl:2.1.0.Alpha2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: cglib:cglib:2.2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: asm:asm:3.3.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.objenesis:objenesis:1.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-java:2.43.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:2.43.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.webbitserver:webbit:0.4.15" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-impl-base:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-jta:1.0.1.Final" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.extension:arquillian-transaction-api:1.0.1.Final" level="project" />
@@ -236,6 +238,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: commons-logging:commons-logging:1.1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-codec:commons-codec:1.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: xml-apis:xml-apis:1.4.01" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.guava:guava:18.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.jayway.restassured:rest-assured:2.3.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy:2.3.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codehaus.groovy:groovy-xml:2.3.6" level="project" />
