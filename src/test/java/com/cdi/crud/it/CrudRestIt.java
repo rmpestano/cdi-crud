@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by rmpestano on 12/20/14.
  */
 @RunWith(Arquillian.class)
-public class CrudRest {
+public class CrudRestIt {
 
     @Deployment(name = "cdi-rest.war")
     public static Archive<?> createDeployment() {

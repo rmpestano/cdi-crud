@@ -80,12 +80,9 @@ public class CarEndpoint {
         try {
             entity = carService.findById(id);
         } catch (NoResultException nre) {
-            entity = null;
-        }
-
-        if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
+
 
         CacheControl cc = new CacheControl();
         cc.setMaxAge(100);

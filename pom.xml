@@ -135,19 +135,10 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <scope>test</scope>
             <type>pom</type>
             <exclusions>
-                 <exclusion>
+                <exclusion>
                  <groupId>cglib</groupId>
                  <artifactId>cglib</artifactId>
                  </exclusion>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib-nodep</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- conflict with gatling -->
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -340,7 +331,6 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                             <includes>
                                 <include>**/*It.java</include>
                                 <include>**/*Bdd.java</include>
-                                <include>**/*Rest.java</include>
                             </includes>
                         </configuration>
                     </plugin>
