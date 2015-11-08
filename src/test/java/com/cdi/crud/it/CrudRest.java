@@ -36,7 +36,8 @@ public class CrudRest {
     public static Archive<?> createDeployment() {
         WebArchive war = Deployments.getBaseDeployment();
         MavenResolverSystem resolver = Maven.resolver();
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.jayway.restassured:rest-assured").withTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.jayway.restassured:rest-assured").withTransitivity().asFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.google.code.gson:gson:2.4").withoutTransitivity().asSingleFile());
         System.out.println(war.toString(true));
         return war;
     }
@@ -51,9 +52,9 @@ public class CrudRest {
     public void shouldListCars() {
         given().
                 queryParam("start", 0).queryParam("max", 10).
-                when().
+        when().
                 get(basePath + "rest/cars").
-                then().
+        then().
                 statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(4)).//dataset has 4 cars
                 body("model", hasItem("Ferrari")).
@@ -167,7 +168,6 @@ public class CrudRest {
 
 
     @Test
-    @UsingDataSet("car.yml")
     public void shouldCreateCar() {
         JsonObject carToCreate = new JsonObject();
         carToCreate.add("model", new JsonPrimitive("new car"));
@@ -176,16 +176,16 @@ public class CrudRest {
         String result = given().
                 content(carToCreate.toString()).
                 contentType("application/json").
-                when().
+        when().
                 post(basePath + "rest/cars").
-                then().
+        then().
                 statusCode(Status.CREATED.getStatusCode()).extract().asString();
 
         //new car should be there
         given().
-                when().
+        when().
                 get(basePath + "rest/cars").
-                then().
+        then().
                 statusCode(Status.OK.getStatusCode()).
                 body("", hasSize(1)).
                 body("model", hasItem("new car"));
@@ -200,9 +200,9 @@ public class CrudRest {
         given().
                 content(carToCreate.toString()).
                 contentType("application/json").
-                when().
+        when().
                 post(basePath + "rest/cars").
-                then().
+        then().
                 statusCode(Status.BAD_REQUEST.getStatusCode()).
                 body("message", equalTo("Car name cannot be empty"));
     }
@@ -236,9 +236,9 @@ public class CrudRest {
         given().
                 content(carToUpdate.toString()).
                 contentType("application/json").
-                when().
+         when().
                 put(basePath + "rest/cars/1").  //dataset has car with id =1
-                then().
+         then().
                 statusCode(Status.NO_CONTENT.getStatusCode());
 
 
@@ -262,9 +262,9 @@ public class CrudRest {
         given().
                 contentType(ContentType.JSON).
                 header("user", "guest"). //only admin can delete
-                when().
+        when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
-                then().
+        then().
                 statusCode(Status.UNAUTHORIZED.getStatusCode());
     }
 
@@ -274,9 +274,9 @@ public class CrudRest {
         given().
                 contentType(ContentType.JSON).
                 header("user", "admin").
-                when().
+        when().
                 delete(basePath + "rest/cars/1").  //dataset has car with id =1
-                then().
+        then().
                 statusCode(Status.NO_CONTENT.getStatusCode());
 
         //ferrari should not be in db anymore
