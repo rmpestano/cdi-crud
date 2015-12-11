@@ -5,7 +5,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <packaging>war</packaging>
     <name>cdi-crud</name>
 
@@ -102,7 +102,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -15,11 +15,7 @@
             <property name="chameleonTarget">${arquillian.container}</property>
         </configuration>
     </container>
-<!-- 	<container qualifier="chameleon" default="true"> -->
-<!-- 		<configuration> -->
-<!-- 			<property name="chameleonTarget">${arquillian.container}</property> -->
-<!-- 		</configuration> -->
-<!-- 	</container> -->
+
 
 
 	<extension qualifier="persistence">
