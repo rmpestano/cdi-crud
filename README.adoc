@@ -6,11 +6,13 @@ image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=htt
 == Blog posts
 This project is referenced in the following blog posts:
 
-* http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/[CDI crud multi tenancy];
-* http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/[Arquillian, Cucumber and DBunit];
-* http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/[Some words on JavaEE Rest and Swagger];
-* Its the application deployed in the post https://rpestano.wordpress.com/2015/01/10/a-simple-java-ee-docker-example/[A simple JavaEE Docker Example];
-* Torturing Wildflies with Gatling
+* http://rpestano.wordpress.com/2014/11/04/cdi-crud-multi-tenancy/[CDI crud multi tenancy^];
+* http://rpestano.wordpress.com/2014/11/08/arquillian-cucumber-dbunit/[Arquillian, Cucumber and DBunit^];
+* http://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/[Some words on JavaEE Rest and Swagger^];
+* Its the application deployed in the post https://rpestano.wordpress.com/2015/01/10/a-simple-java-ee-docker-example/[A simple JavaEE Docker Example^];
+* https://rpestano.wordpress.com/2015/11/08/test-your-rest-endpoints-inside-the-container-arqtip-1/[Test your REST endpoints inside the container^]
+* https://rpestano.wordpress.com/2015/11/12/the-simplest-micro-deployment-arqtip-2/[The simplest micro deployment^]
+* Torturing Wildflies with Gatling (on going)
 
 == Available at Openshift
 You can access the project online at Openshift PaaS:
