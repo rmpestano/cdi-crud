@@ -55,7 +55,6 @@ public class CarEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @RestSecured
     @Lock(LockType.WRITE)
-    @AccessTimeout(value = 2,unit = TimeUnit.SECONDS)
     public Response deleteById(@HeaderParam("user") String user, @PathParam("id") Integer id) {
         Car entity = carService.findById(id);
         if (entity == null) {
@@ -80,9 +79,12 @@ public class CarEndpoint {
         try {
             entity = carService.findById(id);
         } catch (NoResultException nre) {
-            return Response.status(Status.NOT_FOUND).build();
+            entity = null;
         }
 
+        if(entity == null){
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
         CacheControl cc = new CacheControl();
         cc.setMaxAge(100);
