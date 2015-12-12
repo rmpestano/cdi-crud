@@ -14,13 +14,12 @@ import java.io.Serializable;
  * just to enable HttpServletRequest injection
  * Note that DeltaSpike already provide this feature but it does not work in Jboss AS 7.1
  */
-@ApplicationScoped
+@RequestScoped
 public class ServletRequestHolder implements Serializable{
 
   private HttpServletRequest currentRequest;
 
   @Produces
-  @RequestScoped
   @Config
   public HttpServletRequest getCurrentRequest(){
     return currentRequest;

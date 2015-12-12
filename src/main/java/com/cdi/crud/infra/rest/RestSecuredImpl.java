@@ -24,7 +24,6 @@ public class RestSecuredImpl implements Serializable{
     CustomAuthorizer authorizer;
 
     @Inject
-    @Config
     Instance<HttpServletRequest> request;
 
 
