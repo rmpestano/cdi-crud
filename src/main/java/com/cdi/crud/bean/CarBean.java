@@ -77,6 +77,11 @@ public class CarBean implements Serializable {
                 public int getRowCount() {
                     return super.getRowCount();
                 }
+
+                @Override
+                public Car getRowData(String key) {
+                    return carService.findById(new Integer(key));
+                }
             };
 
         }
