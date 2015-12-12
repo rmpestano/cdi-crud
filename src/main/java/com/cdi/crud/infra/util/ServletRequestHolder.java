@@ -1,8 +1,5 @@
 package com.cdi.crud.infra.util;
 
-import com.cdi.crud.infra.annotation.Config;
-
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +16,6 @@ public class ServletRequestHolder implements Serializable{
 
   private HttpServletRequest currentRequest;
 
-  @Produces
-  @Config
   public HttpServletRequest getCurrentRequest(){
     return currentRequest;
   }

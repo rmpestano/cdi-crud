@@ -1,7 +1,6 @@
 package com.cdi.crud.infra.rest;
 
 
-import com.cdi.crud.infra.annotation.Config;
 import com.cdi.crud.infra.exception.CustomException;
 import com.cdi.crud.infra.security.CustomAuthorizer;
 
