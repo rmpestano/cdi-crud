@@ -12,6 +12,7 @@ import javax.interceptor.InvocationContext;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by rmpestano on 12/20/14.
@@ -20,7 +21,7 @@ import java.util.Map;
 @Named("authorizer")
 public class CustomAuthorizer implements Serializable {
 
-    Map<String, String> currentUser = new HashMap<>();
+    Map<String, String> currentUser = new ConcurrentHashMap<>();
 
     @Secures
     @Admin
