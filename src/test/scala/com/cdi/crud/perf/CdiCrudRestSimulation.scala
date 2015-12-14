@@ -1,3 +1,4 @@
+
 package com.cdi.crud.perf
 
 import java.util.UUID
@@ -6,9 +7,15 @@ import com.google.gson.{JsonPrimitive, JsonObject}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
+import scala.concurrent.forkjoin.ThreadLocalRandom
 
 class CdiCrudRestSimulation extends Simulation {
 
+  val printSession =
+    exec(session => {
+      println(session)
+      session
+    })
 
   var totalUsersPerScenario = 30
   var initialUsersPerScenario = 1
@@ -35,37 +42,67 @@ class CdiCrudRestSimulation extends Simulation {
     /*.connection( """keep-alive""")*/
     .contentTypeHeader("application/json; charset=UTF-8")
 
-  val carIdCheck = jsonPath("$[0].id").ofType[Int].saveAs("carId") //used by delete scenario
+  val rnd = scala.util.Random
 
-  val carIds = csv("car-ids.csv").circular
+  val carIdsCheck = jsonPath("$..id").findAll.saveAs("carIds") //used by delete scenario
+
+  val eTagCheck = header("ETag").saveAs("eTag")
+
+  val countCheck = jsonPath("$..*").ofType[Int].saveAs("count")
+
+  val idsFeed = csv("car-ids.csv").circular
+
+
+  val countCarsRequest = {
+    http("count cars") //<1> //stores the request in a local variable
+    .get("rest/cars/count")
+    .check(status.is(200), countCheck)
+  }
+
 
   val listCarsRequest = http("list cars") //<1> //stores the request in a local variable
     .get("rest/cars/")
-    .queryParam("start",0).queryParam("max",10)
-    .check(status.is(200),carIdCheck) //<2> request assertion
+    .queryParam("start","${page}")//random page was saved in count request
+    .queryParam("max",10)
+    .check(status.is(200),carIdsCheck) //<2> request assertion
 
-
-  val findCarRequest = http("find car") //TODO use etag
-    .get("rest/cars/${id}")
-    .check(status.in(200,404))//car deleted by concurrent user
+  val findCarRequest = http("find car")
+    .get("rest/cars/${carIds.random()}")
+    .check(status.in(200,404))// 404 = car deleted by concurrent user
 
 
   val addCarRequest = http("add car")
     .post("rest/cars/")
-    .body(ELFileBody("users.json")).asJSON
+    .body(ELFileBody("cars.json")).asJSON
     .check(status.is(201))
 
   val deleteCarRequest = http("remove car")
-    .delete("rest/cars/${carId}")
+    .delete("rest/cars/${carIds.random()}")
     .header("user","admin")
     .check(status.in(204,404)) //404 - a concurrent user deleted before
 
+  val saveCount = exec(session => {
+    val count = session("count").as[Int]
+    session.set("page", ThreadLocalRandom.current.nextInt(count)-1)//save a random db page based on the number of cars
+  })
+
   val listCarsScenario = scenario("List cars scenario")
+    .exec(countCarsRequest)
+    .pause(80 milliseconds)
+    .exec(saveCount)
+    .pause(80 milliseconds)
     .exec(listCarsRequest)
+    //.exec(printSession)
     .pause(50 milliseconds)// users don't click buttons at the same time
 
   val findCarsScenario = scenario("Find cars scenario")
-    .feed(carIds)
+    //.feed(carIds) will find always the same cars
+    .exec(countCarsRequest)
+    .pause(80 milliseconds)
+    .exec(saveCount)
+    .pause(80 milliseconds)
+    .exec(listCarsRequest) //saves a list of random ids in carIds session variable
+    .pause(80 milliseconds)
     .exec(findCarRequest)
     .pause(50 milliseconds)
 
@@ -77,27 +114,34 @@ class CdiCrudRestSimulation extends Simulation {
     .pause(50 milliseconds)
 
   val deleteCarsScenario = scenario("Delete cars scenario")
+    .exec(countCarsRequest)
+    .pause(80 milliseconds)
+    .exec(saveCount)
+    .pause(80 milliseconds)
     .exec(listCarsRequest) //save first car id in gatling session (tá salvando o mesmo id 25 vezes
     .pause(80 milliseconds)
     .exec(deleteCarRequest)
     .pause(50 milliseconds)
 
-  setUp(  
+  setUp(
     listCarsScenario.inject(
-      atOnceUsers(5),
+      rampUsers(5) over(5 seconds),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
       //constantUsersPerSec(500) during (1 minutes))
      ),
     findCarsScenario.inject(
       atOnceUsers(5),
+      rampUsers(10) over(10 seconds),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
     ),
     addCarsScenario.inject(
       atOnceUsers(10),
+      rampUsers(10) over(10 seconds),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
     ),
     deleteCarsScenario.inject(
       atOnceUsers(5),
+      rampUsers(10) over(5 seconds),
       rampUsersPerSec(initialUsersPerScenario) to (totalUsersPerScenario) during(scenarioDurationInSeconds seconds)
     )
 

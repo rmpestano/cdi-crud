@@ -74,8 +74,9 @@ public class CarEndpoint {
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
-    public Response findById(@PathParam("id") Integer id, @Context Request request) {
+    public Response findById(@PathParam("id") Integer id, @Context Request request,@Context HttpHeaders headers) {
         Car entity;
+
         try {
             entity = carService.findById(id);
         } catch (NoResultException nre) {
@@ -110,7 +111,7 @@ public class CarEndpoint {
      * @param name list cars with given name
      */
     @GET
-    public List<Car> list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
+    public Response list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
                           @QueryParam("model") String model,
                           @QueryParam("name") String name,
@@ -134,7 +135,8 @@ public class CarEndpoint {
        }
        filter.setFirst(startPosition).setPageSize(maxResult);
        final List<Car> results = carService.paginate(filter);
-       return results;
+
+       return Response.ok(results).header("count",carService.count(filter)).build();
     }
 
     /**
