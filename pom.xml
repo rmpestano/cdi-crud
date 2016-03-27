@@ -23,7 +23,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <dependency>
                 <groupId>org.arquillian</groupId>
                 <artifactId>arquillian-universe</artifactId>
-                <version>1.0.0.Alpha1</version>
+                <version>1.0.0.Alpha3</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
