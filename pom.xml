@@ -561,15 +561,6 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                         <groupId>org.eluder.coveralls</groupId>
                         <artifactId>coveralls-maven-plugin</artifactId>
                         <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <id>coveralls-jacoco</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>jacoco</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                         <configuration>
                             <repoToken>BeY5SbPOlCAGfuhiJos2BbQxkEpFLQrvU</repoToken>
                         </configuration>
