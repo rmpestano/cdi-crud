@@ -4,6 +4,7 @@
  */
 package com.cdi.crud.bean;
 
+import com.cdi.crud.infra.CrudService;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.Crud;
@@ -38,16 +39,19 @@ public class CarBean implements Serializable {
     private Filter<Car> filter = new Filter<Car>(new Car());
 
     @Inject
-    CarService carService;
+    CarService carService; //car service holds business logic, if entity has no logic you can use Crud or CrudService (has transactins) directly
 
 
 
     /*
      * you can inject crud direcly, sometimes its useful but remember that you
-     * don't have transactions there
+     * don't have transactions there, use CrudService if you need transactions
      */
     @Inject
     Crud<Car> carCrud;
+
+    @Inject
+    CrudService<Car> carCrudService; // you can use generic service which has transactions, see remove car
 
 
     public LazyDataModel<Car> getCarList() {
@@ -127,7 +131,7 @@ public class CarBean implements Serializable {
 
     public void remove() {
         if (car != null && car.getId() != null) {
-            carService.remove(car);
+            carCrudService.remove(car);
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage("Car " + car.getModel()
