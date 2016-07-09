@@ -33,10 +33,7 @@
     }, {
       "method" : "GET",
       "nickname" : "list",
-      "type" : "array",
-      "items" : {
-        "$ref" : "Car"
-      },
+      "type" : "Response",
       "parameters" : [ {
         "type" : "integer",
         "format" : "int32",

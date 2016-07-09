@@ -7,11 +7,12 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
     <artifactId>cdi-crud</artifactId>
     <version>3.0.0</version>
     <packaging>war</packaging>
-    <name>cdi-crud</name>
+    <name>cdi-crud-kotlin</name>
 
     <properties>
+        <kotlin.version>1.0.3</kotlin.version>
         <version.hibernate>4.3.5.Final</version.hibernate>
-        <version.deltaspike>1.2.1</version.deltaspike>
+        <version.deltaspike>1.6.1</version.deltaspike>
         <arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
         <arquillian.browser>firefox</arquillian.browser>
         <arquillian.chromeDriver>/home/pestano/chromedriver</arquillian.chromeDriver>
@@ -197,6 +198,13 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- performance -->
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
@@ -204,7 +212,53 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <version>2.1.6</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.github.dbunit-rules</groupId>
+            <artifactId>cdi</artifactId>
+            <version>0.9.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-api</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-test-control-module-impl</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.cdictrl</groupId>
+            <artifactId>deltaspike-cdictrl-owb</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openwebbeans</groupId>
+            <artifactId>openwebbeans-impl</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -237,7 +291,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                 <directory>src/test/java/</directory>
             </testResource>
         </testResources>
-        <finalName>cdi-crud</finalName>
+        <finalName>cdi-crud-kotlin</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -269,7 +323,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                             <docletArtifact>
                                 <groupId>com.carma</groupId>
                                 <artifactId>swagger-doclet</artifactId>
-                                <version>1.0.2</version>
+                                <version>1.0.6</version>
                             </docletArtifact>
                             <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
@@ -282,6 +336,41 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                         <goals>
                             <goal>javadoc</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>src/main/java</source>
+                                <source>src/main/kotlin</source>
+                                <source>src/main/resources</source>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>process-test-sources</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>src/test/java</source>
+                                <source>src/test/kotlin</source>
+                                <source>src/test/resources</source>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -393,13 +482,13 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
         <profile>
             <id>wildfly-managed</id>
             <properties>
-                <arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
+                <arquillian.container>wildfly:8.2.1.Final:managed</arquillian.container>
             </properties>
         </profile>
         <profile>
             <id>wildfly-remote</id>
             <properties>
-                <arquillian.container>wildfly:8.2.0.Final:remote</arquillian.container>
+                <arquillian.container>wildfly:8.2.1.Final:remote</arquillian.container>
             </properties>
         </profile>
 
