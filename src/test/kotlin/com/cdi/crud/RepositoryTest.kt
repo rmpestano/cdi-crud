@@ -1,5 +1,6 @@
 package com.cdi.crud
 
+import com.cdi.crud.repository.CarRepository
 import com.github.dbunit.rules.cdi.api.UsingDataSet
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner
 import org.assertj.core.api.Assertions.assertThat
@@ -13,16 +14,16 @@ import javax.persistence.EntityManager
  */
 
 @RunWith(CdiTestRunner::class)
-open class JpaTest {
+open class RepositoryTest {
 
     @field:Inject
-    lateinit var em:EntityManager;
+    lateinit var carRepository:CarRepository;
 
 
     @Test
     @UsingDataSet("car.yml")
     open fun shouldListCars() {
-        val cars = em.createQuery("select c from Car c").resultList
+        val cars = carRepository.findAll()
         assertThat(cars).hasSize(4)
     }
 

@@ -1,8 +1,12 @@
 package com.cdi.crud.model
 
 import java.io.Serializable
-import javax.persistence.*
-import javax.validation.constraints.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.Version
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
 /**
  * Created by rmpestano on 6/9/16.
@@ -23,3 +27,4 @@ data class Car(
         var version: Int? = null
 
 ) : Serializable
+

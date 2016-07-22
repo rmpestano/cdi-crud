@@ -5,8 +5,8 @@ import java.io.Serializable
 /**
  * Created by rmpestano on 6/10/16.
  */
-interface BaseEntity : Serializable {
+interface BaseEntity<T> : Serializable {
 
-    fun getId(): Serializable
+    open fun getId(): T
 
 }

@@ -1,5 +1,8 @@
 package com.cdi.crud
 
+import com.cdi.crud.model.Car
+import com.cdi.crud.repository.CarRepository
+import com.cdi.crud.service.CarService
 import com.github.dbunit.rules.cdi.api.UsingDataSet
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner
 import org.assertj.core.api.Assertions.assertThat
@@ -13,17 +16,19 @@ import javax.persistence.EntityManager
  */
 
 @RunWith(CdiTestRunner::class)
-open class JpaTest {
+open class ServiceTest {
 
     @field:Inject
-    lateinit var em:EntityManager;
+    lateinit var carService: CarService;
 
 
     @Test
-    @UsingDataSet("car.yml")
-    open fun shouldListCars() {
-        val cars = em.createQuery("select c from Car c").resultList
-        assertThat(cars).hasSize(4)
+    open fun shouldInsertCar() {
+        val car = Car(null,"CarTest","CarModel",2500.5,null)
+        val carInserted = carService.save(car)
+        assertThat(carInserted).isNotNull()
+        assertThat(carInserted.id).isNotNull();
+
     }
 
 

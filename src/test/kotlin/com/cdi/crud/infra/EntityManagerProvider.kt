@@ -1,4 +1,4 @@
-package com.cdi.crud
+package com.cdi.crud.infra
 
 import com.github.dbunit.rules.util.EntityManagerProvider
 import javax.enterprise.context.ApplicationScoped
@@ -10,7 +10,7 @@ import javax.persistence.EntityManager
  */
 
 @ApplicationScoped
-open class EmProvider {
+open class EntityManagerProvider {
 
    @Produces
    open fun produce() : EntityManager {
