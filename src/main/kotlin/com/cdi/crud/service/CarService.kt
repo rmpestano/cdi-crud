@@ -19,4 +19,13 @@ open class CarService {
     open fun save(car: Car) : Car{
         return carRepository.save(car)
     }
+
+    open fun find(car : Car) : List<Car>{
+        val hasFilters = if(car?.id != null || car?.model !=null || car?.price != null) true else false
+        //there is no JPA metalmodel generatior for kotlin so we can filter cars by atributes
+        val carFound =  if(hasFilters) carRepository.findByLike(car) else
+            throw RuntimeException("Provide a filter to find cars.")
+        return carFound
+    }
+
 }
