@@ -1,62 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui" 
-      >
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="/admin.xhtml">
 
-    <h:head>
+    <ui:define name="head">
         <title>Car Service</title>
-        <style type="text/css">
-            .ui-widget {
-                font-size: 12px !important;
-            }
-        </style>
-    </h:head>
-    <h:body >
-        <div align="right">
-            <p:outputPanel id="login" ><small>logged in as: #{authorizer.currentUser.user}</small></p:outputPanel>
-            <p:commandLink id="openLogin" value="logon" process="@this" partialSubmit="true" update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()" />
-        </div>
+        <ui:param name="renderBreadCrumb" value="false"/>
+    </ui:define>
+
+    <ui:define name="logo-lg">
+        CDI Crud
+    </ui:define>
+
+    <ui:define name="logo-mini">
+        CDI
+    </ui:define>
+
+    <ui:define name="top-menu">
         <h:form>
-            <p:growl autoUpdate="true" escape="false"/>
+            <h:panelGroup id="userPanel" layout="block"  styleClass="align-right" style="color: white;padding: 10px">
+                <p:outputPanel rendered="#{not authorizer.currentUser.isEmpty()}">
+                    <small>logged in as: <b>#{authorizer.currentUser.user}</b></small>
+                    <p:spacer height="5"/>
+                </p:outputPanel>
+                <p:outputPanel style="font-weight: bold" id="login" rendered="#{authorizer.currentUser.isEmpty()}">
+                    <p:commandLink styleClass="bg-light-blue" id="openLogin" value="logon" process="@this"
+                                   partialSubmit="true"
+                                   update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()"/>
+                </p:outputPanel>
+
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="body">
+        <adm:sidebar collapsed="true" mini="false"/>
+        <h:form>
+            <p:growl autoUpdate="true" escape="false" sticky="true"/>
             <h:panelGroup layout="block">
-                <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" filteredValue="#{carBean.filteredValue}"
-                             rowKey="#{c.id}" lazy="true"  paginator="true"
+                <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" styleClass="box-primary"
+                             filteredValue="#{carBean.filteredValue}"
+                             rowKey="#{c.id}" lazy="true" paginator="true"
                              paginatorPosition="bottom" selection="#{carBean.car}" selectionMode="single"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
-                             currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"    
+                             currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"
                              rowsPerPageTemplate="5,10,15,20,30"
-                             >
+                        >
 
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}"   update="@form" />
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}"  update="@form" />
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@form"/>
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@form"/>
                     <f:facet name="header">
                         Car List
                     </f:facet>
-                    <p:column headerText="ID" sortBy="#{c.id}" filterBy="#{c.id}" >
+                    <p:column headerText="ID" sortBy="#{c.id}" filterBy="#{c.id}">
                         #{c.id}
                     </p:column>
-                    <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}"  filterMatchMode="contains">
+                    <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}" filterMatchMode="contains">
                         <f:facet name="filter">
-                            <p:autoComplete value="#{carBean.filter.entity.model}" forceSelection="true"  minQueryLength="2" queryDelay="500" completeMethod="#{carBean.completeModel}" maxResults="10" >
-                                <p:ajax event="blur" process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                            <p:autoComplete value="#{carBean.filter.entity.model}" forceSelection="true"
+                                            minQueryLength="2" queryDelay="500"
+                                            completeMethod="#{carBean.completeModel}" maxResults="10">
+                                <p:ajax event="blur" process="@this" update="@none"
+                                        oncomplete="PF('carsTable').filter()"/>
                             </p:autoComplete>
                         </f:facet>
                         #{c.model}
                     </p:column>
-                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}" >
+                    <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
                         <f:facet name="filter">
-                            <p:inputText value="#{carBean.filter.entity.name}" >
+                            <p:inputText value="#{carBean.filter.entity.name}">
                                 <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
                             </p:inputText>
                         </f:facet>
-                           #{c.name}
+                        #{c.name}
                     </p:column>
-                    <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}" >
+                    <p:column headerText="Price" sortBy="#{c.price}" filterBy="#{c.price}">
                         <f:facet name="filter">
-                            <p:spinner value="#{carBean.filter.entity.price}" >
-                                <f:converter converterId="javax.faces.Double" />
+                            <p:spinner value="#{carBean.filter.entity.price}">
+                                <f:converter converterId="javax.faces.Double"/>
                                 <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
                             </p:spinner>
                         </f:facet>
@@ -64,39 +87,88 @@
                     </p:column>
                 </p:dataTable>
             </h:panelGroup>
-            <p>
-                Find Car by id: <p:inputText id="inptId" value="#{carBean.id}"/> <p:commandButton id="brFind" value="Find" action="#{carBean.findCarById(carBean.id)}" process="@form" update="@form" partialSubmit="true"/>
-            </p>
-
-
-            <p:fieldset legend="Manage Cars">
-                <h:panelGrid columns="2" id="grid">
-                    <h:outputLabel value="Model:" for="inptModel"/>
-                    <p:inputText id="inptModel" value="#{carBean.car.model}"/>
-                    <h:outputLabel value="Name:" for="inptName"/>
-                    <p:inputText id="inptName" value="#{carBean.car.name}"/>
-                    <h:outputLabel value="Price:" for="inptPrice"/>
-                    <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
-                    <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])" update="@form"/>
-                    <p:commandButton id="btRemove" value="Delete" action="#{carBean.remove}" process="@(table[id$=grid])" update="@form"/>
-                    <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form" partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
-                </h:panelGrid>
-
-            </p:fieldset>
+            <br/>
+            <p:panel header="Manage Cars" styleClass="box-primary">
+                <div class="align-right">
+                    Find Car by id: <p:inputText id="inptId" value="#{carBean.id}"/>
+                    <p:spacer height="5"/>
+                    <p:commandButton id="brFind"
+                                     value="Find"
+                                     action="#{carBean.findCarById(carBean.id)}"
+                                     process="@form"
+                                     update="@form"
+                                     styleClass="btn-flat bg-black"
+                                     partialSubmit="true"/>
+                </div>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Model:" for="inptModel"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="inptModel" value="#{carBean.car.model}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Name:" for="inptName"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="inptName" value="#{carBean.car.name}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Price:" for="inptPrice"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
+                    </div>
+                </div>
+                <f:facet name="footer">
+                    <div class="align-right" style="padding: 5px;">
+                        <p:commandButton value="Save/Update" action="#{carBean.update}" process="@(table[id$=grid])"
+                                         update="@form" styleClass="btn-primary"/>
+                        <p:spacer height="5"/>
+                        <p:commandButton id="btRemove" value="Delete" action="#{carBean.remove}"
+                                         process="@(table[id$=grid])" update="@form" styleClass="btn-danger"/>
+                        <p:spacer height="5"/>
+                        <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form"
+                                         partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"
+                                         styleClass="btn-info"/>
+                    </div>
+                </f:facet>
+            </p:panel>
 
         </h:form>
 
-        <p:dialog id="logonPanel" header="Logon panel" widgetVar="logon" height="100" width="350" modal="true">
+        <p:dialog header="Logon panel" styleClass="box-primary" widgetVar="logon" responsive="true" modal="true">
 
             <h:form>
-                <h:panelGroup layout="block" id="logonPanel" style="margin: 10px;padding: 10px">
-                    <p:outputLabel for="user" value="User"/>
-                    <p:inputText required="true" requiredMessage="username is required" id="user" value="#{authorizer.currentUser.user}"/>
-                    <p:commandButton id="btLogin" value="login" action="#{authorizer.login(authorizer.currentUser.user)}" oncomplete="if(!args.validationFailed){PF('logon').hide()}" update="@(div[id$=login], input[id$=user])"/>
-                </h:panelGroup>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="user" value="User"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText required="true" requiredMessage="username is required" id="user"
+                                     value="#{authorizer.currentUser.user}"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p:commandButton id="btLogin" value="login" styleClass="btn-primary"
+                                     action="#{authorizer.login(authorizer.currentUser.user)}"
+                                     oncomplete="if(!args.validationFailed){PF('logon').hide()}"
+                                     update="@(div[id$=userPanel])"/>
+                </div>
 
             </h:form>
         </p:dialog>
-    </h:body>
+    </ui:define>
 
-</html>
+    <ui:define name="footer">
+        <a target="_blank"
+           href="https://github.com/rmpestano/cdi-crud">
+            Copyright (C) 2017 - CDI Crud
+        </a>
+
+        <div class="pull-right hidden-xs" style="color: gray">
+            <i>#{adm['crud.version']}</i>
+        </div>
+
+    </ui:define>
+</ui:composition>

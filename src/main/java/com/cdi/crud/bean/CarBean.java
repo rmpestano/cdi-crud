@@ -134,8 +134,8 @@ public class CarBean implements Serializable {
             carCrudService.remove(car);
             FacesContext.getCurrentInstance().addMessage(
                     null,
-                    new FacesMessage("Car " + car.getModel()
-                            + " removed successfully"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,"Car " + car.getModel()
+                            + " removed successfully",null));
             clear();
         }
     }
@@ -150,7 +150,7 @@ public class CarBean implements Serializable {
             msg = "Car " + car.getModel() + " updated successfully";
         }
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(msg));
+                new FacesMessage(FacesMessage.SEVERITY_INFO,msg,null));
         clear();// reload car list
     }
 

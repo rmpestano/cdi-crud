@@ -13,23 +13,19 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
  */
-@Singleton
 @Path("/cars")
 @Produces("application/json;charset=utf-8")
-@ConcurrencyManagement
-@Lock(LockType.READ)
 public class CarEndpoint {
 
     @Inject
     CarService carService;
 
     /**
-     * @description creates a new car
+     * Creates a new car
      * @status 400 Car model cannot be empty
      * @status 400 Car name cannot be empty
      * @status 400 Car name must be unique
@@ -43,7 +39,7 @@ public class CarEndpoint {
     }
 
     /**
-     * @description deletes a car based on its ID
+     * Deletes a car based on its ID
      * @param user name of the user to log in
      * @param id car ID
      * @status 401 only authorized users can access this resource
@@ -54,7 +50,6 @@ public class CarEndpoint {
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     @RestSecured
-    @Lock(LockType.WRITE)
     public Response deleteById(@HeaderParam("user") String user, @PathParam("id") Integer id) {
         Car entity = carService.findById(id);
         if (entity == null) {
@@ -65,8 +60,7 @@ public class CarEndpoint {
     }
 
     /**
-     * @description finds a car based on its ID
-     * @responseType com.cdi.crud.model.Car
+     * Finds a car based on its ID
      * @param id car ID
      * @status 404 car not found
      * @status 304 not modified
@@ -102,7 +96,6 @@ public class CarEndpoint {
     }
 
     /**
-     * @requiredParams startPosition, maxResult, minPrice, maxPrice
      * @param startPosition initial list position
      * @param maxResult number of elements to retrieve
      * @param minPrice minimum car price
@@ -140,7 +133,7 @@ public class CarEndpoint {
     }
 
     /**
-     * @description counts number of cars
+     * Counts number of cars
      */
     @GET
     @Path("count")

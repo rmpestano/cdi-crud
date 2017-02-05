@@ -20,8 +20,7 @@ import java.util.List;
 
 /**
  * @author rmpestano
- *         <p/>
- *         Car Business logic
+ * Car Business logic
  */
 @Stateless
 public class CarService extends CrudService<Car> {

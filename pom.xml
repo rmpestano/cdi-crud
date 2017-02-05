@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <project
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
     <packaging>war</packaging>
     <name>cdi-crud</name>
 
@@ -23,7 +23,7 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <dependency>
                 <groupId>org.arquillian</groupId>
                 <artifactId>arquillian-universe</artifactId>
-                <version>1.0.0.Alpha3</version>
+                <version>1.0.0.Alpha7</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -32,15 +32,32 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-7.0</artifactId>
-            <version>1.0.3.Final</version>
-            <type>pom</type>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.3</version>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-template</artifactId>
+            <version>0.1-20170205.015308-16</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.adminfaces</groupId>
+                    <artifactId>admin-theme</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-theme</artifactId>
+            <version>0.1-20170205.021630-88</version>
+            <!--<classifier>dev</classifier> uncompressed theme.css (note that you need to exclude admin-theme brought by admin-template dependency)-->
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -113,14 +130,14 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
         <dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-junit</artifactId>
-            <scope>test</scope>
             <type>pom</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-cukes</artifactId>
-            <scope>test</scope>
             <type>pom</type>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.jruby</groupId>
@@ -131,24 +148,25 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
         <dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-graphene</artifactId>
-            <scope>test</scope>
             <type>pom</type>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
-                 <groupId>cglib</groupId>
-                 <artifactId>cglib</artifactId>
-                 </exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-persistence</artifactId>
-            <scope>test</scope>
             <type>pom</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.arquillian.universe</groupId>
             <artifactId>arquillian-chameleon</artifactId>
+            <scope>test</scope>
             <type>pom</type>
             <exclusions>
                 <exclusion>
@@ -216,6 +234,12 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
             <id>repo.bodar.com</id>
             <url>http://repo.bodar.com</url>
         </repository>
+        <repository>
+            <snapshots/>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
     <build>
         <resources>
@@ -237,7 +261,6 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                 <directory>src/test/java/</directory>
             </testResource>
         </testResources>
-        <finalName>cdi-crud</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -255,8 +278,24 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                 </configuration>
             </plugin>
 
+            <!-- <plugin>
+                 <groupId>com.sebastian-daschner</groupId>
+                 <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+                 <version>0.13-SNAPSHOT</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>analyze-jaxrs</goal>
+                         </goals>
+                         <configuration>
+                             <backend>swagger</backend>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>-->
+
             <!-- rest api:https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/ -->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
@@ -284,8 +323,9 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
+        <finalName>cdi-crud</finalName>
     </build>
     <profiles>
         <!-- profiles for selecting which tests will run (i.e surefire includes) -->
@@ -310,12 +350,12 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
                 </plugins>
             </build>
             <dependencies>
-                    <dependency>
-                        <!-- its excluded by default because of conflict with jacoco -->
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib</artifactId>
-                        <version>2.2.2</version>
-                    </dependency>
+                <dependency>
+                    <!-- its excluded by default because of conflict with jacoco -->
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                    <version>2.2.2</version>
+                </dependency>
             </dependencies>
         </profile>
         <profile>

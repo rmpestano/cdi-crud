@@ -1,12 +1,15 @@
 package com.cdi.crud.infra.security;
 
 import com.cdi.crud.infra.exception.CustomException;
+import com.github.adminfaces.template.session.AdminSession;
 import org.apache.deltaspike.security.api.authorization.Secures;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.InvocationContext;
 import java.io.Serializable;
@@ -17,11 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by rmpestano on 12/20/14.
  */
-@ApplicationScoped
+@SessionScoped
 @Named("authorizer")
 public class CustomAuthorizer implements Serializable {
 
-    Map<String, String> currentUser = new ConcurrentHashMap<>();
+    private Map<String, String> currentUser = new ConcurrentHashMap<>();
+
 
     @Secures
     @Admin
