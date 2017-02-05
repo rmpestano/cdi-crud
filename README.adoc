@@ -3,6 +3,10 @@
 image:https://travis-ci.org/rmpestano/cdi-crud.svg[Build Status (Travis CI), link=https://travis-ci.org/rmpestano/cdi-crud]
 image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=https://coveralls.io/r/rmpestano/cdi-crud]
 
+
+image:cdi-crud.png[]
+image:cdi-crud2.png[]
+
 == Blog posts
 This project is referenced in the following blog posts:
 
@@ -45,7 +49,7 @@ mvn clean test -Ptests -Pwildfly-managed
 * CDI
 * JSF
 * Hibernate
-* Primefaces
+* Primefaces/AdminFaces
 * Deltaspike
 * Arquillian
 * Cucumber
