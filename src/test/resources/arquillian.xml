@@ -24,12 +24,11 @@
 	</extension>
 
 	<extension qualifier="cucumber">
-		<property name="report">true</property>
+		<property name="report">false</property>
 		<property name="report-directory">target/cucumber-report</property>
 	</extension>
 	<extension qualifier="webdriver">
 		<property name="browser">${arquillian.browser}</property>
-        <property name="chromeDriverBinary">${arquillian.chromeDriver}</property>
 	</extension>
 
 </arquillian>

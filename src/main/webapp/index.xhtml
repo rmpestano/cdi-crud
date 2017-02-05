@@ -20,17 +20,12 @@
 
     <ui:define name="top-menu">
         <h:form>
-            <h:panelGroup id="userPanel" layout="block"  styleClass="align-right" style="color: white;padding: 10px">
-                <p:outputPanel rendered="#{not authorizer.currentUser.isEmpty()}">
-                    <small>logged in as: <b>#{authorizer.currentUser.user}</b></small>
-                    <p:spacer height="5"/>
-                </p:outputPanel>
-                <p:outputPanel style="font-weight: bold" id="login" rendered="#{authorizer.currentUser.isEmpty()}">
-                    <p:commandLink styleClass="bg-light-blue" id="openLogin" value="logon" process="@this"
+            <h:panelGroup id="userPanel" layout="block" styleClass="align-right" style="color: white;padding: 10px">
+                <p:outputPanel>
+                    <p:commandLink styleClass="bg-light-blue" id="openLogin" value="#{authorizer.currentUser.isEmpty() ? 'logon': authorizer.currentUser.user}" process="@this"
                                    partialSubmit="true"
                                    update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()"/>
                 </p:outputPanel>
-
             </h:panelGroup>
         </h:form>
     </ui:define>
@@ -140,22 +135,23 @@
         <p:dialog header="Logon panel" styleClass="box-primary" widgetVar="logon" responsive="true" modal="true">
 
             <h:form>
-                <div class="ui-g ui-fluid">
-                    <div class="ui-g-12">
-                        <p:outputLabel for="user" value="User"/>
+                <h:panelGroup id="logonPanel" layout="block">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:outputLabel for="user" value="User"/>
+                        </div>
+                        <div class="ui-g-12">
+                            <p:inputText required="true" requiredMessage="username is required" id="user"
+                                         value="#{authorizer.currentUser.user}"/>
+                        </div>
                     </div>
-                    <div class="ui-g-12">
-                        <p:inputText required="true" requiredMessage="username is required" id="user"
-                                     value="#{authorizer.currentUser.user}"/>
+                    <div class="modal-footer">
+                        <p:commandButton id="btLogin" value="login" styleClass="btn-primary"
+                                         action="#{authorizer.login(authorizer.currentUser.user)}"
+                                         oncomplete="if(!args.validationFailed){PF('logon').hide()}"
+                                         update="@(div[id$=userPanel])"/>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <p:commandButton id="btLogin" value="login" styleClass="btn-primary"
-                                     action="#{authorizer.login(authorizer.currentUser.user)}"
-                                     oncomplete="if(!args.validationFailed){PF('logon').hide()}"
-                                     update="@(div[id$=userPanel])"/>
-                </div>
-
+                </h:panelGroup>
             </h:form>
         </p:dialog>
     </ui:define>

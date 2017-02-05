@@ -39,7 +39,9 @@ import org.openqa.selenium.WebDriver;
 import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.jboss.arquillian.graphene.Graphene.waitModel;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Car acceptance tests
@@ -60,6 +62,8 @@ public class CrudAt {
 
         war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory("src/main/webapp").as(GenericArchive.class), "/", Filters.include(".*\\.(xhtml|html|css|js|png|gif)$"));
         MavenResolverSystem resolver = Maven.resolver();
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.github.adminfaces:admin-theme").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.github.adminfaces:admin-template").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.yaml:snakeyaml:1.10").withoutTransitivity().asSingleFile());
         System.out.println(war.toString(true));
@@ -75,10 +79,10 @@ public class CrudAt {
     @FindByJQuery("div.ui-growl-message")
     private GrapheneElement growl;
 
-    @FindByJQuery("a[id=openLogin]")
+    @FindByJQuery("a[id$=openLogin]")
     private GrapheneElement anchorLogin;
 
-    @FindByJQuery("div[id$=login]")
+    @FindByJQuery("div[id$=userPanel]")
     private GrapheneElement divLogin;
 
     @Page
@@ -114,9 +118,9 @@ public class CrudAt {
     public void user_is_logged_in_as(String user) throws Throwable {
         Graphene.goTo(IndexPage.class);
         anchorLogin.click();
-        Graphene.waitModel().until().element(logonPanel.getUser()).is().present();
+        waitModel().until().element(logonPanel.getUser()).is().present();
         logonPanel.doLogon(user);
-        assertThat(divLogin.getText()).isEqualTo("logged in as: " + user);
+        assertThat(divLogin.getText()).isEqualTo(user);
     }
 
     @And("^click on remove button$")
