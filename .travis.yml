@@ -5,4 +5,4 @@ cache:
   directories:
     - '$HOME/.m2/repository'
 script:
-  - mvn clean package -Ptests -Pwildfly-managed -Darquillian.browser=phantomjs
+  - mvn clean package -Pwhitebox -Pwildfly-managed
