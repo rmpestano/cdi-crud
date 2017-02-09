@@ -5,6 +5,7 @@ import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.fragment.Root;
 
 import static org.jboss.arquillian.graphene.Graphene.guardAjax;
+import static org.jboss.arquillian.graphene.Graphene.waitModel;
 
 public class LogonDialog {
 
@@ -23,6 +24,7 @@ public class LogonDialog {
     } 
 
     public void doLogon(String user){
+        waitModel();
         this.user.clear();
         this.user.sendKeys(user);
         guardAjax(btLogin).click();
