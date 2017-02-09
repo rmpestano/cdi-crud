@@ -5,4 +5,4 @@ cache:
   directories:
     - '$HOME/.m2/repository'
 script:
-  - mvn install -Pwhitebox -Pwildfly-managed -Pjacoco -Pcoveralls coveralls:report
+  - mvn clean package -Ptests -Pwildfly-managed -Darquillian.browser=phantomjs
