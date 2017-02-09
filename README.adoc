@@ -5,7 +5,6 @@ image:https://coveralls.io/repos/rmpestano/cdi-crud/badge.png[Coverage, link=htt
 
 
 image:cdi-crud.png[]
-image:cdi-crud2.png[]
 
 == Blog posts
 This project is referenced in the following blog posts:
