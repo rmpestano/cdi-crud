@@ -8,6 +8,7 @@
     <ui:define name="head">
         <title>Car Service</title>
         <ui:param name="renderBreadCrumb" value="false"/>
+        <f:loadBundle var="crud" basename="crud"/>
     </ui:define>
 
     <ui:define name="logo-lg">
@@ -163,7 +164,7 @@
         </a>
 
         <div class="pull-right hidden-xs" style="color: gray">
-            <i>#{adm['crud.version']}</i>
+            <i>#{crud['crud.version']}</i>
         </div>
 
     </ui:define>
