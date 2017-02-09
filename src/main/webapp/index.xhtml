@@ -9,6 +9,11 @@
         <title>Car Service</title>
         <ui:param name="renderBreadCrumb" value="false"/>
         <f:loadBundle var="crud" basename="crud"/>
+        <style type="text/css">
+            a.sidebar-toggle {
+                display: none!important;
+            }
+        </style>
     </ui:define>
 
     <ui:define name="logo-lg">
@@ -99,19 +104,19 @@
                 </div>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12">
-                        <p:outputLabel value="Model:" for="inptModel"/>
+                        <p:outputLabel value="Model" for="inptModel"/>
                     </div>
                     <div class="ui-g-12">
                         <p:inputText id="inptModel" value="#{carBean.car.model}"/>
                     </div>
                     <div class="ui-g-12">
-                        <p:outputLabel value="Name:" for="inptName"/>
+                        <p:outputLabel value="Name" for="inptName"/>
                     </div>
                     <div class="ui-g-12">
                         <p:inputText id="inptName" value="#{carBean.car.name}"/>
                     </div>
                     <div class="ui-g-12">
-                        <p:outputLabel value="Price:" for="inptPrice"/>
+                        <p:outputLabel value="Price" for="inptPrice"/>
                     </div>
                     <div class="ui-g-12">
                         <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
