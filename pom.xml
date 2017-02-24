@@ -293,34 +293,36 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
+                <version>2.19.1</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
 
-            <!-- <plugin>
-                 <groupId>com.sebastian-daschner</groupId>
-                 <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
-                 <version>0.13-SNAPSHOT</version>
-                 <executions>
-                     <execution>
-                         <goals>
-                             <goal>analyze-jaxrs</goal>
-                         </goals>
-                         <configuration>
-                             <backend>swagger</backend>
-                         </configuration>
-                     </execution>
-                 </executions>
-             </plugin>-->
 
+            <plugin>
+                <groupId>com.sebastian-daschner</groupId>
+                <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+                <version>0.13</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>analyze-jaxrs</goal>
+                        </goals>
+                        <configuration>
+                            <backend>swagger</backend>
+                            <resourcesDir>${project.build.finalName}/apidocs</resourcesDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- rest api:https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/ -->
             <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -351,6 +353,13 @@
                     </execution>
                 </executions>
             </plugin>-->
+             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
         </plugins>
         <finalName>cdi-crud</finalName>
     </build>
