@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-template</artifactId>
-            <version>0.1-20170209.213002-23</version>
+            <version>0.1-20170220.000804-44</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.adminfaces</groupId>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-theme</artifactId>
-            <version>0.1-20170209.214353-122</version>
+            <version>0.1-20170220.000753-138</version>
             <!--<classifier>dev</classifier> uncompressed theme.css (note that you need to exclude admin-theme brought by admin-template dependency)-->
         </dependency>
         <dependency>
@@ -305,7 +305,6 @@
                 </configuration>
             </plugin>
 
-
             <plugin>
                 <groupId>com.sebastian-daschner</groupId>
                 <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
@@ -319,6 +318,8 @@
                         <configuration>
                             <backend>swagger</backend>
                             <resourcesDir>${project.build.finalName}/apidocs</resourcesDir>
+                            <renderSwaggerTags>true</renderSwaggerTags>
+                            <swaggerTagsPathOffset>0</swaggerTagsPathOffset>
                         </configuration>
                     </execution>
                 </executions>
