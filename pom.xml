@@ -326,6 +326,8 @@
                 <configuration>
                     <backend>swagger</backend>
                     <resourcesDir>cdi-crud/apidocs</resourcesDir>
+                    <renderSwaggerTags>true</renderSwaggerTags>
+                    <swaggerTagsPathOffset>0</swaggerTagsPathOffset>
                 </configuration>
             </plugin>
 

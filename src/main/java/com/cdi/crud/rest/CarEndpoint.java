@@ -139,6 +139,11 @@ public class CarEndpoint {
         return Response.ok(carService.count(filter)).build();
     }
 
+    /**
+     *
+     * @param id The identifier of the car to be updated
+     * @param entity the changes to be applied
+     */
     @PUT
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
