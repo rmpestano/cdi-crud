@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<project
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cdi.crud</groupId>
     <artifactId>cdi-crud</artifactId>
@@ -51,7 +50,7 @@
         <dependency>
             <groupId>com.github.adminfaces</groupId>
             <artifactId>admin-template</artifactId>
-            <version>0.1-20170220.000804-44</version>
+            <version>0.1-20170227.183730-45</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.adminfaces</groupId>
@@ -306,61 +305,30 @@
             </plugin>
 
             <plugin>
-                <groupId>com.sebastian-daschner</groupId>
-                <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
-                <version>0.13</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>analyze-jaxrs</goal>
-                        </goals>
-                        <configuration>
-                            <backend>swagger</backend>
-                            <resourcesDir>${project.build.finalName}/apidocs</resourcesDir>
-                            <renderSwaggerTags>true</renderSwaggerTags>
-                            <swaggerTagsPathOffset>0</swaggerTagsPathOffset>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- rest api:https://rpestano.wordpress.com/2014/12/21/some-words-on-javaee-rest-and-swagger/ -->
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-service-docs</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <doclet>com.carma.swagger.doclet.ServiceDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>com.carma</groupId>
-                                <artifactId>swagger-doclet</artifactId>
-                                <version>1.0.2</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>src/main/webapp</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>-apiVersion 1 -docBasePath /cdi-crud/apidocs
-                                -apiBasePath /cdi-crud/rest
-                                -swaggerUiPath
-                                ${project.build.directory}/
-                            </additionalparam>
-                        </configuration>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.sebastian-daschner</groupId>
+                <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+                <version>0.14</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>analyze-jaxrs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <backend>swagger</backend>
+                    <resourcesDir>cdi-crud/apidocs</resourcesDir>
+                </configuration>
+            </plugin>
+
         </plugins>
         <finalName>cdi-crud</finalName>
     </build>

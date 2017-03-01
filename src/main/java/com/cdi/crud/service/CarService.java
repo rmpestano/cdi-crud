@@ -87,6 +87,9 @@ public class CarService extends CrudService<Car> {
     @Override
     public void beforeUpdate(Car entity) {
         this.beforeInsert(entity);
+        if (1==1){
+            throw new RuntimeException("error");
+        }
     }
 
 

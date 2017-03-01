@@ -1,11 +1,10 @@
 package com.cdi.crud.rest;
 
-import com.cdi.crud.model.Car;
-import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.model.Filter;
 import com.cdi.crud.infra.rest.RestSecured;
+import com.cdi.crud.model.Car;
+import com.cdi.crud.service.CarService;
 
-import javax.ejb.*;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
@@ -26,10 +25,6 @@ public class CarEndpoint {
 
     /**
      * Creates a new car
-     * @status 400 Car model cannot be empty
-     * @status 400 Car name cannot be empty
-     * @status 400 Car name must be unique
-     * @status 201 Car created successfully
      */
     @POST
     @Consumes("application/json")
@@ -42,10 +37,6 @@ public class CarEndpoint {
      * Deletes a car based on its ID
      * @param user name of the user to log in
      * @param id car ID
-     * @status 401 only authorized users can access this resource
-     * @status 403 only authenticated users can access this resource
-     * @status 404 car not found
-     * @status 204 Car deleted successfully
      */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
@@ -62,9 +53,6 @@ public class CarEndpoint {
     /**
      * Finds a car based on its ID
      * @param id car ID
-     * @status 404 car not found
-     * @status 304 not modified
-     * @status 200 car found successfully
      */
     @GET
     @Path("/{id:[0-9][0-9]*}")
@@ -106,8 +94,8 @@ public class CarEndpoint {
     @GET
     public Response list(@QueryParam("start") @DefaultValue("0") Integer startPosition,
                           @QueryParam("max") @DefaultValue("10") Integer maxResult,
-                          @QueryParam("model") String model,
-                          @QueryParam("name") String name,
+                          @QueryParam("model") @DefaultValue("") String model,
+                          @QueryParam("name") @DefaultValue("") String name,
                           @QueryParam("minPrice") @DefaultValue("0") Double minPrice,
                           @QueryParam("maxPrice") @DefaultValue("20000") Double maxPrice) {
         Filter<Car> filter = new Filter<>();
@@ -151,15 +139,6 @@ public class CarEndpoint {
         return Response.ok(carService.count(filter)).build();
     }
 
-    /**
-    * @status 400 Car model cannot be empty
-    * @status 400 Car name cannot be empty
-    * @status 400 Car name must be unique
-    * @status 400 No Car informed to be updated
-    * @status 404 No Car found with the given ID
-    * @status 409 id passed in parameter is different from the Car to update
-    * @status 204 Car updated successfully
-    */
     @PUT
     @Path("/{id:[0-9][0-9]*}")
     @Consumes("application/json")
