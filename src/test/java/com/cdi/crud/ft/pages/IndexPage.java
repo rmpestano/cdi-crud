@@ -6,7 +6,7 @@ import org.jboss.arquillian.graphene.page.Location;
 
 import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 
-@Location("index.faces")
+@Location("index.xhtml")
 public class IndexPage {
 
     @FindByJQuery("input[id$=inptId]")
