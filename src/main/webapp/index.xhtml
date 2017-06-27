@@ -40,7 +40,7 @@
         <adm:sidebar collapsed="true" mini="false"/>
         <h:form>
             <p:growl autoUpdate="true" escape="false" sticky="true"/>
-            <h:panelGroup layout="block">
+            <h:panelGroup layout="block" styleClass="card">
                 <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" styleClass="box-primary"
                              filteredValue="#{carBean.filteredValue}"
                              rowKey="#{c.id}" lazy="true" paginator="true"
@@ -50,8 +50,8 @@
                              rowsPerPageTemplate="5,10,15,20,30"
                         >
 
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@form"/>
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@form"/>
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
                     <f:facet name="header">
                         Car List
                     </f:facet>
@@ -89,7 +89,7 @@
                 </p:dataTable>
             </h:panelGroup>
             <br/>
-            <p:panel header="Manage Cars" styleClass="box-primary">
+            <p:panel id="carDetailPanel" header="Manage Cars" styleClass="box-primary card">
                 <div class="align-right">
                     <p:outputLabel value="Find Car by id: "/>
                     <p:spacer height="5"/>
