@@ -9,6 +9,8 @@ import com.cdi.crud.infra.security.CustomAuthorizer;
 import com.cdi.crud.util.Deployments;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.Cleanup;
+import org.jboss.arquillian.persistence.TestExecutionPhase;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -95,6 +97,7 @@ public class CrudIt {
 
     @Test
     @UsingDataSet("car.yml")
+    @Cleanup(phase = TestExecutionPhase.BEFORE)
     public void shouldNotInsertCarWithDuplicateName(){
         Car newCar = new Car().model("My Car").name("ferrari spider").price(1d);
         try {

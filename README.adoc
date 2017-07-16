@@ -27,12 +27,28 @@ See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI Crud REST API]
 
 == How run it:
 
-* Via maven with:
-+
+The are many ways to run this application:
+
+.Via maven
+
 ----
 mvn clean package
 ----
-* *OR* run on your favorite IDE
+and deploy to a JavaEE server
+
+.Via wildfly-swarm
+
+----
+mvn wildfly-swarm:run -Pswarm
+----
+
+.Docker
+
+----
+docker run -it -p 8080:8080 rmpestano/cdi-crud
+----
+
+The application is available at http://localhost:8080/cdi-crud
 
 == Running tests:
 
