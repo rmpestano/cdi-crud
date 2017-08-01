@@ -1,0 +1,2 @@
+# workaround for: https://github.com/arquillian/arquillian-extension-transaction/issues/14
+com.cdi.crud.util.NoTxWorkAround

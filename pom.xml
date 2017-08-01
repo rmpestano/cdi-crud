@@ -144,6 +144,13 @@
             <artifactId>arquillian-graphene</artifactId>
             <scope>test</scope>
             <type>pom</type>
+             <exclusions>
+                <!-- jacoco conflict-->
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.arquillian.universe</groupId>
@@ -157,6 +164,15 @@
             <scope>test</scope>
             <type>pom</type>
         </dependency>
+
+        <!-- graphene webdriver requires it -->
+         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.dbunit</groupId>
             <!--needed by DBUnitUtils -->
@@ -188,10 +204,6 @@
 
     </dependencies>
     <repositories>
-        <repository>
-            <id>repo.bodar.com</id>
-            <url>http://repo.bodar.com</url>
-        </repository>
         <repository>
             <snapshots/>
             <id>snapshots</id>
@@ -290,7 +302,7 @@
             </build>
             <dependencies>
                 <dependency>
-                    <!-- its excluded by default because of conflict with jacoco -->
+                    <!-- its excluded by default because of conflict with jacoco, to get coverage use the whitebox profile -->
                     <groupId>cglib</groupId>
                     <artifactId>cglib</artifactId>
                     <version>2.2.2</version>
@@ -318,6 +330,7 @@
         <profile>
             <id>blackbox</id>
             <dependencies>
+                <!-- removed from main dependencies because of jacoco conflict -->
                 <dependency>
                     <groupId>cglib</groupId>
                     <artifactId>cglib</artifactId>
@@ -485,7 +498,7 @@
         <profile>
             <id>jacoco</id>
             <properties>
-                <jacoco.version>0.7.4.201502262128</jacoco.version>
+                <jacoco.version>0.7.9</jacoco.version>
             </properties>
             <build>
                 <plugins>
@@ -640,6 +653,13 @@
                     </snapshots>
                 </repository>
             </repositories>
+        </profile>
+
+         <profile>
+            <id>headless</id>
+            <properties>
+                <arquillian.browser>chromeheadless</arquillian.browser>
+            </properties>
         </profile>
     </profiles>
 </project>
