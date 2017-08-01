@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.cdi.crud.infra.util.Assert.has;
+
 /**
  * @author rmpestano Helper class to crud an entity
  *
@@ -75,7 +77,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
 	// buider methods
     public Crud<T> example(T entity) {
-        if (entity != null) {
+        if (has(entity)) {
             getCriteria().add(Example.create(entity));
         } else {
             log.warning("cannot create example for a null entity.");
@@ -86,13 +88,13 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     public Crud<T> example(T entity, List<String> excludeProperties) {
         Example example = null;
-        if (entity != null) {
+        if (has(entity)) {
             example = Example.create(entity);
         } else {
             log.warning("cannot create example for a null entity.");
             return this;
         }
-        if (Assert.has(excludeProperties)) {
+        if (has(excludeProperties)) {
             for (String exclude : excludeProperties) {
                 example.excludeProperty(exclude);
             }
@@ -102,7 +104,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> example(T entity, MatchMode mode) {
-        if (entity != null) {
+        if (has(entity)) {
             getCriteria().add(Example.create(entity).enableLike(mode).ignoreCase());
         } else {
             log.warning("cannot create example for a null entity.");
@@ -113,13 +115,13 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     public Crud<T> example(T entity, MatchMode mode, List<String> excludeProperties) {
         Example example = null;
-        if (entity != null) {
+        if (has(entity)) {
             example = Example.create(entity).enableLike(mode).ignoreCase();
         } else {
             log.warning("cannot create example for a null entity.");
             return this;
         }
-        if (Assert.has(excludeProperties)) {
+        if (has(excludeProperties)) {
             for (String exclude : excludeProperties) {
                 example.excludeProperty(exclude);
             }
@@ -155,7 +157,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
 
     //nullsafe restrictions
     public Crud<T> eq(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.eq(property, value));
         } else{
             log.warning("ignoring eq restriction due to null value on property "+property);
@@ -164,7 +166,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> ne(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.ne(property, value));
         }else{
             log.warning("ignoring ne restriction due to null value on property "+property);
@@ -180,7 +182,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> ilike(String property, String value, MatchMode matchMode) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.ilike(property, value.toString(), matchMode));
         }else{
            log.warning("ignoring ilike restriction due to null value on property "+property);
@@ -189,7 +191,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> ilike(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.ilike(property, value));
         } else{
             log.warning("ignoring ilike restriction due to null value on property "+property);
@@ -198,7 +200,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> like(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.like(property, value));
         } else{
             log.warning("ignoring like restriction due to null value on property "+property);
@@ -207,7 +209,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> like(String property, String value, MatchMode matchMode) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.like(property, value, matchMode));
         } else{
             log.warning("ignoring like restriction due to null value on property "+property);
@@ -216,7 +218,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> ge(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.ge(property, value));
         }  else{
             log.warning("ignoring ge restriction due to null value on property "+property);
@@ -225,7 +227,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> le(String property, Object value) {
-        if (value != null) {
+        if (has(value)) {
             getCriteria().add(Restrictions.le(property, value));
         }else{
             log.warning("ignoring le restriction due to null value on property "+property);
@@ -267,7 +269,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> in(String property, List<?> list) {
-        if (Assert.has(list)) {
+        if (has(list)) {
             getCriteria().add(Restrictions.in(property, list));
         }  else{
             log.warning("ignoring in restriction due to null value on property "+property);

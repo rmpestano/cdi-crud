@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -249,5 +250,9 @@ public class CrudIt {
         assertNotNull(cars);
         assertEquals(1,cars.size());
         assertEquals("Ferrari",cars.get(0).getModel());
+        List<Car> carsExcludingProperty  = carCrud.example(carExample, Arrays.asList("model")).list();
+
+        assertNotNull(carsExcludingProperty);
+        assertEquals(4,carsExcludingProperty.size());
     }
 }
