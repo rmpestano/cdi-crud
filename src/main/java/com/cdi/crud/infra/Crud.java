@@ -92,7 +92,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
             log.warning("cannot create example for a null entity.");
             return this;
         }
-        if (Assert.hasElements(excludeProperties)) {
+        if (Assert.has(excludeProperties)) {
             for (String exclude : excludeProperties) {
                 example.excludeProperty(exclude);
             }
@@ -119,7 +119,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
             log.warning("cannot create example for a null entity.");
             return this;
         }
-        if (Assert.hasElements(excludeProperties)) {
+        if (Assert.has(excludeProperties)) {
             for (String exclude : excludeProperties) {
                 example.excludeProperty(exclude);
             }
@@ -267,7 +267,7 @@ public class Crud<T extends BaseEntity> implements Serializable {
     }
 
     public Crud<T> in(String property, List<?> list) {
-        if (Assert.hasElements(list)) {
+        if (Assert.has(list)) {
             getCriteria().add(Restrictions.in(property, list));
         }  else{
             log.warning("ignoring in restriction due to null value on property "+property);

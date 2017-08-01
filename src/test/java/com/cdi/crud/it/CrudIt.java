@@ -1,5 +1,6 @@
 package com.cdi.crud.it;
 
+import com.cdi.crud.infra.Crud;
 import com.cdi.crud.model.Car;
 import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.exception.CustomException;
@@ -7,6 +8,7 @@ import com.cdi.crud.infra.model.Filter;
 import com.cdi.crud.infra.model.SortOrder;
 import com.cdi.crud.infra.security.CustomAuthorizer;
 import com.cdi.crud.util.Deployments;
+import org.hibernate.criterion.MatchMode;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
@@ -33,6 +35,9 @@ public class CrudIt {
 
     @Inject
     CarService carService;
+
+    @Inject
+    Crud<Car> carCrud;
 
     @Inject
     CustomAuthorizer authorizer;
@@ -228,5 +233,21 @@ public class CrudIt {
         assertEquals(models.size(),2);
         assertTrue(models.contains("Porche"));
         assertTrue(models.contains("Porche274"));
+    }
+
+    @Test
+    @UsingDataSet("car.yml")
+    public void shoulListCarsUsingCrudUtility() {
+        assertEquals(4,carCrud.count());
+        int count = carCrud.ilike("model", "porche", MatchMode.ANYWHERE)
+                .ge("price", 10000D)
+                .count();
+        assertEquals(1,count);
+
+        Car carExample = new Car().model("Ferrari");
+        List<Car> cars = carCrud.example(carExample).list();
+        assertNotNull(cars);
+        assertEquals(1,cars.size());
+        assertEquals("Ferrari",cars.get(0).getModel());
     }
 }

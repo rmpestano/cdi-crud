@@ -524,6 +524,11 @@
                             <excludes>
                                 <exclude>com/cdi/crud/bean/*.class</exclude>
                                 <exclude>com/cdi/crud/model/*.class</exclude>
+                                <exclude>com/cdi/crud/infra/*InitAppBean.class</exclude>
+                                <!-- exclude JSF related classes -->
+                                <exclude>com/cdi/crud/infra/*CustomExceptionHandler.class</exclude>
+                                <exclude>com/cdi/crud/infra/*EntityConverter.class</exclude>
+
                             </excludes>
                         </configuration>
                     </plugin>
