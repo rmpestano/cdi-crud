@@ -5,4 +5,4 @@ cache:
   directories:
     - '$HOME/.m2/repository'
 script:
-  - mvn clean package -Pwhitebox -Pwildfly-managed -Pjacoco -Pcoveralls
+  - mvn clean test -Pwhitebox -Pwildfly-managed -Pcoverage jacoco:report coveralls:report
