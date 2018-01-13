@@ -5,9 +5,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.embedded.EmbeddedMaven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,8 +24,14 @@ public class SimplestDeployment {
 
     @Deployment
     public static Archive<?> createDeployment() {
-        WebArchive war = ShrinkWrap.create(ZipImporter.class, "cdi-crud.war").
-                importFrom(new File("target/cdi-crud.war")).as(WebArchive.class);
+        WebArchive war = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
+                .useMaven3Version("3.3.9")
+                .setGoals("package")
+                .setQuiet()
+                .skipTests(true)
+                .ignoreFailure()
+                .build().getDefaultBuiltArchive();
+
         war.addAsResource("persistence.xml", "META-INF/persistence.xml");//replace with test persistence
         return war;
     }
