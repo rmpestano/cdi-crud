@@ -288,7 +288,7 @@
                                 <include>**/*Bdd.java</include>
                                 <include>**/*At.java</include>
                                 <include>**/*Rest.java</include>
-                                <includes>**/SimplestDeployment.java</include>     
+                                <include>**/SimplestDeployment.java</include>     
                             </includes>
                         </configuration>
                     </plugin>
@@ -307,7 +307,7 @@
                             <includes>
                                 <include>**/*It.java</include>
                                 <include>**/*Bdd.java</include>
-                                <includes>**/SimplestDeployment.java</include> 
+                                <include>**/SimplestDeployment.java</include> 
                             </includes>
                         </configuration>
                     </plugin>
