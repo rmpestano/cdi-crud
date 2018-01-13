@@ -4,5 +4,6 @@ jdk: oraclejdk8
 cache:
   directories:
     - '$HOME/.m2/repository'
+    - '$HOME/.arquillian'
 script:
   - mvn clean test -Pwhitebox -Pwildfly-managed -Pcoverage jacoco:report coveralls:report
