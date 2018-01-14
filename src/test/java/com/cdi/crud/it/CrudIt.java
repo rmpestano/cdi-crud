@@ -1,15 +1,15 @@
 package com.cdi.crud.it;
 
+import com.cdi.crud.deployment.EnableMavenBuildDeployment;
 import com.cdi.crud.infra.Crud;
-import com.cdi.crud.model.Car;
-import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.exception.CustomException;
 import com.cdi.crud.infra.model.Filter;
 import com.cdi.crud.infra.model.SortOrder;
 import com.cdi.crud.infra.security.CustomAuthorizer;
-import com.cdi.crud.util.Deployments;
+import com.cdi.crud.model.Car;
+import com.cdi.crud.service.CarService;
 import org.hibernate.criterion.MatchMode;
-import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.BeforeDeployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.Cleanup;
 import org.jboss.arquillian.persistence.TestExecutionPhase;
@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +31,7 @@ import static org.junit.Assert.*;
  * Created by rmpestano on 9/7/14.
  */
 @RunWith(Arquillian.class)
+@EnableMavenBuildDeployment
 public class CrudIt {
 
     @Inject
@@ -43,10 +43,10 @@ public class CrudIt {
     @Inject
     CustomAuthorizer authorizer;
 
-    @Deployment(name = "cdi-crud.war")
-    public static Archive<?> createDeployment() {
-        WebArchive war = Deployments.getBaseDeployment();
-        System.out.println(war.toString(true));
+    @BeforeDeployment
+    public static Archive beforeDeployment(Archive archive) {
+        WebArchive war = (WebArchive) archive;
+        war.addAsResource("persistence.xml", "META-INF/persistence.xml");//replace with test persistence
         return war;
     }
 

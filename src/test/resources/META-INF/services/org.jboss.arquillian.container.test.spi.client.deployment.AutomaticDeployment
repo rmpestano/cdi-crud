@@ -1,0 +1,2 @@
+com.cdi.crud.deployment.EnableMavenBuildDeploymentAutomaticDeployment
+com.cdi.crud.deployment.EnableFileAutomaticDeployment

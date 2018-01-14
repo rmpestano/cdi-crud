@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import java.util.List;
 
 /**
- * @status 402 class level response code
+ * @response 402 class level response code
  */
 @Path("/cars")
 @Produces("application/json;charset=utf-8")
@@ -37,8 +37,8 @@ public class CarEndpoint {
      * Deletes a car based on its ID
      * @param user name of the user to log in
      * @param id car ID
-     * @status 401 User not authorized
-     * @status 403 User not authenticated
+     * @response 401 User not authorized
+     * @response 403 User not authenticated
      */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")

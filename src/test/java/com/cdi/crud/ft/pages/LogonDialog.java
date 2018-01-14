@@ -24,7 +24,7 @@ public class LogonDialog {
     } 
 
     public void doLogon(String user){
-        waitModel();
+        waitModel().until().element(btLogin).is().present();
         this.user.clear();
         this.user.sendKeys(user);
         guardAjax(btLogin).click();

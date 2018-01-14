@@ -1,5 +1,6 @@
 package com.cdi.crud.it;
 
+import com.cdi.crud.deployment.EnableMavenBuildDeployment;
 import com.cdi.crud.infra.exception.CustomException;
 import com.cdi.crud.infra.security.CustomAuthorizer;
 import com.cdi.crud.model.Car;
@@ -15,9 +16,12 @@ import cucumber.api.java.en.When;
 import cucumber.runtime.arquillian.ArquillianCucumber;
 import cucumber.runtime.arquillian.api.Features;
 import cucumber.runtime.arquillian.api.Tags;
+import org.jboss.arquillian.container.test.api.BeforeDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
@@ -29,6 +33,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(ArquillianCucumber.class)
 @Features({"features/search-cars.feature", "features/remove-cars.feature"})
 @Tags("@whitebox")
+@EnableMavenBuildDeployment
 public class CrudBdd {
 
     @Inject
@@ -43,11 +48,13 @@ public class CrudBdd {
 
     String message;
 
-    @Deployment(name = "cdi-crud.war")
-    public static Archive<?> createDeployment() {
-        WebArchive war = Deployments.getBaseDeployment();
+    @BeforeDeployment
+    public static Archive beforeDeployment(Archive archive) {
+        WebArchive war = (WebArchive) archive;
         war.addAsResource("datasets/car.yml", "car.yml").//needed by DBUnitUtils
                 addClass(DBUnitUtils.class);
+        MavenResolverSystem resolver = Maven.resolver();
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core").withTransitivity().asFile());
         System.out.println(war.toString(true));
         return war;
     }

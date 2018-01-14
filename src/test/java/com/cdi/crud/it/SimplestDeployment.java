@@ -1,6 +1,9 @@
 package com.cdi.crud.it;
 
+import com.cdi.crud.deployment.EnableFileDeployment;
+import com.cdi.crud.deployment.EnableMavenBuildDeployment;
 import com.cdi.crud.service.CarService;
+import org.jboss.arquillian.container.test.api.BeforeDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -20,18 +23,13 @@ import static org.junit.Assert.assertNotNull;
  * Created by pestano on 11/11/15.
  */
 @RunWith(Arquillian.class)
+@EnableMavenBuildDeployment
 public class SimplestDeployment {
 
-    @Deployment
-    public static Archive<?> createDeployment() {
-        WebArchive war = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
-                .useMaven3Version("3.3.9")
-                .setGoals("package")
-                .setQuiet()
-                .skipTests(true)
-                .ignoreFailure()
-                .build().getDefaultBuiltArchive();
 
+    @BeforeDeployment
+    public static Archive beforeDeployment(Archive archive) {
+        WebArchive war = (WebArchive) archive;
         war.addAsResource("persistence.xml", "META-INF/persistence.xml");//replace with test persistence
         return war;
     }

@@ -1,11 +1,13 @@
 package com.cdi.crud.it;
 
+import com.cdi.crud.deployment.EnableMavenBuildDeployment;
 import com.cdi.crud.util.Deployments;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
+import org.jboss.arquillian.container.test.api.BeforeDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -30,11 +32,12 @@ import static org.junit.Assert.assertNotNull;
  * Created by rmpestano on 12/20/14.
  */
 @RunWith(Arquillian.class)
+@EnableMavenBuildDeployment
 public class CrudRestIt {
 
-    @Deployment(name = "cdi-rest.war")
-    public static Archive<?> createDeployment() {
-        WebArchive war = Deployments.getBaseDeployment();
+    @BeforeDeployment
+    public static Archive beforeDeployment(Archive archive) {
+        WebArchive war = (WebArchive) archive;
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.jayway.restassured:rest-assured").withTransitivity().asFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.google.code.gson:gson:2.4").withoutTransitivity().asSingleFile());
