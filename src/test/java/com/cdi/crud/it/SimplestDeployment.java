@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import java.io.File;
+import org.jboss.arquillian.container.test.api.BeforeDeployment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,8 +35,8 @@ public class SimplestDeployment {
 
         war.addAsResource("persistence.xml", "META-INF/persistence.xml");//replace with test persistence
         return war;
-    }
-
+    }  
+    
     @Inject
     CarService carService;
 
