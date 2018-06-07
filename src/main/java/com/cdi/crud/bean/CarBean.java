@@ -42,7 +42,6 @@ public class CarBean implements Serializable {
     CarService carService; //car service holds business logic, if entity has no logic you can use Crud or CrudService (has transactins) directly
 
 
-
     /*
      * you can inject crud direcly, sometimes its useful but remember that you
      * don't have transactions there, use CrudService if you need transactions
@@ -119,6 +118,7 @@ public class CarBean implements Serializable {
         if (car == null) {
             throw new CustomException("Car not found with id " + id);
         }
+        filter.setEntity(car);
     }
 
     public List<Car> getFilteredValue() {
