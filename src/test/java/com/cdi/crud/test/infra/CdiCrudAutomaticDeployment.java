@@ -20,6 +20,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.embedded.EmbeddedMaven;
  * @author rafael-pestano
  */
 public class CdiCrudAutomaticDeployment implements AutomaticDeployment {
+	
+	private static WebArchive deploymentCache; 
 
     @Override
     public DeploymentConfiguration generateDeploymentScenario(TestClass tc) {
@@ -28,14 +30,16 @@ public class CdiCrudAutomaticDeployment implements AutomaticDeployment {
     		return null; //skip if test class has @Deployment
     	}
     	
-    	WebArchive war = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
-                .useMaven3Version("3.3.9")
-                .setGoals("package")
-                .setQuiet()
-                .skipTests(true)
-                .ignoreFailure()
-                .build().getDefaultBuiltArchive();
-        return new DeploymentContentBuilder(war).get();
+    	if(deploymentCache == null) { //avoid rebuild project on every test class
+    		deploymentCache = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
+            .useMaven3Version("3.3.9")
+            .setGoals("package")
+            .setQuiet()
+            .skipTests(true)
+            .ignoreFailure()
+            .build().getDefaultBuiltArchive();
+    	}
+        return new DeploymentContentBuilder(deploymentCache).get();
        
     }
 

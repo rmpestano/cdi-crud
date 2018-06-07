@@ -20,26 +20,25 @@ import com.cdi.crud.test.infra.CdiCrudAutomaticDeployment;
  * Created by rmpestano on 07/06/18.
  * 
  * This test will use automatic deployment provided by {@link CdiCrudAutomaticDeployment}
- *  
+ * 
  */
 @RunWith(Arquillian.class)
 public class AutomaticDeployment {
 
-    
-    @BeforeDeployment
-    public static Archive<?> beforeDeployment(Archive<?> war) {
-         ((WebArchive)war).addAsResource("persistence.xml", "META-INF/persistence.xml");//replace with test persistence
-         return war;
-    }
+	@BeforeDeployment
+	public static Archive<?> beforeDeployment(Archive<?> archive) {
+		WebArchive war = (WebArchive) archive;
+		war.addAsResource("persistence.xml", "META-INF/persistence.xml");// replace with test persistence (just an example of how to modify war, could be done in CdiCrudAutomaticDeployment)
+		return war;
+	}
 
-    @Inject
-    CarService carService;
+	@Inject
+	CarService carService;
 
-
-    @Test
-    @UsingDataSet("car.yml")
-    public void shouldCountCars() {
-        assertNotNull(carService);
-        assertEquals(carService.crud().count(), 4);
-    }
+	@Test
+	@UsingDataSet("car.yml")
+	public void shouldCountCars() {
+		assertNotNull(carService);
+		assertEquals(carService.crud().count(), 4);
+	}
 }
