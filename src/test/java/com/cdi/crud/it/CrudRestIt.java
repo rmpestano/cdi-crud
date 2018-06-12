@@ -1,11 +1,22 @@
 package com.cdi.crud.it;
 
-import com.cdi.crud.util.Deployments;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
+import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.StringReader;
+import java.net.URL;
+import java.text.ParseException;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.ws.rs.core.Response.Status;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -17,14 +28,9 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.core.Response.Status;
-import java.net.URL;
-import java.text.ParseException;
-
-import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.cdi.crud.util.Deployments;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
 
 /**
  * Created by rmpestano on 12/20/14.
@@ -37,7 +43,6 @@ public class CrudRestIt {
         WebArchive war = Deployments.getBaseDeployment();
         MavenResolverSystem resolver = Maven.resolver();
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.jayway.restassured:rest-assured").withTransitivity().asFile());
-        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.google.code.gson:gson:2.4").withoutTransitivity().asSingleFile());
         System.out.println(war.toString(true));
         return war;
     }
@@ -128,16 +133,16 @@ public class CrudRestIt {
     public void shouldFindCar() {
         String json =
                 given().
-                        when().
-                        get(basePath + "rest/cars/1").  //dataset has car with id =1
-                        then().
-                        statusCode(Status.OK.getStatusCode()).
-                        body("id", equalTo(1)).
-                        body("model", equalTo("Ferrari")).
-                        body("price", equalTo(2450.8f)).extract().asString();
+                when().
+                get(basePath + "rest/cars/1").  //dataset has car with id =1
+                then().
+                    statusCode(Status.OK.getStatusCode()).
+                    body("id", equalTo(1)).
+                    body("model", equalTo("Ferrari")).
+                    body("price", equalTo(2450.8f)).extract().asString();
 
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-        assertEquals("Ferrari", jsonObject.get("model").getAsString());
+        JsonObject jsonObject = Json.createReader(new StringReader(json)).readObject();
+        assertEquals("Ferrari", jsonObject.getString("model"));
 
     }
 
@@ -168,11 +173,12 @@ public class CrudRestIt {
 
 
     @Test
+    @UsingDataSet("empty.yml")
     public void shouldCreateCar() {
-        JsonObject carToCreate = new JsonObject();
-        carToCreate.add("model", new JsonPrimitive("new car"));
-        carToCreate.add("name", new JsonPrimitive("new car name"));
-        carToCreate.add("price", new JsonPrimitive(1000f));
+        JsonObject carToCreate = Json.createObjectBuilder()
+        .add("model", "new car")
+        .add("name", "new car name")
+        .add("price", 1000).build();
         String result = given().
                 content(carToCreate.toString()).
                 contentType("application/json").
@@ -194,9 +200,9 @@ public class CrudRestIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldFailToCreateCarWithoutName() {
-        JsonObject carToCreate = new JsonObject();
-        carToCreate.add("model", new JsonPrimitive("new car"));
-        carToCreate.add("price", new JsonPrimitive(1000f));
+    	JsonObject carToCreate = Json.createObjectBuilder()
+    		        .add("model", "new car")
+    		        .add("price", 1000).build();
         given().
                 content(carToCreate.toString()).
                 contentType("application/json").
@@ -210,10 +216,10 @@ public class CrudRestIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldFailToCreateCarWithNonUniqueName() {
-        JsonObject carToCreate = new JsonObject();
-        carToCreate.add("model", new JsonPrimitive("new car"));
-        carToCreate.add("name", new JsonPrimitive("ferrari spider"));
-        carToCreate.add("price", new JsonPrimitive(1000f));
+    	
+		JsonObject carToCreate = Json.createObjectBuilder()
+				.add("model", "new car").add("name", "ferrari spider")
+				.add("price", 1000).build();
         given().
                 content(carToCreate.toString()).
                 contentType("application/json").
@@ -227,12 +233,12 @@ public class CrudRestIt {
     @Test
     @UsingDataSet("car.yml")
     public void shouldUpdateCar() {
-        JsonObject carToUpdate = new JsonObject();
-        carToUpdate.add("id", new JsonPrimitive(1));
-        carToUpdate.add("version", new JsonPrimitive(0));
-        carToUpdate.add("model", new JsonPrimitive("Ferrari updated"));
-        carToUpdate.add("name", new JsonPrimitive("Ferrari spider updated"));
-        carToUpdate.add("price", new JsonPrimitive(1000f));
+    	JsonObject carToUpdate = Json.createObjectBuilder()
+    			.add("id", 1)
+    			.add("version", 0)
+				.add("model", "Ferrari updated")
+				.add("name", "ferrari spider updated")
+				.add("price", 1000).build();
         given().
                 content(carToUpdate.toString()).
                 contentType("application/json").
