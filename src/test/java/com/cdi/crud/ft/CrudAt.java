@@ -67,6 +67,7 @@ public class CrudAt {
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.github.adminfaces:admin-template").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.dbunit:dbunit:2.5.0").withoutTransitivity().asSingleFile());
         war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("org.yaml:snakeyaml:1.10").withoutTransitivity().asSingleFile());
+        war.addAsLibraries(resolver.loadPomFromFile("pom.xml").resolve("com.google.code.gson:gson:2.4").withoutTransitivity().asSingleFile());
         war.addAsResource(new File("src/main/resources/admin-config.properties"), "admin-config.properties");
         war.addAsResource(new File("src/main/resources/crud.properties"), "crud.properties");
         System.out.println(war.toString(true));
