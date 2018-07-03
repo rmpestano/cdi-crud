@@ -30,15 +30,15 @@ public class CdiCrudAutomaticDeployment implements AutomaticDeployment {
 			return null; // skip if test class has @Deployment
 		}
 
-		if(deploymentCache == null) { //avoid rebuild project on every test class
-    		deploymentCache = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
-            .useMaven3Version("3.3.9")
-            .setGoals("package")
-            .setQuiet()
-            .skipTests(true)
-            .ignoreFailure()
-            .build().getDefaultBuiltArchive();
-    	}
+		if (deploymentCache == null) { // avoid rebuild project on every test class
+			deploymentCache = (WebArchive) EmbeddedMaven.forProject(new File("pom.xml"))
+					.useMaven3Version("3.3.9")
+					.setGoals("package")
+					.setQuiet()
+					.skipTests(true)
+					.ignoreFailure()
+					.build().getDefaultBuiltArchive();
+		}
 		
 		return new DeploymentContentBuilder(deploymentCache).get();
 
