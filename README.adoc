@@ -16,6 +16,7 @@ This project is referenced in the following blog posts:
 * https://rpestano.wordpress.com/2015/11/08/test-your-rest-endpoints-inside-the-container-arqtip-1/[Test your REST endpoints inside the container^]
 * https://rpestano.wordpress.com/2015/11/12/the-simplest-micro-deployment-arqtip-2/[The simplest micro deployment^]
 * https://rpestano.wordpress.com/2017/03/01/smooth-and-powerful-swagger-integration-via-jaxrs-analyzer/[Smooth and powerful Swagger integration via Jaxrs Analyzer^]
+* https://rpestano.wordpress.com/2018/06/08/automatic-deployment-arqtip-3/[Arquillian automatic deployment^]
 * Torturing Wildflies with Gatling (on going)
 
 == Available at Openshift
