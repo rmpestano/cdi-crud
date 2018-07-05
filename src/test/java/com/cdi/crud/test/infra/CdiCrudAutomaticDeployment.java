@@ -9,9 +9,11 @@ import java.io.File;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.DeploymentConfiguration;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.DeploymentConfiguration.DeploymentContentBuilder;
 import org.jboss.arquillian.container.test.spi.client.deployment.AutomaticDeployment;
 import org.jboss.arquillian.test.spi.TestClass;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.embedded.EmbeddedMaven;
 
@@ -40,12 +42,17 @@ public class CdiCrudAutomaticDeployment implements AutomaticDeployment {
 					.build().getDefaultBuiltArchive();
 		}
 		
-		return new DeploymentContentBuilder(deploymentCache).get();
+		return new DeploymentContentBuilder(ShrinkWrap.create(WebArchive.class).merge(deploymentCache))//use merge to not modify original archive
+				.withDeployment().withTestable(isTestable(tc)).build().get();
 
 	}
 
 	private boolean skipAutomaticDeployment(TestClass tc) {
 		return tc.getMethod(Deployment.class) != null;
+	}
+	
+	private boolean isTestable(TestClass tc) {
+		return tc.getAnnotation(RunAsClient.class) == null;
 	}
 
 }
