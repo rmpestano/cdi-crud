@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.inject.Inject;
 
-import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.jboss.arquillian.container.test.api.BeforeDeployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -24,7 +23,6 @@ import com.cdi.crud.test.infra.CdiCrudAutomaticDeployment;
  * 
  */
 @RunWith(Arquillian.class)
-@DeploymentParameters(testable = false)
 public class AutomaticDeployment {
 
 	@BeforeDeployment
