@@ -22,9 +22,10 @@ This project is referenced in the following blog posts:
 == Available at Openshift
 You can access the project online at Openshift PaaS:
 
-http://cdicrud-rpestano.rhcloud.com/cdi-crud.
+https://rmpestano.github.io/cdi-crud/
 
-See also http://cdicrud-rpestano.rhcloud.com/cdi-crud/apidocs[CDI Crud REST API].
+See also https://rmpestano.github.io/cdi-crud/apidocs/[CDI Crud REST API].
+
 
 == How run it:
 
