@@ -51,6 +51,8 @@ docker run -it -p 8080:8080 rmpestano/cdi-crud
 
 The application is available at http://localhost:8080/cdi-crud
 
+TIP: execute `build-and-run.sh` to build and run the application on docker. 
+
 == Running tests:
 
 * Via maven:
