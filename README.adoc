@@ -24,7 +24,7 @@ You can access the project online at Openshift PaaS:
 
 https://rmpestano.github.io/cdi-crud/
 
-See also https://rmpestano.github.io/cdi-crud/apidocs/[CDI Crud REST API].
+See also https://rmpestano.github.io/cdi-crud/apidocs/index.html[CDI Crud REST API].
 
 
 == How run it:
