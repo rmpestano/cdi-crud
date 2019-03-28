@@ -3,7 +3,7 @@ package com.cdi.crud.infra.security;
 import com.cdi.crud.infra.exception.CustomException;
 import com.github.adminfaces.template.session.AdminSession;
 import org.apache.deltaspike.security.api.authorization.Secures;
-
+import org.omnifaces.util.Messages;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.spi.BeanManager;
@@ -50,7 +50,7 @@ public class CustomAuthorizer implements Serializable {
     public void login(String username) {
         currentUser.put("user", username);
         if(FacesContext.getCurrentInstance() != null){
-            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Logged in sucessfully as <b>"+username+"</b>"));
+        	Messages.addInfo(null, "Logged in sucessfully as <b>"+username+"</b>");
         }
     }
 

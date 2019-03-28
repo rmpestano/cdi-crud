@@ -39,7 +39,9 @@
     <ui:define name="body">
         <adm:sidebar collapsed="true" mini="false"/>
         <h:form>
-            <p:growl autoUpdate="true" escape="false" sticky="true"/>
+            <p:growl escape="false" sticky="true">
+            	<p:autoUpdate/>
+            </p:growl>
             <h:panelGroup layout="block" styleClass="card">
                 <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" styleClass="box-primary"
                              filteredValue="#{carBean.filteredValue}"
@@ -119,7 +121,7 @@
                         <p:outputLabel value="Price" for="inptPrice"/>
                     </div>
                     <div class="ui-g-12">
-                        <p:inputText id="inptPrice" value="#{carBean.car.price}"/>
+                        <p:inputNumber id="inptPrice" value="#{carBean.car.price}"/>
                     </div>
                 </div>
                 <f:facet name="footer">

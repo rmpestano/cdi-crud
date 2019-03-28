@@ -10,7 +10,7 @@
 
 	<properties>
 		<version.hibernate>5.1.8.Final</version.hibernate>
-		<version.deltaspike>1.8.0</version.deltaspike>
+		<version.deltaspike>1.8.2</version.deltaspike>
 		<arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
 		<arquillian.browser>chrome</arquillian.browser>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,15 +56,26 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>6.2</version>
-		</dependency>
+		  <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>6.2.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.primefaces</groupId>
+                    <artifactId>primefaces</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 		<dependency>
 			<groupId>com.github.adminfaces</groupId>
 			<artifactId>admin-template</artifactId>
-			<version>1.0.0-RC15</version>
+			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.github.adminfaces</groupId>
@@ -75,7 +86,7 @@
 		<dependency>
 			<groupId>com.github.adminfaces</groupId>
 			<artifactId>admin-theme</artifactId>
-			<version>1.0.0-RC15</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -115,6 +126,12 @@
 			<groupId>org.apache.deltaspike.modules</groupId>
 			<artifactId>deltaspike-jsf-module-impl</artifactId>
 			<version>${version.deltaspike}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.deltaspike.modules</groupId>
+			    	<artifactId>deltaspike-proxy-module-impl-asm5</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.deltaspike.modules</groupId>
@@ -279,7 +296,7 @@
 			<plugin>
 				<groupId>com.sebastian-daschner</groupId>
 				<artifactId>jaxrs-analyzer-maven-plugin</artifactId>
-				<version>0.16</version>
+				<version>0.17</version>
 				<executions>
 					<execution>
 						<goals>
@@ -333,7 +350,7 @@
 							<skipTests>false</skipTests>
 							<includes>
 								<include>**/*It.java</include>
-								<include>**/*Bdd.java</include>
+							    <include>**/*Bdd.java</include>
 								<include>**/SimplestDeployment.java</include>
 							</includes>
 						</configuration>

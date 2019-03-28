@@ -37,8 +37,8 @@ public class CarEndpoint {
      * Deletes a car based on its ID
      * @param user name of the user to log in
      * @param id car ID
-     * @status 401 User not authorized
-     * @status 403 User not authenticated
+     * @response 401 User not authorized
+     * @response 403 User not authenticated
      */
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
