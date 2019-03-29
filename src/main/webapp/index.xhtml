@@ -136,7 +136,9 @@
                                          update="@form" styleClass="btn-primary"/>
                         <p:spacer height="5"/>
                         <p:commandButton id="btRemove" value="Delete" action="#{carBean.remove}"
-                                         process="@(table[id$=grid])" update="@form" styleClass="btn-danger"/>
+                                         process="@(table[id$=grid])" update="@form" styleClass="btn-danger">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
                         <p:spacer height="5"/>
                         <p:commandButton value="Clear" action="#{carBean.clear}" process="@this" update="@form"
                                          partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"
@@ -144,7 +146,12 @@
                     </div>
                 </f:facet>
             </p:panel>
-
+              <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
         </h:form>
 
         <p:dialog header="Logon panel" styleClass="box-primary" widgetVar="logon" responsive="true" modal="true">
