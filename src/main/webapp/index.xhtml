@@ -8,6 +8,7 @@
     <ui:define name="head">
         <title>Car Service</title>
         <ui:param name="renderBreadCrumb" value="false"/>
+        <ui:param name="enableSlideMenu" value="false"/>
         <f:loadBundle var="crud" basename="crud"/>
         <style type="text/css">
             a.sidebar-toggle {
@@ -31,6 +32,11 @@
                     <p:commandLink styleClass="bg-light-blue" id="openLogin" value="#{authorizer.currentUser.isEmpty() ? 'logon': authorizer.currentUser.user}" process="@this"
                                    partialSubmit="true"
                                    update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()"/>
+
+                    <p:spacer height="5px"/>
+                    <p:commandLink rendered="#{not authorizer.currentUser.isEmpty()}" id="logout" action="#{logoutMB.doLogout}" style="color:#444" title="Logoff">
+                        <i class="fa fa-sign-out"></i>
+                    </p:commandLink>
                 </p:outputPanel>
             </h:panelGroup>
         </h:form>
@@ -40,7 +46,7 @@
         <adm:sidebar collapsed="true" mini="false"/>
         <h:form>
             <p:growl escape="false" sticky="true">
-            	<p:autoUpdate/>
+                <p:autoUpdate/>
             </p:growl>
             <h:panelGroup layout="block" styleClass="card">
                 <p:dataTable widgetVar="carsTable" var="c" value="#{carBean.carList}" rows="5" styleClass="box-primary"
@@ -50,7 +56,7 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                              currentPageReportTemplate="[ Showing {startRecord} to {endRecord} Total {totalRecords} - Page: {currentPage}/{totalPages} ]"
                              rowsPerPageTemplate="5,10,15,20,30"
-                        >
+                             >
 
                     <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
                     <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
