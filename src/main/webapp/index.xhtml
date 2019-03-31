@@ -63,15 +63,15 @@
                     <f:facet name="header">
                         Car List
                     </f:facet>
-                    <p:column headerText="ID" sortBy="#{c.id}" filterBy="#{c.id}">
-                        #{c.id}
+                    <p:column headerText="ID" sortBy="#{c.id}">
+                        ##{c.id}
                     </p:column>
                     <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:autoComplete value="#{carBean.filter.entity.model}" forceSelection="true"
                                             minQueryLength="2" queryDelay="500" dropdown="true"
                                             completeMethod="#{carBean.completeModel}" maxResults="10">
-                                <p:ajax event="itemSelect" process="@this" update="@none"
+                                <p:ajax event="itemSelect" process="@this" update="@form"
                                             oncomplete="PF('carsTable').filter()"/>
                             </p:autoComplete>
                         </f:facet>
@@ -80,7 +80,7 @@
                     <p:column headerText="Name" sortBy="#{c.name}" filterBy="#{c.name}">
                         <f:facet name="filter">
                             <p:inputText value="#{carBean.filter.entity.name}">
-                                <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                                <p:ajax process="@this" update="@form" oncomplete="PF('carsTable').filter()"/>
                             </p:inputText>
                         </f:facet>
                         #{c.name}
@@ -89,7 +89,7 @@
                         <f:facet name="filter">
                             <p:spinner value="#{carBean.filter.entity.price}">
                                 <f:converter converterId="javax.faces.Double"/>
-                                <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                                <p:ajax process="@this" update="@form" oncomplete="PF('carsTable').filter()"/>
                             </p:spinner>
                         </f:facet>
                         #{c.price}
@@ -97,7 +97,8 @@
                 </p:dataTable>
             </h:panelGroup>
             <br/>
-            <p:panel id="carDetailPanel" header="Manage Cars" styleClass="box-primary card">
+            <p:panel id="carDetailPanel" header="Manage Cars2" styleClass="box-primary card">
+                <p:autoUpdate/>
                 <div class="align-right">
                     <p:outputLabel value="Find Car by id: "/>
                     <p:spacer height="5"/>

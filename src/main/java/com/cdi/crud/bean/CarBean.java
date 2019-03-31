@@ -24,6 +24,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import org.primefaces.PrimeFaces;
 
 /**
  * @author rmpestano
@@ -71,7 +72,11 @@ public class CarBean implements Serializable {
                             .setSortField(sortField).setSortOrder(order)
                             .setParams(filters);
                     List<Car> list = carService.paginate(filter);
-                    setRowCount(carService.count(filter));
+                    int count = carService.count(filter);
+                    setRowCount(count);
+                    if(count == 1) { //when the filtering returns one result we set it as selected row
+                        car = list.get(0);
+                    }
                     return list;
                 }
 
