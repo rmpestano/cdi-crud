@@ -69,7 +69,7 @@
                     <p:column headerText="Model" filterBy="#{c.model}" sortBy="#{c.model}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:autoComplete value="#{carBean.filter.entity.model}" forceSelection="true"
-                                            minQueryLength="2" queryDelay="500"
+                                            minQueryLength="2" queryDelay="500" dropdown="true"
                                             completeMethod="#{carBean.completeModel}" maxResults="10">
                                 <p:ajax event="blur" process="@this" update="@none"
                                         oncomplete="PF('carsTable').filter()"/>
@@ -108,7 +108,7 @@
                                      process="@form"
                                      update="@form"
                                      styleClass="btn-flat bg-black" style="margin-top: -3px"
-                                     partialSubmit="true"/>
+                                     partialSubmit="true" oncomplete="PF('carsTable').clearFilters()"/>
                 </div>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12">

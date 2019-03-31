@@ -34,9 +34,11 @@ public class CarService extends CrudService<Car> {
 
     @Override
     public Criteria configPagination(Filter<Car> filter) {
-        if (filter.hasParam("id")) {
-            crud().eq("id",
-                    Integer.parseInt(filter.getParam("id").toString()));
+        if (filter.hasParam("id") || (filter.getEntity() != null && filter.getEntity().getId() != null)) {
+            crud().eq("id", filter.hasParam("id") ? 
+                    Integer.parseInt(filter.getParam("id").toString()) : filter.getEntity().getId());
+            
+            return crud().getCriteria();
         }
 
         // see index.xhtml 'model' column facet name filter
