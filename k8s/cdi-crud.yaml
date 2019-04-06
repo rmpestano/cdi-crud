@@ -19,7 +19,7 @@ apiVersion: apps/v1beta1
 metadata:
   name: cdi-crud
 spec:
-  replicas: 1
+  replicas: 4
   template:
     metadata:
       labels:
@@ -28,11 +28,20 @@ spec:
     spec:
       containers:
       - name: cdi-crud
-        image: rmpestano/cdi-crud:1.0
+        image: rmpestano/cdi-crud:1.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
         - containerPort: 9990
+        env:
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         livenessProbe:
           exec:
             command:

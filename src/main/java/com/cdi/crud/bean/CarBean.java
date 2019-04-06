@@ -6,25 +6,27 @@ package com.cdi.crud.bean;
 
 import com.cdi.crud.infra.CrudService;
 import com.cdi.crud.model.Car;
-import com.cdi.crud.service.CarService;
 import com.cdi.crud.infra.Crud;
 import com.cdi.crud.infra.exception.CustomException;
 import com.cdi.crud.infra.model.Filter;
+import com.cdi.crud.service.CarService;
+import com.github.adminfaces.template.exception.BusinessException;
 import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import org.primefaces.PrimeFaces;
+import javax.inject.Provider;
 
 /**
  * @author rmpestano
@@ -38,6 +40,14 @@ public class CarBean implements Serializable {
     private Integer id;
     private Car car;
     private Filter<Car> filter = new Filter<Car>(new Car());
+
+    @Inject
+    @ConfigProperty(name = "MY_POD_NAME", defaultValue = "localhost")
+    Provider<String> podName;
+
+    @Inject
+    @ConfigProperty(name = "MY_NODE_NAME")
+    Provider<String> nodeName;
 
     @Inject
     CarService carService; //car service holds business logic, if entity has no logic you can use Crud or CrudService (has transactins) directly
@@ -74,7 +84,7 @@ public class CarBean implements Serializable {
                     List<Car> list = carService.paginate(filter);
                     int count = carService.count(filter);
                     setRowCount(count);
-                    if(count == 1) { //when the filtering returns one result we set it as selected row
+                    if (count == 1) { //when the filtering returns one result we set it as selected row
                         car = list.get(0);
                     }
                     return list;
@@ -123,7 +133,6 @@ public class CarBean implements Serializable {
             clear();
             throw new CustomException("Car not found with id " + id);
         }
-        filter.setEntity(car);
     }
 
     public List<Car> getFilteredValue() {
@@ -135,14 +144,15 @@ public class CarBean implements Serializable {
     }
 
     public void remove() {
-        if (car != null && car.getId() != null) {
-            carCrudService.remove(car);
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,"Car " + car.getModel()
-                            + " removed successfully",null));
-            clear();
+        if (car == null || car.getId() == null) {
+            throw new CustomException("Select car to remove.");
         }
+        carCrudService.remove(car);
+        FacesContext.getCurrentInstance().addMessage(
+                null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Car " + car.getModel()
+                        + " removed successfully", null));
+        clear();
     }
 
     public void update() {
@@ -155,7 +165,7 @@ public class CarBean implements Serializable {
             msg = "Car " + car.getModel() + " updated successfully";
         }
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO,msg,null));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null));
         clear();// reload car list
     }
 
@@ -166,7 +176,7 @@ public class CarBean implements Serializable {
     }
 
     public void onRowSelect(SelectEvent event) {
-        setId((Integer) ((Car) event.getObject()).getId());
+        setId(((Car) event.getObject()).getId());
         findCarById(getId());
     }
 
@@ -186,5 +196,14 @@ public class CarBean implements Serializable {
         List<String> result = carService.getModels(query);
         return result;
     }
+
+    public String getPodName() {
+        return podName.get();
+    }
+
+    public String getNodeName() {
+        return nodeName.get();
+    }
+
 
 }

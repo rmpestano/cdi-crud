@@ -11,7 +11,7 @@
         <ui:param name="enableSlideMenu" value="false"/>
         <f:loadBundle var="crud" basename="crud"/>
         <style type="text/css">
-            a.sidebar-toggle {
+           aside.main-sidebar {
                 display: none!important;
             }
         </style>
@@ -23,6 +23,12 @@
 
     <ui:define name="logo-mini">
         CDI
+    </ui:define>
+
+    <ui:define name="description">
+        <p:outputLabel value="Pod: #{carBean.podName}">
+            <p:autoUpdate/>
+        </p:outputLabel>
     </ui:define>
 
     <ui:define name="top-menu">
@@ -58,8 +64,8 @@
                              rowsPerPageTemplate="5,10,15,20,30"
                              >
 
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])" ignoreAutoUpdate="true" global="false"/>
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])"  global="false"/>
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])"  global="false"/>
                     <f:facet name="header">
                         Car List
                     </f:facet>
