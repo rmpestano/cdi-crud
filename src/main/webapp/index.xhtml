@@ -65,8 +65,8 @@
                              rowsPerPageTemplate="5,10,15,20,30"
                              >
 
-                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])"  global="false"/>
-                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])"  global="false"/>
+                    <p:ajax event="rowSelect" listener="#{carBean.onRowSelect}" update="@(div[id$=carDetailPanel])"  />
+                    <p:ajax event="rowUnselect" listener="#{carBean.onRowUnselect}" update="@(div[id$=carDetailPanel])"  />
                     <f:facet name="header">
                         Car List
                     </f:facet>
