@@ -10,7 +10,7 @@ spec:
   ports:
     - port: 8080
       name: http
-  sessionAffinity: ClientIP
+  sessionAffinity: None
   type: NodePort
 ---
 
