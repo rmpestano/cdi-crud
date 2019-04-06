@@ -1,0 +1,51 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cdi-crud
+  labels:
+    app: cdi-crud
+spec:
+  selector:
+    app: cdi-crud
+  ports:
+    - port: 8080
+      name: http
+  sessionAffinity: ClientIP
+  type: NodePort
+---
+
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: cdi-crud
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cdi-crud
+        version: v1
+    spec:
+      containers:
+      - name: cdi-crud
+        image: rmpestano/cdi-crud:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        - containerPort: 9990
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - curl -f localhost:8080/
+          initialDelaySeconds: 40
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - curl -f localhost:9990/health
+          initialDelaySeconds: 60
+      restartPolicy: Always
+---
