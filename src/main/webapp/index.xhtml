@@ -35,6 +35,7 @@
         <h:form>
             <h:panelGroup id="userPanel" layout="block" styleClass="align-right" style="color: white;padding: 10px">
                 <p:outputPanel>
+                    <p:autoUpdate/>
                     <p:commandLink styleClass="bg-light-blue" id="openLogin" value="#{authorizer.currentUser.isEmpty() ? 'logon': authorizer.currentUser.user}" process="@this"
                                    partialSubmit="true"
                                    update="@(div[id$=logonPanel])" oncomplete="PF('logon').show()"/>
