@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: cdi-crud
-        image: rmpestano/cdi-crud:1.0.1
+        image: rmpestano/cdi-crud:1.0.2
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
