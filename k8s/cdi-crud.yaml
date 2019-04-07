@@ -10,7 +10,7 @@ spec:
   ports:
     - port: 8080
       name: http
-  sessionAffinity: None
+  sessionAffinity: ClientIP
   type: NodePort
 ---
 
@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: cdi-crud
-        image: rmpestano/cdi-crud:1.0.4
+        image: rmpestano/cdi-crud:1.0.7
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
