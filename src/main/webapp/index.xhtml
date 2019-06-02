@@ -197,6 +197,16 @@
             <i>#{crud['crud.version']}</i>
         </div>
 
+        <script type="text/javascript">
+            collapseSidebar();
+
+            $(document).ready(function () {
+                $('.sidebar-toggle').click(function () {
+                    return false;
+                })
+            });
+
+        </script>
     </ui:define>
 
 </ui:composition>
