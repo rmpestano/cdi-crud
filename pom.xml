@@ -9,7 +9,7 @@
     <name>cdi-crud</name>
 
     <properties>
-        <version.hibernate>5.1.8.Final</version.hibernate>
+        <version.hibernate>5.4.24.Final</version.hibernate>
         <version.deltaspike>1.8.0</version.deltaspike>
         <arquillian.container>wildfly:8.2.0.Final:managed</arquillian.container>
         <arquillian.browser>chrome</arquillian.browser>
